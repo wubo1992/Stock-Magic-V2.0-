@@ -4,7 +4,8 @@ universe/manager.py — 股票池管理器
 职责：
 1. 从 UNIVERSE.md 读取手动维护的股票（来源 A）——唯一权威来源
 2. 从 Alpaca 新闻 API 自动获取被媒体关注的股票（来源 B）
-3. 两个来源取并集，返回最终股票池
+3. 从 Wikipedia 获取指定指数成分股（来源 C，可配置：sp500 / nasdaq100）
+4. 三个来源取并集，返回最终股票池
 
 UNIVERSE.md 解析规则：
 - 读取所有 Markdown 表格行（格式：| TICKER | 公司 | 简介 |）
@@ -26,6 +27,7 @@ from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 from .alpaca_fetcher import fetch_news_symbols
+from .index_fetcher import get_index_symbols
 
 # 缓存文件路径：signal_system/data/universe_cache.json
 CACHE_FILE = Path(__file__).parent.parent / "data" / "universe_cache.json"
@@ -92,10 +94,10 @@ def _read_universe_md() -> list[str]:
 
 def get_universe(config: dict) -> list[str]:
     """
-    返回最终股票池（UNIVERSE.md ∪ Alpaca 自动池，去重排序）。
+    返回最终股票池（UNIVERSE.md ∪ 指数成分股 ∪ Alpaca 自动池，去重排序）。
 
     参数：
-        config: 读取自 config.yaml 的完整配置字典（仅用于自动池配置）
+        config: 读取自 config.yaml 的完整配置字典
 
     返回：
         股票代码列表，如 ["AAPL", "GOOGL", "META", "MSFT", "NVDA"]
@@ -103,18 +105,22 @@ def get_universe(config: dict) -> list[str]:
     auto_cfg = config.get("auto_universe", {})
     initial_lookback = auto_cfg.get("initial_lookback_days", 365)
     max_age_days = auto_cfg.get("max_age_days", 365)
+    include_indices = auto_cfg.get("include_indices", [])
 
     # 来源 A：UNIVERSE.md 手动维护的股票
     manual = _read_universe_md()
 
-    # 来源 B：Alpaca 自动股票池
+    # 来源 B：指数成分股（S&P 500 / Nasdaq 100，由 config 控制）
+    index_symbols = get_index_symbols(include_indices) if include_indices else []
+
+    # 来源 C：Alpaca 自动股票池（新闻热门股）
     auto_symbols = _get_auto_symbols(initial_lookback, max_age_days)
 
     # 合并：取并集，去重，排序
-    combined = sorted(set(auto_symbols) | set(manual))
+    combined = sorted(set(manual) | set(index_symbols) | set(auto_symbols))
     print(
         f"[股票池] 最终股票池：{len(combined)} 只 "
-        f"（UNIVERSE.md {len(manual)} + 自动 {len(auto_symbols)}，"
+        f"（手动 {len(manual)} + 指数 {len(index_symbols)} + 自动 {len(auto_symbols)}，"
         f"去重后合并）"
     )
     return combined

@@ -56,8 +56,8 @@ signal_system/
 │       └── sepa_plus.py     ← 继承 V1，只改 ID/名称，参数在 config
 │
 ├── data/
-│   ├── fetcher.py           ← 数据获取（Alpaca IEX → Yahoo Finance 备用）
-│   └── cache/               ← 本地缓存（.pkl 格式，避免重复下载）
+│   ├── fetcher.py           ← 数据获取（三层策略：本地直用 / 增量更新 / 全量下载）
+│   └── cache/               ← 本地持久化存储（.pkl 格式，永久保存，不过期删除）
 │
 ├── backtest/
 │   └── engine.py            ← 回测引擎（逐日模拟，计算绩效指标）
@@ -68,7 +68,8 @@ signal_system/
 │   └── positions.py         ← 持仓状态持久化（load/save positions.json）
 │
 ├── universe/
-│   ├── manager.py           ← 股票池管理（读取 UNIVERSE.md + 自动池合并）
+│   ├── manager.py           ← 股票池管理（手动 ∪ 指数成分股 ∪ 自动池，去重）
+│   ├── index_fetcher.py     ← S&P 500 / Nasdaq 100 成分股（Wikipedia，7天缓存）
 │   ├── alpaca_fetcher.py    ← 从 Alpaca 新闻 API 抓取热门股票
 │   ├── sa_scanner.py        ← SA Quant Rating 查询（逐 ticker 调用 SA API）
 │   └── updater.py           ← SA 扫描结果写入 UNIVERSE.md（--mode scan）
@@ -130,7 +131,7 @@ uv run python main.py --mode live --strategy v1_plus
 
 **做什么：**
 1. 自动获取今日股票池（手动 ~297 只 + 新闻热门股）
-2. 下载历史数据（优先读缓存，缓存超 3 天才重新下载）
+2. 数据三层策略：本地有最新数据直接用 / 有旧数据则增量下载 delta / 无数据全量下载
 3. 对每只股票运行魔法师策略V1+（SEPA + VCP）
 4. 检查当前持仓是否触发止损/止盈/时间止损（卖出信号）
 5. 打印信号到终端
@@ -202,15 +203,17 @@ uv run python main.py --mode scan --dry-run
 
 ---
 
-### 5.5 清除数据缓存
+### 5.5 清除本地数据
 
 ```bash
-# 强制重新下载所有股票数据（当数据异常时使用）
+# 强制清除所有本地历史数据（清除后下次运行会全量重新下载）
 uv run python -c "from data.fetcher import clear_cache; clear_cache()"
 
-# 清除单只股票缓存
+# 清除单只股票本地数据（数据异常时使用）
 uv run python -c "from data.fetcher import clear_cache; clear_cache('NVDA')"
 ```
+
+**注意：** 本地数据永久保存不过期，通常不需要手动清除。只在某只股票数据出现明显异常时使用。
 
 ---
 
@@ -218,19 +221,21 @@ uv run python -c "from data.fetcher import clear_cache; clear_cache('NVDA')"
 
 所有参数都在 `config.yaml`，**修改参数不需要改任何 Python 代码**。
 
-### 6.1 股票池（~297 只）
+### 6.1 股票池
 
-手动维护的完整清单见：[`UNIVERSE.md`](./UNIVERSE.md)（可直接打开编辑）
+**三个来源，自动合并：**
 
-包含 24 个板块：
-```
-Mag7、半导体、光模块、成长股、清洁/核能、石油天然气、黄金矿业、医疗健康、
-消费/防御、保险/金融、银行/投行、科技平台、工业/国防、电信、
-SaaS/云软件、支付金融科技、医疗器械/制药、工业/国防扩充、消费/零售扩充、
-银行/金融扩充、大宗商品/材料、亚太/新兴市场、REIT、成长股+通信
-```
+| 来源 | 内容 | 管理方式 |
+|------|------|---------|
+| 手动池 | UNIVERSE.md，~297 只，分 24 个板块 | 直接编辑 UNIVERSE.md 文件 |
+| 指数成分股 | S&P 500（~503只）+ Nasdaq 100（~101只），自动去重合并约 517 只 | `config.yaml` 的 `include_indices` 控制，7天更新一次 |
+| 自动池 | Alpaca 新闻 API 热门股 | 每次运行增量更新 |
 
-**添加/删除股票：** 直接编辑 `UNIVERSE.md`，下次运行自动生效，**无需改 `config.yaml`**
+合计去重后约 **700-800 只**（手动池与指数有重叠）。
+
+**添加/删除手动池股票：** 直接编辑 `UNIVERSE.md`，下次运行自动生效，**无需改 `config.yaml`**
+
+**关闭指数成分股：** 注释掉 `config.yaml` 中的 `include_indices` 段即可
 
 ---
 
@@ -446,13 +451,13 @@ uv run python main.py --mode live
 2. **信号日期 ≠ 执行日期**：信号日期是收盘后检测，**次日开盘执行**
 3. **止损必须手动挂单**：系统只发信号，不会自动止损
 4. **回测不等于实盘**：回测假设以收盘价成交，忽略滑点和冲击成本
-5. **缓存有效期 3 天**：超过 3 天的缓存会触发重新下载
+5. **本地数据永久保存**：历史数据存在 `data/cache/`，不过期。实盘模式每次自动增量更新（只下载最新几天），回测模式超 3 天才补充
 6. **港股不支持**：系统只支持美股，港股需用户手动管理
 7. **SA Quant 403**：SA API 有时被 Cloudflare 拦截，用户可手动截图告知 Claude
 
 ---
 
-*文档版本：2026-03-05*
-*架构版本：Phase 7 — V1+ 参数优化 + 股票池扩充*
+*文档版本：2026-03-06*
+*架构版本：Phase 8 — 数据持久化增量更新架构*
 *当前策略：魔法师调整参数版V1+（v1_plus）*
 *股票池：~297 只*

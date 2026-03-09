@@ -95,7 +95,7 @@ def run_live(config: dict, strategy_arg: str | None) -> None:
     # Step 2: 下载历史数据
     print("\n[步骤 2/3] 下载历史数据...")
     history_days = config.get("data", {}).get("history_days", 504)
-    market_data = fetch(symbols, history_days=history_days)
+    market_data = fetch(symbols, history_days=history_days, live_mode=True)
 
     if not market_data:
         print("[错误] 未能获取任何股票数据，退出")

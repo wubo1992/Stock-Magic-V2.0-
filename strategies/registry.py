@@ -13,12 +13,26 @@ strategies/registry.py — 策略注册表
 
 from strategies.v1_wizard.sepa_minervini import SEPAStrategy
 from strategies.v1_plus.sepa_plus import SEPAPlusStrategy
+from strategies.v_oneil.sepa_oneil import ONeilStrategy
+from strategies.v_ryan.sepa_ryan import RyanStrategy
+from strategies.v_kell.sepa_kell import KellStrategy
+from strategies.v_kullamaggi.sepa_kullamaggi import KullamaggiStrategy
+from strategies.v_zanger.zanger_strategy import ZangerStrategy
+from strategies.v_stine.sepa_stine import StineStrategy
+from strategies.v_weinstein.weinstein_strategy import WeinsteinStrategy
 
 # key   = --strategy 参数的值（如 --strategy v1）
 # value = 策略类（继承 StrategyBase）
 STRATEGY_REGISTRY: dict[str, type] = {
     "v1": SEPAStrategy,
     "v1_plus": SEPAPlusStrategy,
+    "v_oneil": ONeilStrategy,
+    "v_ryan": RyanStrategy,
+    "v_kell": KellStrategy,
+    "v_kullamaggi": KullamaggiStrategy,
+    "v_zanger": ZangerStrategy,
+    "v_stine": StineStrategy,
+    "v_weinstein": WeinsteinStrategy,
 }
 
 

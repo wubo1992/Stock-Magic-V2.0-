@@ -17,7 +17,7 @@
 
 ---
 
-## 2. 系统当前状态（截至 2026-03-05）
+## 2. 系统当前状态（截至 2026-03-06）
 
 ### 已完成的阶段
 
@@ -28,6 +28,9 @@
 | Phase 5 | SA Quant 扫描器接入（--mode scan） | ✅ 完成 |
 | Phase 6 | 卖出信号持仓追踪（positions.json） | ✅ 完成 |
 | Phase 7 | V1+ 参数优化 + 股票池扩充（297只）| ✅ 完成 |
+| Phase 8 | 数据持久化三层架构 + live 模式缓存 staleness 修复 | ✅ 完成 |
+| Phase 9 | 指数成分股扩池（S&P 500 + Nasdaq 100，Wikipedia 自动拉取）| ✅ 完成 |
+| Phase 10 | 7 大师策略变种实施 + 样本外回测对比 | ✅ 完成 |
 
 ### 最新回测结果（v1_plus，294 只手动股票池）
 
@@ -161,29 +164,180 @@ uv run python main.py --mode backtest --start YYYY-MM-DD --end YYYY-MM-DD --stra
 
 ---
 
-## 9. 近期代码变更记录（2026-03-05，Phase 7）
+## 9. 近期代码变更记录
 
-### 新增策略：`strategies/v1_plus/sepa_plus.py`
+### 2026-03-05 Phase 7
+
+#### 新增策略：`strategies/v1_plus/sepa_plus.py`
 `SEPAPlusStrategy` 继承 `SEPAStrategy`，只覆盖 `strategy_id = "v1_plus_wizard"` 和 `strategy_name`。参数在 `config.yaml` 的 `strategies.v1_plus:` 段独立配置。
 
 **关键参数变化（相对 v1）**：`vcp_final_range_pct: 0.08 → 0.12`（放宽VCP末端箱体，经控制变量测试效果最佳）
 
-### 修复：`strategies/v1_wizard/sepa_minervini.py`（live_mode bug）
+#### 修复：`strategies/v1_wizard/sepa_minervini.py`（live_mode bug）
 新增 `live_mode: bool = False` 参数。实盘模式传 `True` 时不自动创建 Position，避免干扰 positions.json 的人工管理流程。回测模式保持默认 `False`，自动创建 Position 供出场逻辑使用。
 
-### 增强：`backtest/engine.py`（--save-signals 补档）
+#### 增强：`backtest/engine.py`（--save-signals 补档）
 `BacktestEngine.__init__()` 新增 `save_signals_csv: bool = False` 和 `strategy_id: str = ""`。当 `save_signals_csv=True` 时，回测中每产生一个买入信号就同步写入对应策略的 `signals.csv`，用于切换策略后的历史信号补档。
 
-### 增强：`main.py`
+#### 增强：`main.py`
 - argparse 新增 `--save-signals` flag（传给 `BacktestEngine`）
 - `run_live()` 调用时传入 `live_mode=True`
 
-### 修改：`config.yaml`
+#### 修改：`config.yaml`
 - `active_strategy: v1` → `active_strategy: v1_plus`
 - 新增完整 `v1_plus:` 策略配置段
 
-### 修改：`UNIVERSE.md`
+#### 修改：`UNIVERSE.md`
 股票池 186 → ~297 只，新增 10 个板块（板块十五至二十四）：SaaS/云软件、支付金融科技、医疗器械/制药、工业/国防、消费/零售、银行/金融、大宗商品/材料、亚太/新兴市场、REIT、成长股+通信。
+
+---
+
+### 2026-03-06 Phase 8
+
+#### 修复：`data/fetcher.py`（live 模式缓存 staleness bug）
+**根本原因**：`timedelta.days` 是整数截断，导致 `max_age=1` 的判断在"1天47分钟"的情况下仍视为新鲜（`1 <= 1 = True`）。系统使用 3月4日的旧缓存，错过了 ATNI 在3月5日盘中的暴跌，发出了错误的买入信号。
+
+**修复方案**：`max_age = 0 if live_mode else 3`，`0 <= 0` 仅在数据距今 <24小时时成立，确保每次实盘运行都能拿到当日或最近交易日的收盘数据。
+
+#### 重构：`data/fetcher.py`（三层数据持久化架构）
+用户需求：历史数据永久存盘，每日只增量补充新数据，避免每次重新全量下载。
+
+**改动：**
+- `_load_cache()` → `_load_local()`：去除时效性判断，只检查历史覆盖（data 足够早），永久持久化
+- `_save_cache()` → `_save_local()`：语义不变
+- `fetch()` 新增三层逻辑：
+  1. **Tier 1（本地新鲜）**：直接用，零网络请求
+  2. **Tier 2（本地有历史但过期）**：批量增量下载 delta（从 min_last+1 起），`pd.concat` + `drop_duplicates` 合并后写回
+  3. **Tier 3（本地无数据）**：全量下载（Alpaca → Yahoo 备用）
+- 控制台输出从「缓存命中 X 只」改为「本地直接使用 X 只，增量更新 Y 只，全量下载 Z 只」
+
+**本地存储路径**：`signal_system/data/cache/`（542 个 .pkl 文件，约 10 MB）
+
+---
+
+### 2026-03-06 Phase 9
+
+#### 新增：`universe/index_fetcher.py`
+从 Wikipedia 自动拉取 S&P 500 和 Nasdaq 100 成分股，7天本地缓存（`data/index_cache.json`），网络失败时回退旧缓存。使用 `requests` + 浏览器 User-Agent 绕过 403，`pandas.read_html` 解析表格。
+
+- S&P 500：503 只（"Symbol" 列，`BRK.B → BRK-B`）
+- Nasdaq 100：101 只（"Ticker" 列）
+- 两者去重合并：517 只新增至股票池
+
+**依赖**：新增 `lxml==6.0.2`（`pandas.read_html` HTML 解析后端）
+
+#### 修改：`universe/manager.py`
+`get_universe()` 新增来源 B（指数），改为三路合并：
+
+```python
+combined = sorted(set(manual) | set(index_symbols) | set(auto_symbols))
+```
+
+控制台输出改为：`手动 297 + 指数 517 + 自动 XX，去重后合并`
+
+#### 修改：`config.yaml`
+`auto_universe:` 新增 `include_indices: [sp500, nasdaq100]`。注释掉此段可随时关闭指数成分股。
+
+---
+
+### 2026-03-06 Phase 10
+
+#### 新增：7 大师策略变种
+
+为研究报告中的 7 位交易大师各建立独立策略，与 v1_plus 基准对比。
+
+**新建文件（14 个）：**
+
+```
+strategies/v_oneil/sepa_oneil.py           ← O'Neil CANSLIM 技术版（宽松 VCP 20%）
+strategies/v_ryan/sepa_ryan.py            ← David Ryan 极紧 VCP（<5%）
+strategies/v_kell/sepa_kell.py            ← Oliver Kell 极端放量（3x）
+strategies/v_kullamaggi/sepa_kullamaggi.py ← Kullamägi VCP 变种（止损 5%，放量 4x）
+strategies/v_stine/sepa_stine.py          ← Jesse Stine 超强精选（RS≥90%）
+strategies/v_zanger/zanger_strategy.py    ← Dan Zanger 纯技术动量（新类，无 RS/VCP）
+strategies/v_weinstein/weinstein_strategy.py ← Weinstein Stage 2 分析（新类，只用 SMA150）
+```
+
+每个策略包均包含 `__init__.py`。
+
+**修改文件：**
+
+1. `config.yaml`：新增 7 个策略参数段（`strategies.v_oneil:` ~ `strategies.v_weinstein:`）
+2. `strategies/registry.py`：新增 7 条注册
+
+```python
+STRATEGY_REGISTRY = {
+    "v1": SEPAStrategy,
+    "v1_plus": SEPAPlusStrategy,
+    "v_oneil": ONeilStrategy,
+    "v_ryan": RyanStrategy,
+    "v_kell": KellStrategy,
+    "v_kullamaggi": KullamaggiStrategy,
+    "v_zanger": ZangerStrategy,
+    "v_stine": StineStrategy,
+    "v_weinstein": WeinsteinStrategy,
+}
+```
+
+**策略架构：**
+
+- **简单子类（5 个）**：v_oneil, v_ryan, v_kell, v_kullamaggi, v_stine
+  - 继承 `SEPAStrategy`，只覆盖 `strategy_id` 和 `strategy_name`
+  - 所有参数在 `config.yaml` 中配置
+
+- **新类（2 个）**：v_zanger, v_weinstein
+  - 继承 `SEPAStrategy`，覆盖 `_check_entry()`
+  - v_zanger：无 RS、无 VCP，只看 SMA150 趋势 + 突破 + 放量 3x
+  - v_weinstein：Stage 2 分析，SMA150 上升 + 价格在均线上 + 突破
+
+#### 回测结果（样本外 2024-02-12 至 2026-03-06，517 天）
+
+| 策略 | 年化收益 | 夏普比率 | 最大回撤 | 胜率 | 信号/月 | 达标 |
+|------|---------|---------|---------|------|---------|------|
+| **v_zanger** | **128.4%** | **4.42** | **12.0%** | 39.8% | 13.1 | 4/6 ⚠️ |
+| **v_kell** | **80.2%** | 1.90 | 29.4% | 18.2% | 0.9 | 3/6 |
+| **v_weinstein** | **56.9%** | **2.82** | 14.9% | 45.8% | **28.5** | 5/6 ⚠️ |
+| **v1_plus** | **54.8%** | **2.24** | 15.3% | 43.7% | 6.8 ✅ | **6/6** ✅ |
+| **v_stine** | 51.4% | 2.15 | 18.5% | **100%** | 0.1 | 5/6 |
+| **v_kullamaggi** | 50.6% | 1.96 | **13.9%** | 40.0% | 0.4 | 5/6 |
+| **v_oneil** | 46.4% | 1.88 | 19.6% | 42.9% | 3.2 | 5/6 |
+| **v_ryan** | 14.0% | 0.51 | 23.9% | 21.4% | 0.6 | 2/6 |
+
+**关键发现：**
+
+1. **v_zanger** 样本外表现最佳（128.4% 年化，4.42 夏普，12% 回撤），但信号频率超标（13.1/月）
+2. **v1_plus** 唯一 6/6 全部达标策略（信号频率 6.8/月 符合 2-10 标准）
+3. **v_weinstein** 信号频率严重超标（28.5/月），建议提高放量至 2.5x
+4. **v_ryan** 样本外表现差（14% 年化，2/6 达标），建议放宽 VCP 至 7%
+5. **v_kell** 回撤最大（29.4%），建议组合使用而非单独使用
+6. **v_stine** 和 **v_kullamaggi** 信号极少（<1/月），样本不足
+
+**文档创建：**
+
+- `docs/strategies/*.md`（8 个策略详细文档）
+- `docs/策略对比总览.md`（对比分析 + 组合建议）
+
+**运行命令：**
+
+```bash
+# 逐一验证策略加载
+uv run python main.py --mode live --strategy v_oneil
+uv run python main.py --mode live --strategy v_ryan
+uv run python main.py --mode live --strategy v_kell
+uv run python main.py --mode live --strategy v_kullamaggi
+uv run python main.py --mode live --strategy v_zanger
+uv run python main.py --mode live --strategy v_stine
+uv run python main.py --mode live --strategy v_weinstein
+
+# 样本外回测
+uv run python main.py --mode backtest --start 2024-02-12 --end 2026-03-06 --strategy v_oneil
+uv run python main.py --mode backtest --start 2024-02-12 --end 2026-03-06 --strategy v_ryan
+uv run python main.py --mode backtest --start 2024-02-12 --end 2026-03-06 --strategy v_kell
+uv run python main.py --mode backtest --start 2024-02-12 --end 2026-03-06 --strategy v_kullamaggi
+uv run python main.py --mode backtest --start 2024-02-12 --end 2026-03-06 --strategy v_zanger
+uv run python main.py --mode backtest --start 2024-02-12 --end 2026-03-06 --strategy v_stine
+uv run python main.py --mode backtest --start 2024-02-12 --end 2026-03-06 --strategy v_weinstein
+```
 
 ---
 
@@ -216,5 +370,5 @@ uv run python main.py --mode backtest --start YYYY-MM-DD --end YYYY-MM-DD --stra
 
 ---
 
-*文件生成时间：2026-03-05*
+*文件生成时间：2026-03-06*
 *下一个会话接手时，请确认 `output/v1_plus_wizard/positions.json` 内容与用户最新持仓一致。*

@@ -3,10 +3,15 @@ data/fetcher.py — 数据获取模块
 
 职责：给定股票代码列表，获取日线 OHLCV 历史数据。
 
-数据来源优先级：
-1. 本地缓存（data/cache/）——最快，优先使用
-2. Alpaca Market Data API——主要来源，批量下载，无限流问题
-3. Yahoo Finance v8 API——备用来源，有时会被限流（403）
+数据来源（三层优先级）：
+1. 本地持久化存储（data/cache/）
+   - 永久保存，无过期删除
+   - 若数据足够新（实盘 ≤0天，回测 ≤3天）直接使用，零网络请求
+2. 增量更新（本地有历史但不够新）
+   - 只从最早的缺口日期起，批量下载 delta 数据，合并后写回本地
+   - 例：本地数据到 3月4日，今天3月6日 → 只下载 3月5日~6日 两天的新数据
+3. 全量下载（本地无数据或历史不足）
+   - Alpaca Market Data API（主）→ Yahoo Finance v8（备）
 
 数据格式：pandas DataFrame，列名统一为小写 (open, high, low, close, volume)
          索引为 UTC 时区的 DatetimeIndex
@@ -38,13 +43,22 @@ _HEADERS = {
 # 公开接口
 # ══════════════════════════════════════════════════════════════════
 
-def fetch(symbols: list[str], history_days: int) -> dict[str, pd.DataFrame]:
+def fetch(
+    symbols: list[str], history_days: int, live_mode: bool = False
+) -> dict[str, pd.DataFrame]:
     """
     获取多只股票的日线历史数据。
+
+    三层策略：
+    1. 本地数据足够新 → 直接使用，无网络请求
+    2. 本地有历史但不够新 → 增量下载 delta，合并后写回
+    3. 本地无数据或历史不足 → 全量下载
 
     参数：
         symbols:       股票代码列表，如 ["AAPL", "NVDA"]
         history_days:  往前拉多少天的数据
+        live_mode:     实盘模式时设为 True，强制要求最新收盘数据（当天或上一交易日）
+                       回测模式设为 False，允许 3 天缓存宽容（覆盖周末/节假日）
 
     返回：
         {symbol: DataFrame}，DataFrame 列：open, high, low, close, volume
@@ -53,87 +67,139 @@ def fetch(symbols: list[str], history_days: int) -> dict[str, pd.DataFrame]:
     start_date = end_date - timedelta(days=history_days)
 
     result: dict[str, pd.DataFrame] = {}
-    need_download: list[str] = []
+    need_full: list[str] = []                         # 无本地数据，全量下载
+    need_update: list[tuple[str, pd.DataFrame]] = []  # 有本地数据但需增量更新
 
-    # 先检查缓存
+    # ── 第一步：三分类 ────────────────────────────────────────────
     for symbol in symbols:
-        cached = _load_cache(symbol, start_date, end_date)
-        if cached is not None:
-            result[symbol] = cached
+        local = _load_local(symbol, start_date)
+        if local is None:
+            need_full.append(symbol)
         else:
-            need_download.append(symbol)
+            last = local.index[-1]
+            if last.tzinfo is None:
+                last = last.tz_localize("UTC")
+            max_age = 0 if live_mode else 3
+            if (end_date - last).days <= max_age:
+                # Tier 1：本地数据足够新，直接使用
+                result[symbol] = local
+            else:
+                # Tier 2：本地有历史，但需要增量补充
+                need_update.append((symbol, local))
 
-    if not need_download:
-        print(f"[数据] 全部 {len(result)} 只股票命中缓存")
-        return result
+    print(
+        f"[数据] 本地直接使用 {len(result)} 只，"
+        f"增量更新 {len(need_update)} 只，"
+        f"全量下载 {len(need_full)} 只"
+    )
 
-    print(f"[数据] 缓存命中 {len(result)} 只，需下载 {len(need_download)} 只")
-
-    # 优先用 Alpaca 批量下载
-    alpaca_result = _fetch_via_alpaca(need_download, start_date, end_date)
-    for symbol, df in alpaca_result.items():
-        result[symbol] = df
-        _save_cache(symbol, df)
-
-    # 还有剩余的，用 Yahoo Finance 逐只下载
-    still_missing = [s for s in need_download if s not in alpaca_result]
-    if still_missing:
-        print(f"[数据] Alpaca 未覆盖 {len(still_missing)} 只，尝试 Yahoo Finance...")
-        yahoo_result = _fetch_via_yahoo(still_missing, start_date, end_date, history_days)
-        for symbol, df in yahoo_result.items():
+    # ── 第二步：全量下载 ──────────────────────────────────────────
+    if need_full:
+        alpaca_result = _fetch_via_alpaca(need_full, start_date, end_date)
+        for symbol, df in alpaca_result.items():
             result[symbol] = df
-            _save_cache(symbol, df)
+            _save_local(symbol, df)
+
+        still_missing = [s for s in need_full if s not in alpaca_result]
+        if still_missing:
+            print(f"[数据] Alpaca 未覆盖 {len(still_missing)} 只，尝试 Yahoo Finance...")
+            yahoo_result = _fetch_via_yahoo(still_missing, start_date, end_date, history_days)
+            for symbol, df in yahoo_result.items():
+                result[symbol] = df
+                _save_local(symbol, df)
+
+    # ── 第三步：增量更新 ──────────────────────────────────────────
+    if need_update:
+        update_symbols = [s for s, _ in need_update]
+
+        # 从所有待更新股票中取最早的 last_date，批量一次请求拿到所有 delta
+        min_last = min(
+            (df.index[-1].tz_localize("UTC") if df.index[-1].tzinfo is None else df.index[-1])
+            for _, df in need_update
+        )
+        delta_start = min_last + timedelta(days=1)
+
+        print(
+            f"[数据] 增量下载 {len(update_symbols)} 只，"
+            f"从 {delta_start.strftime('%Y-%m-%d')} 起"
+        )
+
+        new_data = _fetch_via_alpaca(update_symbols, delta_start, end_date)
+
+        # Alpaca 不支持的股票（如 BRK-B、BF-B）走 Yahoo Finance 增量补充
+        alpaca_missed = [s for s, _ in need_update if s not in new_data]
+        if alpaca_missed:
+            print(f"[数据] 增量更新：Alpaca 未覆盖 {len(alpaca_missed)} 只，尝试 Yahoo Finance...")
+            yahoo_delta = _fetch_via_yahoo(alpaca_missed, delta_start, end_date, 30)
+            new_data.update(yahoo_delta)
+
+        for symbol, existing_df in need_update:
+            new_rows = new_data.get(symbol)
+            if new_rows is not None and not new_rows.empty:
+                merged = pd.concat([existing_df, new_rows])
+                merged = merged[~merged.index.duplicated(keep="last")]
+                merged = merged.sort_index()
+                result[symbol] = merged
+                _save_local(symbol, merged)
+            else:
+                # delta 为空（节假日或 API 暂无数据），使用现有本地数据
+                result[symbol] = existing_df
 
     print(f"[数据] 成功获取 {len(result)}/{len(symbols)} 只股票的数据")
     return result
 
 
 def clear_cache(symbol: str | None = None) -> None:
-    """清除缓存。不指定 symbol 则清除全部。"""
+    """清除本地持久化数据。不指定 symbol 则清除全部。"""
     if symbol:
         f = CACHE_DIR / f"{symbol}.pkl"
         if f.exists():
             f.unlink()
-            print(f"[数据] 已清除 {symbol} 的缓存")
+            print(f"[数据] 已清除 {symbol} 的本地数据")
     else:
         for f in CACHE_DIR.glob("*.pkl"):
             f.unlink()
-        print("[数据] 已清除所有缓存")
+        print("[数据] 已清除所有本地数据")
 
 
 # ══════════════════════════════════════════════════════════════════
-# 缓存读写
+# 本地持久化读写（永久存储，不做时效性判断）
 # ══════════════════════════════════════════════════════════════════
 
-def _load_cache(
-    symbol: str, start_date: datetime, end_date: datetime
-) -> pd.DataFrame | None:
+def _load_local(symbol: str, start_date: datetime) -> pd.DataFrame | None:
     """
-    读取缓存。满足以下两个条件才视为有效：
-    1. 最新数据在 3 天内（覆盖周末）
-    2. 缓存的第一条数据不晚于需要的起始日期（允许 30 天误差）
+    读取本地持久化数据。
+
+    只做历史覆盖检查，不做时效性判断（时效由 fetch() 外层处理）：
+    - 若本地数据的第一条不晚于所需起始日期（允许 30 天误差），则返回
+    - 否则返回 None，触发全量下载
     """
     cache_file = CACHE_DIR / f"{symbol}.pkl"
     if not cache_file.exists():
         return None
 
-    with open(cache_file, "rb") as f:
-        cached: pd.DataFrame = pickle.load(f)
+    try:
+        with open(cache_file, "rb") as f:
+            df: pd.DataFrame = pickle.load(f)
+    except Exception:
+        return None
 
-    last = cached.index[-1]
-    first = cached.index[0]
-    if last.tzinfo is None:
-        last = last.tz_localize("UTC")
+    if df is None or df.empty:
+        return None
+
+    first = df.index[0]
     if first.tzinfo is None:
         first = first.tz_localize("UTC")
 
-    fresh = (end_date - last).days <= 3
-    covers = first <= (start_date + timedelta(days=30))
+    # 检查历史覆盖：本地数据起始点不能比所需起点晚太多
+    if first > start_date + timedelta(days=30):
+        return None
 
-    return cached if (fresh and covers) else None
+    return df
 
 
-def _save_cache(symbol: str, df: pd.DataFrame) -> None:
+def _save_local(symbol: str, df: pd.DataFrame) -> None:
+    """将 DataFrame 写入本地持久化存储（覆盖旧文件）。"""
     cache_file = CACHE_DIR / f"{symbol}.pkl"
     with open(cache_file, "wb") as f:
         pickle.dump(df, f)
