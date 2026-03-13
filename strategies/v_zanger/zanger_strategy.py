@@ -76,6 +76,5 @@ class ZangerStrategy(SEPAStrategy):
                 entry_price=current,
                 entry_date=date,
                 highest_price=current,
-                stop_loss=stop_loss,
             )
         return signal

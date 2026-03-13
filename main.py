@@ -36,6 +36,7 @@ from backtest.engine import BacktestEngine
 from data.fetcher import fetch
 from events import EventQueue
 from signals.generator import process_signals
+from signals.log_generator import update_signals_log
 from signals.positions import load_positions, save_positions
 from signals.report import generate_daily_report
 from strategies.registry import get_strategy
@@ -145,6 +146,10 @@ def run_live(config: dict, strategy_arg: str | None) -> None:
         strategy_name=strategy_name,
     )
     print(f"\n[报告] 今日报告：{report_path}")
+
+    # 更新全策略信号汇总日志
+    print("\n[信号日志] 更新全策略信号汇总...")
+    update_signals_log()
 
 
 def run_backtest(

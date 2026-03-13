@@ -24,12 +24,13 @@ from strategies.base import StrategyBase
 
 @dataclass
 class Position:
+    """持仓记录（共享持仓格式，不存储策略特定参数）"""
     symbol: str
     entry_price: float
     entry_date: datetime
     highest_price: float
-    stop_loss: float
     days_held: int = 0
+    # stop_loss 由各策略根据自身参数动态计算，不存储
 
 
 class SEPAStrategy(StrategyBase):
@@ -122,7 +123,6 @@ class SEPAStrategy(StrategyBase):
                 entry_price=close,
                 entry_date=date,
                 highest_price=close,
-                stop_loss=stop_loss,
             )
         return signal
 

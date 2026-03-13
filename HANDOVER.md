@@ -103,17 +103,17 @@ signal_system/
 
 ## 4. 用户当前持仓
 
-持仓信息存储在：
+持仓信息存储在共享文件（所有策略共用）：
 ```
-output/v1_plus_wizard/positions.json
+output/shared/positions.json
 ```
 
 字段说明：
 - `entry_price`：加权平均入场均价（用户加仓后由 Claude 手动更新）
 - `entry_date`：首次建仓日期（加仓时不变）
 - `highest_price`：系统自动追踪的历史最高价
-- `stop_loss`：entry_price × 90%（由 Claude 计算并写入）
 - `days_held`：系统每次 live 运行自动 +1
+- **注意**：`stop_loss` 已移除，由各策略根据自身参数动态计算
 
 **港股 03986（200股）系统无法追踪，用户手动管理，不在 positions.json 中。**
 
@@ -130,26 +130,35 @@ output/v1_plus_wizard/positions.json
 - 加仓后均价变化：股票代码 + 新的加权平均成本
 
 ### Claude 负责处理的部分
-- 根据用户提供的均价，计算止损价（均价 × 90%）
-- 更新 `output/v1_plus_wizard/positions.json`（entry_price、stop_loss）
+- 更新 `output/shared/positions.json`（entry_price、entry_date、highest_price）
+- **止损价不再存储**：由各策略根据自身参数动态计算
+  - v1_plus：止损 = entry_price × 90%，追踪止盈 = 从最高点回落 20%
+  - v_zanger：止损 = entry_price × 94%，追踪止盈 = 从最高点回落 15%
+  - v_weinstein：止损 = entry_price × 90%，追踪止盈 = 从最高点回落 20%
 - entry_date 保持**最早入场日期**不变（时间止损从首次建仓起算）
 - highest_price 和 days_held 由系统自动更新，Claude 不手动改
 
 ### 关于加仓信号
 - **已持仓的股票如果再次满足买入条件，系统会发出信号**（这是加仓参考）
 - 系统不会覆盖已有持仓记录，只发信号
-- 用户加仓后，告知新均价，Claude 手动更新 entry_price 和 stop_loss
+- 用户加仓后，告知新均价，Claude 手动更新 entry_price
+
+### 多策略共享持仓
+- 所有策略（v1_plus, v_zanger, v_weinstein 等）共用同一份持仓文件
+- 不同策略根据各自参数给出不同的止损/止盈建议
+- 只需维护一份 `output/shared/positions.json`
 
 ---
 
 ## 6. 每日运行命令
 
 ```bash
-# 每天收盘后运行（v1_plus 已设为默认，无需加 --strategy）
+# 每天收盘后运行主策略（v1_plus 已设为默认）
 uv run python main.py --mode live
 
-# 或显式指定
-uv run python main.py --mode live --strategy v1_plus
+# 运行其他策略（共享同一份持仓）
+uv run python main.py --mode live --strategy v_zanger
+uv run python main.py --mode live --strategy v_weinstein
 
 # 扫描 SA Quant 新强势股（每周/每月运行一次即可）
 uv run python main.py --mode scan --dry-run   # 只看结果不写入
@@ -381,6 +390,58 @@ uv run python main.py --mode backtest --start 2024-02-12 --end 2026-03-06 --stra
 
 ---
 
+### 2026-03-13 Phase 11
+
+#### 重构：多策略共享持仓（positions.json 统一）
+
+**问题**：之前每个策略有独立的 `positions.json`，用户需同步更新多个文件。
+
+**解决方案**：所有策略共享同一份持仓文件，止损价由各策略动态计算。
+
+**修改文件：**
+
+1. `strategies/v1_wizard/sepa_minervini.py`
+   - `Position` 数据类移除 `stop_loss` 字段
+   - 止损价在 `_check_exits()` 中根据策略参数动态计算
+
+2. `signals/positions.py`
+   - 持仓文件路径改为 `output/shared/positions.json`
+   - 保存/加载时不再处理 `stop_loss` 字段
+
+3. `strategies/v_zanger/zanger_strategy.py` / `strategies/v_weinstein/weinstein_strategy.py`
+   - 适配新 `Position` 格式
+
+**新持仓文件格式：**
+```json
+{
+  "AAOI": {
+    "symbol": "AAOI",
+    "entry_price": 102.87,
+    "entry_date": "2026-03-03T00:00:00+00:00",
+    "highest_price": 126.99,
+    "days_held": 15
+  }
+}
+```
+
+**不同策略对同一持仓的止损计算：**
+
+| 策略 | 固定止损 | 追踪止盈 | 时间止损 |
+|------|---------|---------|---------|
+| v1_plus | 10% | 20% | 20天/3% |
+| v_zanger | 6% | 15% | 10天/2% |
+| v_weinstein | 10% | 20% | 30天/5% |
+
+**使用方式：**
+```bash
+# 所有策略共享同一份持仓
+uv run python main.py --mode live --strategy v1_plus
+uv run python main.py --mode live --strategy v_zanger
+# 只需维护 output/shared/positions.json
+```
+
+---
+
 ## 11. 已知限制 / 待解决事项
 
 | 事项 | 说明 |
@@ -393,5 +454,5 @@ uv run python main.py --mode backtest --start 2024-02-12 --end 2026-03-06 --stra
 
 ---
 
-*文件生成时间：2026-03-06*
-*下一个会话接手时，请确认 `output/v1_plus_wizard/positions.json` 内容与用户最新持仓一致。*
+*文件生成时间：2026-03-13*
+*下一个会话接手时，请确认 `output/shared/positions.json` 内容与用户最新持仓一致。*
