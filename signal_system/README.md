@@ -3,7 +3,7 @@
 > 基于 Mark Minervini SEPA + VCP 策略的多策略交易信号系统
 > 支持 **9 种大师策略变种**的回测对比与实盘运行
 
-每天收盘后运行，自动扫描 ~300 只股票，输出买入/卖出信号和 Markdown 日报，供人工决策参考。**系统不自动下单。**
+每天收盘后运行，自动扫描 929 只股票，输出买入/卖出信号和 Markdown 日报，供人工决策参考。**系统不自动下单。**
 
 ---
 
@@ -77,7 +77,7 @@ uv run python main.py --mode backtest --start 2024-02-12 --end 2026-03-05 --stra
 signal_system/
 ├── main.py              ← 运行入口
 ├── config.yaml          ← 所有参数（策略参数、出场条件等）
-├── UNIVERSE.md          ← 股票池（~297 只，直接编辑生效）
+├── UNIVERSE.md          ← 股票池（929 只，直接编辑生效）
 ├── strategies/
 │   ├── v1_wizard/       ← 魔法师策略 V1（原版）
 │   └── v1_plus/         ← 魔法师策略 V1+（当前主策略）

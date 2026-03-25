@@ -192,7 +192,7 @@ strategies:
 添加完成后，依次运行：
 
 ```bash
-cd /Users/wubo/Desktop/信号系统克劳德V2.0/signal_system
+cd /Users/wubo/Desktop/信号系统克劳德V3.1_Minimax支线/signal_system
 
 # 1. 确认 import 无报错
 uv run python -c "from strategies.registry import get_strategy; print(get_strategy('v2'))"

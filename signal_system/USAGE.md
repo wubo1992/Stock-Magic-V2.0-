@@ -12,7 +12,7 @@
 系统采用**多策略可扩展架构**：当前主策略为「魔法师调整参数版V1+」（v1_plus），未来可添加 V2/V3 而无需修改框架代码。
 
 **系统做什么：**
-- 每次手动触发时，扫描 ~297 只股票
+- 每次手动触发时，扫描 929 只股票
 - 对每只股票检查 SEPA + VCP 策略的 11 个进场条件
 - 输出买入/卖出信号，并生成含详细解读的 Markdown 日报
 - 追踪当前持仓，检测固定止损/追踪止盈/时间止损三种出场条件
@@ -27,7 +27,7 @@
 ## 2. 项目位置
 
 ```
-/Users/wubo/Desktop/信号系统克劳德V2.0/signal_system/
+/Users/wubo/Desktop/信号系统克劳德V3.1_Minimax支线/signal_system/
 ```
 
 所有命令都必须在此目录下运行。
@@ -40,7 +40,7 @@
 signal_system/
 ├── main.py                  ← 唯一入口，所有功能从这里启动
 ├── config.yaml              ← 所有参数配置（active_strategy: v1_plus）
-├── UNIVERSE.md              ← 股票池主清单（~297 只，唯一来源，直接编辑生效）★
+├── UNIVERSE.md              ← 股票池主清单（929 只，唯一来源，直接编辑生效）★
 ├── .env                     ← Alpaca API Key（不要外泄）
 ├── run_daily.sh             ← 每日手动触发脚本（含 macOS 通知）
 │
@@ -101,7 +101,7 @@ signal_system/
 
 **依赖安装（首次使用）：**
 ```bash
-cd /Users/wubo/Desktop/信号系统克劳德V2.0/signal_system
+cd /Users/wubo/Desktop/信号系统克劳德V3.1_Minimax支线/signal_system
 uv sync
 ```
 
@@ -120,7 +120,7 @@ ALPACA_BASE_URL=<已配置>
 ### 5.1 实盘模式（日常使用）
 
 ```bash
-cd /Users/wubo/Desktop/信号系统克劳德V2.0/signal_system
+cd /Users/wubo/Desktop/信号系统克劳德V3.1_Minimax支线/signal_system
 
 # 默认使用 v1_plus（active_strategy 已设为 v1_plus）
 uv run python main.py --mode live
@@ -130,7 +130,7 @@ uv run python main.py --mode live --strategy v1_plus
 ```
 
 **做什么：**
-1. 自动获取今日股票池（手动 ~297 只 + 新闻热门股）
+1. 自动获取今日股票池（手动 929 只 + 新闻热门股）
 2. 数据三层策略：本地有最新数据直接用 / 有旧数据则增量下载 delta / 无数据全量下载
 3. 对每只股票运行魔法师策略V1+（SEPA + VCP）
 4. 检查当前持仓是否触发止损/止盈/时间止损（卖出信号）
@@ -227,7 +227,7 @@ uv run python -c "from data.fetcher import clear_cache; clear_cache('NVDA')"
 
 | 来源 | 内容 | 管理方式 |
 |------|------|---------|
-| 手动池 | UNIVERSE.md，~297 只，分 24 个板块 | 直接编辑 UNIVERSE.md 文件 |
+| 手动池 | UNIVERSE.md，929 只，分 24 个板块 | 直接编辑 UNIVERSE.md 文件 |
 | 指数成分股 | S&P 500（~503只）+ Nasdaq 100（~101只），自动去重合并约 517 只 | `config.yaml` 的 `include_indices` 控制，7天更新一次 |
 | 自动池 | Alpaca 新闻 API 热门股 | 每次运行增量更新 |
 
@@ -410,7 +410,7 @@ strategies:
 ### 查看最新信号
 
 ```bash
-cd /Users/wubo/Desktop/信号系统克劳德V2.0/signal_system
+cd /Users/wubo/Desktop/信号系统克劳德V3.1_Minimax支线/signal_system
 uv run python main.py --mode live
 ```
 报告生成在 `output/v1_plus_wizard/YYYY-MM-DD/` 目录下。
@@ -460,4 +460,4 @@ uv run python main.py --mode live
 *文档版本：2026-03-06*
 *架构版本：Phase 8 — 数据持久化增量更新架构*
 *当前策略：魔法师调整参数版V1+（v1_plus）*
-*股票池：~297 只*
+*股票池：929 只*
