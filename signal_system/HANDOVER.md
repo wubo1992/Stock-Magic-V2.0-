@@ -40,7 +40,7 @@
 
 ---
 
-## 2. 系统当前状态（截至 2026-03-06）
+## 2. 系统当前状态（截至 2026-03-25）
 
 ### 已完成的阶段
 
@@ -50,111 +50,129 @@
 | Phase 4 | 多策略架构升级（strategies/ 重构） | ✅ 完成 |
 | Phase 5 | SA Quant 扫描器接入（--mode scan） | ✅ 完成 |
 | Phase 6 | 卖出信号持仓追踪（positions.json） | ✅ 完成 |
-| Phase 7 | V1+ 参数优化 + 股票池扩充（297只）| ✅ 完成 |
+| Phase 7 | V1+ 参数优化 + 股票池扩充 | ✅ 完成 |
 | Phase 8 | 数据持久化三层架构 + live 模式缓存 staleness 修复 | ✅ 完成 |
 | Phase 9 | 指数成分股扩池（S&P 500 + Nasdaq 100，Wikipedia 自动拉取）| ✅ 完成 |
 | Phase 10 | 7 大师策略变种实施 + 样本外回测对比 | ✅ 完成 |
 | Phase 11 | 多策略共享持仓（positions.json 统一，动态计算止损）| ✅ 完成 |
 | Phase 12 | 分批止盈功能（Partial Take Profit，参数化配置）| ✅ 完成 |
 
-### 最新回测结果（v1_plus，294 只手动股票池）
+### 最新回测结果（v1_plus，高波动期 2024-02-12 至 2026-03-06）
 
 | 阶段 | 区间 | 年化收益 | 夏普比率 | 最大回撤 | 每月信号 | 综合 |
 |------|------|----------|----------|----------|---------|------|
 | 样本内 | 2015-01 ~ 2024-12 | 13.0% | 1.64 | 20.2% | 1.8 | 4/6 合格 |
-| 样本外 OOS | 2024-02 ~ 2026-03 | 54.8% | 2.24 | 15.2% | 6.8 | **6/6 全部达标** |
+| 样本外 OOS | 2024-02 ~ 2026-03 | 45.3% | 1.95 | 15.3% | 6.4 | **6/6 全部达标** |
+
+> **注**：样本外年化 45.3%（含 2026 Q1 高波动期），v1_plus 是唯一 6/6 全部达标的策略。
+>
+> **详细回测报告**：`docs/回测对比报告_高波动期_2024-02-12_2026-03-06.md`
 
 ---
 
-## 3. 关键文件说明
+## 3. 股票池状态
 
-```
-signal_system/
-├── CLAUDE.md                  ← 主指令文件，每次新会话必须先读
-├── HANDOVER.md                ← 本文件
-├── UNIVERSE.md                ← 股票池（~297只），唯一来源，直接编辑生效
-├── config.yaml                ← 所有参数（active_strategy: v1_plus）
-├── main.py                    ← 运行入口
-│
-├── strategies/
-│   ├── v1_wizard/
-│   │   └── sepa_minervini.py  ← 核心策略逻辑（SEPA + VCP）
-│   └── v1_plus/
-│       └── sepa_plus.py       ← V1+ 子类（继承V1，只改ID/名称，参数在config）
-│
-├── backtest/
-│   └── engine.py              ← 回测引擎（新增 save_signals_csv 参数）
-│
-├── signals/
-│   ├── generator.py           ← 信号格式化 + CSV 存储
-│   ├── report.py              ← 每日 Markdown 报告生成
-│   └── positions.py           ← 持仓持久化（load/save positions.json）
-│
-└── output/
-    ├── v1_wizard/             ← 旧策略（保留，不再使用）
-    │   ├── signals.csv
-    │   └── positions.json
-    └── v1_plus_wizard/        ← 当前主策略输出目录 ★
-        ├── signals.csv
-        ├── positions.json     ← 当前持仓（每日自动更新）
-        └── YYYY-MM-DD/
-            └── 报告_魔法师调整参数版V1+_YYYY-MM-DD.md
-```
+**当前手动股票池总数：929 只**
+- 美股：625 只
+- 港股：244 只
+- 台股：60 只
+- 另含 S&P 500 + Nasdaq 100 指数成分股
+
+**自动股票池**：Alpaca 新闻 API 每日增量抓取，约 150-200 只
+
+**股票池文件**：`UNIVERSE.md`（唯一来源，直接编辑生效）
 
 ---
 
-## 4. 用户当前持仓
+## 4. 当前持仓（截至 2026-03-25）
 
-持仓信息存储在共享文件（所有策略共用）：
-```
-output/shared/positions.json
-```
+**持仓文件**：`output/shared/positions.json`（所有策略共享）
 
-字段说明：
-- `entry_price`：加权平均入场均价（用户加仓后由 Claude 手动更新）
-- `entry_date`：首次建仓日期（加仓时不变）
-- `highest_price`：系统自动追踪的历史最高价
-- `days_held`：系统每次 live 运行自动 +1
-- **注意**：`stop_loss` 已移除，由各策略根据自身参数动态计算
+**当前持仓（共 44 只，有仓位的 27 只）：**
 
-**港股 03986（200股）系统无法追踪，用户手动管理，不在 positions.json 中。**
+| 股票 | 入场价 | 持仓天数 | 最高价 | shares |
+|------|--------|----------|--------|--------|
+| AXTI | 39.25 | 135 | 68.55 | 100 |
+| MU | 406.07 | 135 | 461.8 | 100 |
+| VRT | 245.5 | 135 | 270.84 | 100 |
+| LOCO | 12.7 | 104 | 14.33 | 100 |
+| GTE | 8.16 | 108 | 8.74 | 100 |
+| LWLG | 7.08 | 108 | 7.61 | 100 |
+| XPEV | 19.2 | 108 | 20.08 | 100 |
+| GPRK | 9.15 | 87 | 10.2 | 100 |
+| VMD | 9.79 | 87 | 9.79 | 100 |
+| NBIS | 129.795 | 87 | 129.795 | 100 |
+| NSA | 40.24 | 89 | 40.24 | 100 |
+| ANRO | 24.265 | 89 | 24.265 | 100 |
+| CTMX | 6.74 | 89 | 6.74 | 100 |
+| LNG | 266.21 | 57 | 294.605 | 100 |
+| ELA | 15.32 | 57 | 17.27 | 100 |
+| KODK | 7.94 | 57 | 8.375 | 100 |
+| UGA | 99.69 | 57 | 105.38 | 100 |
+| USO | 121.71 | 57 | 121.71 | 100 |
+| FIVE | 235.02 | 57 | 235.02 | 100 |
+| AR | 43.3 | 57 | 43.355 | 100 |
+| GRNT | 5.46 | 57 | 5.51 | 100 |
+| KOS | 2.98 | 57 | 2.98 | 100 |
+| RRC | 45.3 | 57 | 45.93 | 100 |
+| ENOR | 36.34 | 46 | 36.34 | 100 |
+| WDC | 316.94 | 46 | 316.94 | 100 |
+| PL | 33.87 | 45 | 33.87 | 100 |
+| OKE | 89.27 | 43 | 90.93 | 0 |
+| SEDG | 51.7 | 43 | 51.7 | 0 |
+| DELL | 158.08 | 43 | 176.975 | 0 |
+| TSEM | 172.16 | 27 | 180.93 | 100 |
+| SWBI | 14.415 | 29 | 14.84 | 0 |
+| ELVN | 30.84 | 29 | 31.19 | 0 |
+| GRDN | 37.255 | 29 | 37.555 | 0 |
+| LUNR | 20.31 | 29 | 20.31 | 0 |
+| ASRT | 13.99 | 29 | 16.46 | 0 |
+| SCHL | 38.42 | 13 | 38.87 | 0 |
+| FLNT | 3.87 | 17 | 3.87 | 0 |
+| KVHI | 9.195 | 17 | 9.195 | 0 |
+| SPIR | 12.825 | 17 | 12.85 | 0 |
+| APGE | 79.19 | 17 | 79.19 | 0 |
+| PXS | 4.56 | 5 | 4.56 | 0 |
+| TROX | 8.45 | 3 | 8.45 | 0 |
+| VIAV | 35.9 | 3 | 35.9 | 0 |
+| XTL | 194.715 | 3 | 194.715 | 0 |
+
+**说明**：
+- `shares: 0` 的为已卖出或信号未实际执行
+- `shares: 100` 的为当前持有仓位
 
 ---
 
-## 5. 持仓管理规则（已与用户确认）
+## 5. 持仓管理规则
 
 ### 用户每日操作时机
-**美股收盘后（东部时间 4pm 后）**，告知 Claude 持仓变化，更新完再运行系统。
+**美股收盘后（北京时间次日约 05:00-06:00）**，告知 Claude 持仓变化，更新完再运行系统。
 
-### 用户需要告知的内容（只说变化的部分）
+### 用户需要告知的内容
 - 新买入：股票代码 + 实际成交均价
 - 已平仓：哪只股票平掉了
 - 加仓后均价变化：股票代码 + 新的加权平均成本
 
 ### Claude 负责处理的部分
 - 更新 `output/shared/positions.json`（entry_price、entry_date、highest_price）
-- **止损价不再存储**：由各策略根据自身参数动态计算
+- **止损价由各策略动态计算，不再存储**
   - v1_plus：止损 = entry_price × 90%，追踪止盈 = 从最高点回落 20%
   - v_zanger：止损 = entry_price × 94%，追踪止盈 = 从最高点回落 15%
   - v_weinstein：止损 = entry_price × 90%，追踪止盈 = 从最高点回落 20%
-- entry_date 保持**最早入场日期**不变（时间止损从首次建仓起算）
-- highest_price 和 days_held 由系统自动更新，Claude 不手动改
-
-### 关于加仓信号
-- **已持仓的股票如果再次满足买入条件，系统会发出信号**（这是加仓参考）
-- 系统不会覆盖已有持仓记录，只发信号
-- 用户加仓后，告知新均价，Claude 手动更新 entry_price
+- entry_date 保持**最早入场日期**不变
+- highest_price 和 days_held 由系统自动更新
 
 ### 多策略共享持仓
-- 所有策略（v1_plus, v_zanger, v_weinstein 等）共用同一份持仓文件
+- 所有策略共用同一份 `output/shared/positions.json`
 - 不同策略根据各自参数给出不同的止损/止盈建议
-- 只需维护一份 `output/shared/positions.json`
 
 ---
 
 ## 6. 每日运行命令
 
 ```bash
+cd /Users/wubo/Desktop/信号系统克劳德V3.1_Minimax支线/signal_system
+
 # 每天收盘后运行主策略（v1_plus 已设为默认）
 uv run python main.py --mode live
 
@@ -168,7 +186,7 @@ uv run python main.py --mode scan             # 写入 UNIVERSE.md
 
 # 回测
 uv run python main.py --mode backtest --start 2015-01-01 --end 2024-12-30 --strategy v1_plus
-uv run python main.py --mode backtest --start 2024-02-12 --end 2026-03-05 --strategy v1_plus
+uv run python main.py --mode backtest --start 2024-02-12 --end 2026-03-06 --strategy v1_plus
 
 # 补档（切换策略后补充 signals.csv 历史记录）
 uv run python main.py --mode backtest --start YYYY-MM-DD --end YYYY-MM-DD --strategy v1_plus --save-signals
@@ -176,17 +194,95 @@ uv run python main.py --mode backtest --start YYYY-MM-DD --end YYYY-MM-DD --stra
 
 ---
 
-## 7. UNIVERSE.md 管理规则
+## 7. 策略体系
 
-- 这是股票池的**唯一来源**，代码直接读取这个文件
-- 添加股票：直接在对应板块的表格里加一行，下次运行自动生效
-- 删除股票：从表格删除，移到文末「待移出记录」节
-- 当前总数：**~297 只**（手动池，SA 扫描新增另行列出）
-- SA Quant 扫描结果会自动写入「板块：自动扫描新增」节
+### 9 种已注册策略
+
+| 策略 ID | 大师来源 | 核心特点 | 样本外年化 | 达标 |
+|---------|---------|---------|-----------|------|
+| v1 | Minervini | 原版 SEPA + VCP（VCP<8%） | 57.4% | 6/6 ✅ |
+| v1_plus | Minervini | 调整参数版（VCP<12%） | 45.3% | 6/6 ✅ |
+| v_oneil | O'Neil | CANSLIM 技术版（VCP<20%） | 96.1% | 5/6 |
+| v_ryan | Ryan | 极紧 VCP（<5%） | 14.0% | 1/6 |
+| v_kell | Kell | 极端放量（3x） | 80.2% | 3/6 |
+| v_kullamaggi | Kullamägi | 极紧止损（5%）+ 极端放量（4x） | 50.6% | 5/6 |
+| v_zanger | Zanger | 纯技术突破（无 RS/VCP） | 128.4% | 4/6 |
+| v_stine | Stine | 超强精选（RS≥90%） | 51.4% | 5/6 |
+| v_weinstein | Weinstein | Stage 2 分析（只用 SMA150） | 56.9% | 5/6 |
+
+**策略文档**：
+- `docs/strategies/v1_plus.md`
+- `docs/strategies/v_oneil.md`
+- `docs/strategies/v_ryan.md`
+- `docs/strategies/v_kell.md`
+- `docs/strategies/v_kullamaggi.md`
+- `docs/strategies/v_zanger.md`
+- `docs/strategies/v_stine.md`
+- `docs/strategies/v_weinstein.md`
+- `docs/策略对比总览.md`
 
 ---
 
-## 8. 系统三种出场条件（卖出信号）
+## 8. 关键文件说明
+
+```
+signal_system/
+├── CLAUDE.md                  ← 主指令文件，每次新会话必须先读
+├── HANDOVER.md                ← 本文件
+├── UNIVERSE.md                ← 股票池（929只），唯一来源，直接编辑生效
+├── config.yaml                ← 所有参数（active_strategy: v1_plus）
+├── main.py                    ← 运行入口
+│
+├── strategies/
+│   ├── base.py               ← StrategyBase 抽象基类
+│   ├── registry.py           ← 策略注册表（9个策略已注册）
+│   ├── v1_wizard/           ← 魔法师策略 V1
+│   │   └── sepa_minervini.py
+│   ├── v1_plus/             ← 魔法师策略 V1+（当前主策略）
+│   │   └── sepa_plus.py
+│   ├── v_oneil/             ← O'Neil CANSLIM
+│   ├── v_ryan/              ← David Ryan
+│   ├── v_kell/              ← Oliver Kell
+│   ├── v_kullamaggi/        ← Kullamägi
+│   ├── v_zanger/            ← Dan Zanger
+│   ├── v_stine/             ← Jesse Stine
+│   └── v_weinstein/         ← Weinstein
+│
+├── backtest/
+│   └── engine.py             ← 回测引擎
+│
+├── signals/
+│   ├── generator.py          ← 信号格式化 + CSV 存储
+│   ├── report.py             ← 每日 Markdown 报告生成
+│   └── positions.py         ← 持仓持久化
+│
+├── universe/
+│   ├── manager.py            ← 股票池合并
+│   ├── index_fetcher.py     ← S&P 500 / Nasdaq 100
+│   ├── alpaca_fetcher.py   ← Alpaca 新闻
+│   ├── sa_scanner.py       ← SA Quant Rating
+│   └── updater.py           ← 写入 UNIVERSE.md
+│
+├── data/
+│   ├── fetcher.py           ← 数据获取（三层架构）
+│   ├── cache/               ← 本地持久化（.pkl）
+│   ├── universe_cache.json  ← Alpaca 新闻缓存
+│   └── index_cache.json     ← 指数成分股缓存
+│
+└── output/
+    ├── shared/
+    │   └── positions.json   ← 共享持仓（所有策略共用）★
+    ├── v1_plus_wizard/      ← v1_plus 输出目录
+    │   ├── signals.csv
+    │   └── YYYY-MM-DD/
+    │       └── 报告_魔法师调整参数版V1+_YYYY-MM-DD.md
+    └── v_zanger/            ← v_zanger 输出目录
+    └── v_weinstein/         ← v_weinstein 输出目录
+```
+
+---
+
+## 9. 系统三种出场条件
 
 | 条件 | 触发标准 | 说明 |
 |------|---------|------|
@@ -194,304 +290,31 @@ uv run python main.py --mode backtest --start YYYY-MM-DD --end YYYY-MM-DD --stra
 | 追踪止盈 | 收盘价 ≤ 历史最高价 × 80% | 从高点回落 20% |
 | 时间止损 | 持有 ≥ 20 天且涨幅 < 3% | 入场后长期不动 |
 
-出场信号会出现在每日报告的「今日出场信号」章节。
-
 ---
 
-## 9. 近期代码变更记录
-
-### 2026-03-05 Phase 7
-
-#### 新增策略：`strategies/v1_plus/sepa_plus.py`
-`SEPAPlusStrategy` 继承 `SEPAStrategy`，只覆盖 `strategy_id = "v1_plus_wizard"` 和 `strategy_name`。参数在 `config.yaml` 的 `strategies.v1_plus:` 段独立配置。
-
-**关键参数变化（相对 v1）**：`vcp_final_range_pct: 0.08 → 0.12`（放宽VCP末端箱体，经控制变量测试效果最佳）
-
-#### 修复：`strategies/v1_wizard/sepa_minervini.py`（live_mode bug）
-新增 `live_mode: bool = False` 参数。实盘模式传 `True` 时不自动创建 Position，避免干扰 positions.json 的人工管理流程。回测模式保持默认 `False`，自动创建 Position 供出场逻辑使用。
-
-#### 增强：`backtest/engine.py`（--save-signals 补档）
-`BacktestEngine.__init__()` 新增 `save_signals_csv: bool = False` 和 `strategy_id: str = ""`。当 `save_signals_csv=True` 时，回测中每产生一个买入信号就同步写入对应策略的 `signals.csv`，用于切换策略后的历史信号补档。
-
-#### 增强：`main.py`
-- argparse 新增 `--save-signals` flag（传给 `BacktestEngine`）
-- `run_live()` 调用时传入 `live_mode=True`
-
-#### 修改：`config.yaml`
-- `active_strategy: v1` → `active_strategy: v1_plus`
-- 新增完整 `v1_plus:` 策略配置段
-
-#### 修改：`UNIVERSE.md`
-股票池 186 → ~297 只，新增 10 个板块（板块十五至二十四）：SaaS/云软件、支付金融科技、医疗器械/制药、工业/国防、消费/零售、银行/金融、大宗商品/材料、亚太/新兴市场、REIT、成长股+通信。
-
----
-
-### 2026-03-06 Phase 8
-
-#### 修复：`data/fetcher.py`（live 模式缓存 staleness bug）
-**根本原因**：`timedelta.days` 是整数截断，导致 `max_age=1` 的判断在"1天47分钟"的情况下仍视为新鲜（`1 <= 1 = True`）。系统使用 3月4日的旧缓存，错过了 ATNI 在3月5日盘中的暴跌，发出了错误的买入信号。
-
-**修复方案**：`max_age = 0 if live_mode else 3`，`0 <= 0` 仅在数据距今 <24小时时成立，确保每次实盘运行都能拿到当日或最近交易日的收盘数据。
-
-#### 重构：`data/fetcher.py`（三层数据持久化架构）
-用户需求：历史数据永久存盘，每日只增量补充新数据，避免每次重新全量下载。
-
-**改动：**
-- `_load_cache()` → `_load_local()`：去除时效性判断，只检查历史覆盖（data 足够早），永久持久化
-- `_save_cache()` → `_save_local()`：语义不变
-- `fetch()` 新增三层逻辑：
-  1. **Tier 1（本地新鲜）**：直接用，零网络请求
-  2. **Tier 2（本地有历史但过期）**：批量增量下载 delta（从 min_last+1 起），`pd.concat` + `drop_duplicates` 合并后写回
-  3. **Tier 3（本地无数据）**：全量下载（Alpaca → Yahoo 备用）
-- 控制台输出从「缓存命中 X 只」改为「本地直接使用 X 只，增量更新 Y 只，全量下载 Z 只」
-
-**本地存储路径**：`signal_system/data/cache/`（542 个 .pkl 文件，约 10 MB）
-
----
-
-### 2026-03-06 Phase 9
-
-#### 新增：`universe/index_fetcher.py`
-从 Wikipedia 自动拉取 S&P 500 和 Nasdaq 100 成分股，7天本地缓存（`data/index_cache.json`），网络失败时回退旧缓存。使用 `requests` + 浏览器 User-Agent 绕过 403，`pandas.read_html` 解析表格。
-
-- S&P 500：503 只（"Symbol" 列，`BRK.B → BRK-B`）
-- Nasdaq 100：101 只（"Ticker" 列）
-- 两者去重合并：517 只新增至股票池
-
-**依赖**：新增 `lxml==6.0.2`（`pandas.read_html` HTML 解析后端）
-
-#### 修改：`universe/manager.py`
-`get_universe()` 新增来源 B（指数），改为三路合并：
-
-```python
-combined = sorted(set(manual) | set(index_symbols) | set(auto_symbols))
-```
-
-控制台输出改为：`手动 297 + 指数 517 + 自动 XX，去重后合并`
-
-#### 修改：`config.yaml`
-`auto_universe:` 新增 `include_indices: [sp500, nasdaq100]`。注释掉此段可随时关闭指数成分股。
-
----
-
-### 2026-03-06 Phase 10
-
-#### 新增：7 大师策略变种
-
-为研究报告中的 7 位交易大师各建立独立策略，与 v1_plus 基准对比。
-
-**新建文件（14 个）：**
-
-```
-strategies/v_oneil/sepa_oneil.py           ← O'Neil CANSLIM 技术版（宽松 VCP 20%）
-strategies/v_ryan/sepa_ryan.py            ← David Ryan 极紧 VCP（<5%）
-strategies/v_kell/sepa_kell.py            ← Oliver Kell 极端放量（3x）
-strategies/v_kullamaggi/sepa_kullamaggi.py ← Kullamägi VCP 变种（止损 5%，放量 4x）
-strategies/v_stine/sepa_stine.py          ← Jesse Stine 超强精选（RS≥90%）
-strategies/v_zanger/zanger_strategy.py    ← Dan Zanger 纯技术动量（新类，无 RS/VCP）
-strategies/v_weinstein/weinstein_strategy.py ← Weinstein Stage 2 分析（新类，只用 SMA150）
-```
-
-每个策略包均包含 `__init__.py`。
-
-**修改文件：**
-
-1. `config.yaml`：新增 7 个策略参数段（`strategies.v_oneil:` ~ `strategies.v_weinstein:`）
-2. `strategies/registry.py`：新增 7 条注册
-
-```python
-STRATEGY_REGISTRY = {
-    "v1": SEPAStrategy,
-    "v1_plus": SEPAPlusStrategy,
-    "v_oneil": ONeilStrategy,
-    "v_ryan": RyanStrategy,
-    "v_kell": KellStrategy,
-    "v_kullamaggi": KullamaggiStrategy,
-    "v_zanger": ZangerStrategy,
-    "v_stine": StineStrategy,
-    "v_weinstein": WeinsteinStrategy,
-}
-```
-
-**策略架构：**
-
-- **简单子类（5 个）**：v_oneil, v_ryan, v_kell, v_kullamaggi, v_stine
-  - 继承 `SEPAStrategy`，只覆盖 `strategy_id` 和 `strategy_name`
-  - 所有参数在 `config.yaml` 中配置
-
-- **新类（2 个）**：v_zanger, v_weinstein
-  - 继承 `SEPAStrategy`，覆盖 `_check_entry()`
-  - v_zanger：无 RS、无 VCP，只看 SMA150 趋势 + 突破 + 放量 3x
-  - v_weinstein：Stage 2 分析，SMA150 上升 + 价格在均线上 + 突破
-
-#### 回测结果（样本外 2024-02-12 至 2026-03-06，517 天）
-
-| 策略 | 年化收益 | 夏普比率 | 最大回撤 | 胜率 | 信号/月 | 达标 |
-|------|---------|---------|---------|------|---------|------|
-| **v_zanger** | **128.4%** | **4.42** | **12.0%** | 39.8% | 13.1 | 4/6 ⚠️ |
-| **v_kell** | **80.2%** | 1.90 | 29.4% | 18.2% | 0.9 | 3/6 |
-| **v_weinstein** | **56.9%** | **2.82** | 14.9% | 45.8% | **28.5** | 5/6 ⚠️ |
-| **v1_plus** | **54.8%** | **2.24** | 15.3% | 43.7% | 6.8 ✅ | **6/6** ✅ |
-| **v_stine** | 51.4% | 2.15 | 18.5% | **100%** | 0.1 | 5/6 |
-| **v_kullamaggi** | 50.6% | 1.96 | **13.9%** | 40.0% | 0.4 | 5/6 |
-| **v_oneil** | 46.4% | 1.88 | 19.6% | 42.9% | 3.2 | 5/6 |
-| **v_ryan** | 14.0% | 0.51 | 23.9% | 21.4% | 0.6 | 2/6 |
-
-**关键发现：**
-
-1. **v_zanger** 样本外表现最佳（128.4% 年化，4.42 夏普，12% 回撤），但信号频率超标（13.1/月）
-2. **v1_plus** 唯一 6/6 全部达标策略（信号频率 6.8/月 符合 2-10 标准）
-3. **v_weinstein** 信号频率严重超标（28.5/月），建议提高放量至 2.5x
-4. **v_ryan** 样本外表现差（14% 年化，2/6 达标），建议放宽 VCP 至 7%
-5. **v_kell** 回撤最大（29.4%），建议组合使用而非单独使用
-6. **v_stine** 和 **v_kullamaggi** 信号极少（<1/月），样本不足
-
-**文档创建：**
-
-- `docs/strategies/*.md`（8 个策略详细文档）
-- `docs/策略对比总览.md`（对比分析 + 组合建议）
-
-**运行命令：**
-
-```bash
-# 逐一验证策略加载
-uv run python main.py --mode live --strategy v_oneil
-uv run python main.py --mode live --strategy v_ryan
-uv run python main.py --mode live --strategy v_kell
-uv run python main.py --mode live --strategy v_kullamaggi
-uv run python main.py --mode live --strategy v_zanger
-uv run python main.py --mode live --strategy v_stine
-uv run python main.py --mode live --strategy v_weinstein
-
-# 样本外回测
-uv run python main.py --mode backtest --start 2024-02-12 --end 2026-03-06 --strategy v_oneil
-uv run python main.py --mode backtest --start 2024-02-12 --end 2026-03-06 --strategy v_ryan
-uv run python main.py --mode backtest --start 2024-02-12 --end 2026-03-06 --strategy v_kell
-uv run python main.py --mode backtest --start 2024-02-12 --end 2026-03-06 --strategy v_kullamaggi
-uv run python main.py --mode backtest --start 2024-02-12 --end 2026-03-06 --strategy v_zanger
-uv run python main.py --mode backtest --start 2024-02-12 --end 2026-03-06 --strategy v_stine
-uv run python main.py --mode backtest --start 2024-02-12 --end 2026-03-06 --strategy v_weinstein
-```
-
----
-
-## 10. 切换策略时的持仓迁移操作
-
-当需要切换到新策略时（如从 v1 换到 v1_plus），操作步骤：
-
-1. 复制持仓文件：
-   ```bash
-   cp output/旧策略_id/positions.json output/新策略_id/positions.json
-   ```
-2. 如需修正个别持仓字段，直接编辑 JSON
-3. 补档过去几天的 signals.csv：
-   ```bash
-   uv run python main.py --mode backtest --start YYYY-MM-DD --end YYYY-MM-DD --strategy 新策略 --save-signals
-   ```
-4. 运行实盘模式，确认持仓加载正确、卖出信号正常出现
-
----
-
-### 2026-03-13 Phase 11
-
-#### 重构：多策略共享持仓（positions.json 统一）
-
-**问题**：之前每个策略有独立的 `positions.json`，用户需同步更新多个文件。
-
-**解决方案**：所有策略共享同一份持仓文件，止损价由各策略动态计算。
-
-**修改文件：**
-
-1. `strategies/v1_wizard/sepa_minervini.py`
-   - `Position` 数据类移除 `stop_loss` 字段
-   - 止损价在 `_check_exits()` 中根据策略参数动态计算
-
-2. `signals/positions.py`
-   - 持仓文件路径改为 `output/shared/positions.json`
-   - 保存/加载时不再处理 `stop_loss` 字段
-
-3. `strategies/v_zanger/zanger_strategy.py` / `strategies/v_weinstein/weinstein_strategy.py`
-   - 适配新 `Position` 格式
-
-**新持仓文件格式：**
-```json
-{
-  "AAOI": {
-    "symbol": "AAOI",
-    "entry_price": 102.87,
-    "entry_date": "2026-03-03T00:00:00+00:00",
-    "highest_price": 126.99,
-    "days_held": 15
-  }
-}
-```
-
-**不同策略对同一持仓的止损计算：**
-
-| 策略 | 固定止损 | 追踪止盈 | 时间止损 |
-|------|---------|---------|---------|
-| v1_plus | 10% | 20% | 20天/3% |
-| v_zanger | 6% | 15% | 10天/2% |
-| v_weinstein | 10% | 20% | 30天/5% |
-
-**使用方式：**
-```bash
-# 所有策略共享同一份持仓
-uv run python main.py --mode live --strategy v1_plus
-uv run python main.py --mode live --strategy v_zanger
-# 只需维护 output/shared/positions.json
-```
-
----
-
-## 11. 已知限制 / 待解决事项
+## 10. 已知限制
 
 | 事项 | 说明 |
 |------|------|
-| 港股追踪 | 系统只支持美股，港股 03986 用户手动管理 |
+| 港股追踪 | 系统只支持美股，港股用户手动管理 |
 | SA Quant 403 | SA API 有时被 Cloudflare 拦截，用户可手动截图告知 Claude |
-| 样本内年化偏低 | v1_plus 样本内（2015-2024）年化 13%（略低于 15% 及格线），因包含2018/2020/2022三次熊市。OOS 牛市期表现优异（54.8%），符合 Minervini 趋势策略特性 |
-| 信号频率（样本内）| 样本内 1.8/月，样本外 6.8/月；差异因市场周期，不是过拟合 |
-| 加仓后均价更新 | 加仓后用户需告知新均价，Claude 手动更新 positions.json |
+| 样本内年化偏低 | v1_plus 样本内（2015-2024）年化 13%（略低于 15% 及格线），因包含2018/2020/2022三次熊市 |
+| 信号频率（样本内）| 样本内 1.8/月，样本外 6.4/月；差异因市场周期，不是过拟合 |
 
 ---
 
-### 2026-03-16 Phase 12
+## 11. 相关文档索引
 
-#### 新增：分批止盈功能（Partial Take Profit）
-
-**背景**：原有出场是"一把梭"，盈利到目标时全部卖出可能错失后续涨幅。
-
-**解决方案**：分批止盈，盈利达到不同目标位时逐步卖出。
-
-**配置示例**：
-```yaml
-strategies:
-  v1_plus:
-    partial_tp_enabled: true   # 开启分批止盈
-    partial_tp_levels:
-      - [0.10, 0.33]   # +10% 卖出 33%
-      - [0.20, 0.33]   # +20% 卖出 33%
-      - [0.30, 0.34]   # +30% 卖出最后 34%
-```
-
-**修改文件：**
-
-1. `config.yaml`
-   - 为 9 个策略添加 `partial_tp_enabled` 和 `partial_tp_levels` 参数
-
-2. `events/base.py`
-   - `SignalEvent.create()` 添加 `shares_pct` 参数
-
-3. `strategies/v1_wizard/sepa_minervini.py`
-   - `Position` 类添加 `shares_sold_pct` 字段
-   - `_check_exits()` 方法添加分批止盈逻辑
-
-**使用方法**：
-- 开启：`partial_tp_enabled: true`
-- A/B 测试：修改配置后运行回测对比
+| 文档 | 说明 |
+|------|------|
+| `docs/回测对比报告_高波动期_2024-02-12_2026-03-06.md` | 9 大策略样本外回测对比 |
+| `docs/策略对比总览.md` | 策略对比分析 + 组合建议 |
+| `docs/项目总结与学习笔记.md` | 项目全程记录，策略原理详解 |
+| `HOW_TO_ADD_STRATEGY.md` | 新策略接入手册 |
+| `USAGE.md` | 用户使用手册 |
+| `docs/strategies/*.md` | 各策略详细文档 |
 
 ---
 
-*文件生成时间：2026-03-16*
+*文件生成时间：2026-03-25*
 *下一个会话接手时，请确认 `output/shared/positions.json` 内容与用户最新持仓一致。*
