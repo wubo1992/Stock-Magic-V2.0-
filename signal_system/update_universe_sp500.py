@@ -1,89 +1,83 @@
 """
 update_universe_sp500.py
-将 S&P 500 + Nasdaq 100 全部静态写入 UNIVERSE.md
+将 S&P 500 + Nasdaq 100 静态写入 UNIVERSE.md
+
+安全设计：
+1. 只替换板块 S 和板块 N 的内容，不碰其他板块
+2. 港股台股必须放在 "## 操作说明" 之前（所有板块在同一区域）
+3. 写入前后都做强制验证
 """
+
 import json
-import time
-import urllib.request
-import ssl
+import re
 
-# 禁用 SSL 验证（某些环境需要）
-ctx = ssl.create_default_context()
-ctx.check_hostname = False
-ctx.verify_mode = ssl.CERT_NONE
+# ============================================================
+# 1. 验证 UNIVERSE.md 结构
+# ============================================================
+with open("UNIVERSE.md", "r") as f:
+    content = f.read()
 
-# 获取 S&P 500 和 Nasdaq 100 symbols
+REQUIRED_MARKERS = [
+    "## 板块 S：标普 500",
+    "## 板块 N：纳斯达克 100",
+    "## 港股",
+    "## 台股",
+    "## 操作说明",
+]
+
+for marker in REQUIRED_MARKERS:
+    if content.find(marker) < 0:
+        raise ValueError(f"缺少必需 section：{marker}，拒绝写入以保护数据！")
+
+# ============================================================
+# 2. 提取现有港股和台股内容
+# ============================================================
+def extract_section(content, section_name):
+    """提取指定 section 的完整内容（到下一个 ## 板块 之前）"""
+    marker = f"## {section_name}"
+    start = content.find(marker)
+    if start < 0:
+        return None
+    # 找该 section 之后的所有内容，直到下一个 ## 板块 或 ## 操作说明
+    rest = content[start + len(marker):]
+    # 找到下一个 ##（出现在行首的）
+    next_section = re.search(r'\n## ', rest)
+    if next_section:
+        end = start + len(marker) + next_section.start()
+    else:
+        end = len(content)
+    return content[start:end]
+
+# 提取港股 section
+hk_section = extract_section(content, "港股")
+tw_section = extract_section(content, "台股")
+
+# ============================================================
+# 3. 读取指数数据
+# ============================================================
 with open("data/index_cache.json") as f:
     cache = json.load(f)
 
-sp500_syms = set(cache["sp500"]["symbols"])
-ndx100_syms = set(cache["nasdaq100"]["symbols"])
-all_syms = sorted(sp500_syms | ndx100_syms)
+sp500_syms = sorted(cache["sp500"]["symbols"])
+ndx100_syms = sorted(cache["nasdaq100"]["symbols"])
+ndx_only = sorted(set(ndx100_syms) - set(sp500_syms))
 
 print(f"S&P 500: {len(sp500_syms)}")
-print(f"Nasdaq 100: {len(ndx100_syms)}")
-print(f"去重后: {len(all_syms)}")
+print(f"Nasdaq 100: {len(ndx100_syms)}（其中 {len(ndx_only)} 只不在 S&P 500）")
 
-# 从 Wikipedia 获取公司名称
-def fetch_wiki_sp500():
-    url = "https://en.wikipedia.org/wiki/List_of_S%26P_500_companies"
-    req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
-    with urllib.request.urlopen(req, context=ctx, timeout=30) as resp:
-        html = resp.read().decode("utf-8")
-    # 简单解析：提取 Symbol 和 Security 列
-    import re
-    # 找表格行
-    pattern = re.compile(r'<td[^>]*><a[^>]*title="([^"]+)"[^>]*>([^<]+)</a></td>\s*<td[^>]*>([^<]+)</td>')
-    # 实际 Wikipedia 页面格式更复杂，用更简单的方式
-    # 提取 <tr> 中的 <td> 内容
-    rows = re.findall(r'<tr>\s*<td>([^<]*)</td>\s*<td[^>]*>([^<]*)</td>', html)
-    result = {}
-    for symbol, name in rows:
-        sym = symbol.strip().replace(".", "-")  # BRK.B -> BRK-B
-        name = name.strip()
-        if sym and name:
-            result[sym] = name
-    return result
+# ============================================================
+# 4. 替换板块 S
+# ============================================================
+sp500_marker = "## 板块 S：标普 500"
+sp500_start = content.find(sp500_marker)
+sp500_end = content.find("## 板块 N：", sp500_start)
+if sp500_start < 0 or sp500_end < 0:
+    raise ValueError("找不到板块 S 或板块 N 的位置")
 
-def fetch_wiki_nasdaq100():
-    url = "https://en.wikipedia.org/wiki/Nasdaq-100"
-    req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
-    with urllib.request.urlopen(req, context=ctx, timeout=30) as resp:
-        html = resp.read().decode("utf-8")
-    import re
-    # 提取 Nasdaq 100 成分股表格
-    rows = re.findall(r'<tr>\s*<td[^>]*>(?:<a[^>]*>)?([A-Z^<]+)(?:</a>)?</td>\s*<td[^>]*>([^<]+)</td>', html)
-    result = {}
-    for symbol, name in rows:
-        sym = symbol.strip().replace(".", "-")
-        name = name.strip()
-        if sym and name and len(sym) <= 5:
-            result[sym] = name
-    return result
-
-print("Fetching S&P 500 company names from Wikipedia...")
-try:
-    sp500_names = fetch_wiki_sp500()
-    print(f"  S&P 500: got {len(sp500_names)} names")
-except Exception as e:
-    print(f"  S&P 500 fetch failed: {e}")
-    sp500_names = {}
-
-print("Fetching Nasdaq 100 company names from Wikipedia...")
-try:
-    ndx100_names = fetch_wiki_nasdaq100()
-    print(f"  Nasdaq 100: got {len(ndx100_names)} names")
-except Exception as e:
-    print(f"  Nasdaq 100 fetch failed: {e}")
-    ndx100_names = {}
-
-# 合并名称映射
-name_map = {}
-name_map.update(sp500_names)
-name_map.update(ndx100_names)
-print(f"Total names collected: {len(name_map)}")
-
-# 已知常用股票名称（备用，覆盖率高的）
+sp500_new = "## 板块 S：标普 500 成分股（静态写入，Wikipedia 定期更新）\n\n"
+sp500_new += "| 代码 | 公司 | 简介 |\n"
+sp500_new += "|------|------|------|\n"
+# 用代码做名称（Wikipedia 抓取成功率低，用 FALLBACK_NAMES 补常用）
 FALLBACK_NAMES = {
     "AAPL": "Apple", "MSFT": "Microsoft", "NVDA": "NVIDIA", "GOOGL": "Alphabet",
     "TSLA": "Tesla", "AMZN": "Amazon", "META": "Meta", "BRK-B": "Berkshire Hathaway",
@@ -92,86 +86,93 @@ FALLBACK_NAMES = {
     "PG": "Procter & Gamble", "HD": "Home Depot", "ABBV": "AbbVie", "MRK": "Merck",
     "BAC": "Bank of America", "KO": "Coca-Cola", "PEP": "PepsiCo", "COST": "Costco",
     "WMT": "Walmart", "MCD": "McDonald's", "CSCO": "Cisco", "ACN": "Accenture",
-    "TMO": "Thermo Fisher", "ABT": "Abbott Labs", "DHR": "Danaher", "MUFG": "Mitsubishi UFG",
-    "IBM": "IBM", "DIS": "Walt Disney", "NFLX": "Netflix", "INTC": "Intel",
     "AMD": "AMD", "QCOM": "Qualcomm", "TXN": "Texas Instruments", "AMAT": "Applied Materials",
     "NOW": "ServiceNow", "CRM": "Salesforce", "ADBE": "Adobe", "PYPL": "PayPal",
-    "UBER": "Uber", "LYFT": "Lyft", "SNOW": "Snowflake", "DDOG": "Datadog",
-    "TEAM": "Atlassian", "NET": "Cloudflare", "CRWD": "CrowdStrike", "ZS": "Zscaler",
-    "OKTA": "Okta", "PANW": "Palo Alto Networks", "FTNT": "Fortinet", "MDB": "MongoDB",
-    "DOCU": "DocuSign", "TWLO": "Twilio", "SPLK": "Splunk", "ANSS": "ANSYS",
-    "CDNS": "Cadence Design", "SNPS": "Synopsys", "INTU": "Intuit", "ADP": "ADP",
-    "PAYX": "Paychex", "ISRG": "Intuitive Surgical", "DXCM": "Dexcom", "IDXX": "IDEXX",
-    "REGN": "Regeneron", "VRTX": "Vertex", "MRNA": "Moderna", "BIIB": "Biogen",
-    "GILD": "Gilead", "AMGN": "Amgen", "BMY": "Bristol-Myers", "PFE": "Pfizer",
-    "CVS": "CVS Health", "UNH": "UnitedHealth", "CI": "Cigna", "HUM": "Humana",
-    "BDX": "Becton Dickinson", "SYK": "Stryker", "BSX": "Boston Scientific",
-    "EW": "Edwards Lifesciences", "STE": "STERIS", "ZBH": "Zimmer Biomet",
-    "RMD": "ResMed", "IQV": "IQVIA", "MTD": "Mettler-Toledo",
+    "NFLX": "Netflix", "INTC": "Intel", "IBM": "IBM", "DIS": "Walt Disney",
+    "UBER": "Uber", "SNOW": "Snowflake", "DDOG": "Datadog", "TEAM": "Atlassian",
+    "NET": "Cloudflare", "CRWD": "CrowdStrike", "ZS": "Zscaler", "MDB": "MongoDB",
+    "OKTA": "Okta", "PANW": "Palo Alto Networks", "FTNT": "Fortinet",
+    "ISRG": "Intuitive Surgical", "DXCM": "Dexcom", "IDXX": "IDEXX",
+    "REGN": "Regeneron", "VRTX": "Vertex", "MRNA": "Moderna",
+    "GILD": "Gilead", "AMGN": "Amgen", "PFE": "Pfizer",
 }
+for sym in sp500_syms:
+    name = FALLBACK_NAMES.get(sym, sym)
+    sp500_new += f"| {sym} | {name} | S&P 500 成分股 |\n"
 
-# 填充缺失的名称
-filled = 0
-for sym in all_syms:
-    if sym not in name_map:
-        name = FALLBACK_NAMES.get(sym, sym)
-        name_map[sym] = name
-        filled += 1
+new_content = content[:sp500_start] + sp500_new + "\n" + content[sp500_end:]
 
-print(f"Fallback names used: {filled}")
+# ============================================================
+# 5. 替换板块 N
+# ============================================================
+ndx_marker = "## 板块 N：纳斯达克 100"
+ndx_start = new_content.find(ndx_marker)
+# 找港股或台股 section（板块 N 之后第一个非美股板块）
+for next_marker in ["## 港股", "## 台股"]:
+    next_pos = new_content.find(next_marker, ndx_start)
+    if next_pos > ndx_start:
+        ndx_end = next_pos
+        break
+else:
+    ndx_end = new_content.find("## 操作说明", ndx_start)
 
-# 读取现有 UNIVERSE.md
-with open("UNIVERSE.md", "r") as f:
-    content = f.read()
-
-# 找到现有板块结束位置（在 "## 操作说明" 之前插入）
-insert_marker = "## 操作说明"
-idx = content.find(insert_marker)
-if idx == -1:
-    print("WARNING: insert marker not found!")
-
-# 构建新的 S&P 500 + Nasdaq 100 板块内容
-# 先按 S&P 500 和 Nasdaq 100 分开标记
-sp500_list = sorted(sp500_syms)
-ndx100_list = sorted(ndx100_syms)
-
-new_content = []
-
-# 板块：S&P 500
-new_content.append("## 板块 S：标普 500 成分股（静态写入，Wikipedia 定期更新）\n")
-new_content.append("| 代码 | 公司 | 简介 |")
-new_content.append("|------|------|------|")
-for sym in sp500_list:
-    name = name_map.get(sym, sym)
-    new_content.append(f"| {sym} | {name} | S&P 500 成分股 |")
-
-new_content.append("")
-
-# 板块：Nasdaq 100
-new_content.append("## 板块 N：纳斯达克 100 成分股（静态写入，Wikipedia 定期更新）\n")
-new_content.append("| 代码 | 公司 | 简介 |")
-new_content.append("|------|------|------|")
-# 只写 Nasdaq 独有的（非 S&P 500 的）
-ndx_only = sorted(ndx100_syms - sp500_syms)
+ndx_new = "## 板块 N：纳斯达克 100 成分股（静态写入，Wikipedia 定期更新）\n\n"
+ndx_new += "| 代码 | 公司 | 简介 |\n"
+ndx_new += "|------|------|------|\n"
 for sym in ndx_only:
-    name = name_map.get(sym, sym)
-    new_content.append(f"| {sym} | {name} | Nasdaq 100 成分股 |")
+    name = FALLBACK_NAMES.get(sym, sym)
+    ndx_new += f"| {sym} | {name} | Nasdaq 100 成分股 |\n"
 
-new_content.append("")
+final_content = new_content[:ndx_start] + ndx_new + "\n" + new_content[ndx_end:]
 
-# 更新文件头部的总数
-header_old = "## 当前手动池总数：929 只（含美股625 + 港股244 + 台股60，S&P 500 + Nasdaq 100，去重后）"
-header_new = f"## 当前手动池总数：{len(all_syms)} 只（含 S&P 500 {len(sp500_syms)} 只 + Nasdaq 100 {len(ndx100_syms)} 只，去重后 {len(all_syms)} 只）"
+# ============================================================
+# 6. 更新总数
+# ============================================================
+import re
+us_rows = len(sp500_syms) + len(ndx_only)
+# 港股：从板块 N 末尾到台股之前
+ndx_pos = final_content.find("## 板块 N：")
+hk_start = final_content.find("## 港股：", ndx_pos)
+tw_start = final_content.find("## 台股")
+hk_text = final_content[hk_start:tw_start] if hk_start > 0 and tw_start > 0 else ""
+tw_text = final_content[tw_start:] if tw_start > 0 else ""
+hk_rows = len(re.findall(r'^\| [0-9A-Z]', hk_text, re.MULTILINE))
+tw_rows = len(re.findall(r'^\| [0-9]', tw_text, re.MULTILINE))
+total_all = us_rows + hk_rows + tw_rows
 
-new_text = content[:idx]
-new_text = new_text.replace(header_old, header_new)
+# 替换整行 header，不只是数字部分
+lines = final_content.split('\n')
+for i, line in enumerate(lines):
+    if line.startswith('## 当前手动池总数：'):
+        lines[i] = f"## 当前手动池总数：{total_all} 只（含美股{us_rows} + 港股{hk_rows} + 台股{tw_rows}）"
+        break
+final_content = '\n'.join(lines)
 
-# 在操作说明前插入新板块
-new_text += "\n".join(new_content)
-new_text += "\n" + content[idx:]
+# ============================================================
+# 7. 写入前最终验证（防止覆盖操作说明）
+# ============================================================
+for marker in REQUIRED_MARKERS:
+    if final_content.find(marker) < 0:
+        raise ValueError(f"写入后缺少 {marker}，数据可能被破坏！拒绝保存！")
 
+# ============================================================
+# 8. 写入文件
+# ============================================================
 with open("UNIVERSE.md", "w") as f:
-    f.write(new_text)
+    f.write(final_content)
 
-print(f"\n完成！已写入 {len(sp500_list)} 只 S&P 500 + {len(ndx_only)} 只 Nasdaq 100 独有股票")
+# ============================================================
+# 9. 写入后验证
+# ============================================================
+with open("UNIVERSE.md", "r") as f:
+    verify = f.read()
+for marker in REQUIRED_MARKERS:
+    if verify.find(marker) < 0:
+        raise ValueError(f"写入后验证失败：缺少 {marker}！请立即检查文件！")
+
+print(f"\n完成！")
+print(f"  S&P 500: {len(sp500_syms)} 只")
+print(f"  Nasdaq 100 独有: {len(ndx_only)} 只")
+print(f"  港股: {hk_rows} 只")
+print(f"  台股: {tw_rows} 只")
 print(f"文件已保存：UNIVERSE.md")

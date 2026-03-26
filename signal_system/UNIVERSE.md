@@ -18,13 +18,13 @@
 | 代码 | 公司 | 简介 |
 |------|------|------|
 | A | A | S&P 500 成分股 |
-| AAPL | AAPL | S&P 500 成分股 |
-| ABBV | ABBV | S&P 500 成分股 |
+| AAPL | Apple | S&P 500 成分股 |
+| ABBV | AbbVie | S&P 500 成分股 |
 | ABNB | ABNB | S&P 500 成分股 |
 | ABT | ABT | S&P 500 成分股 |
 | ACGL | ACGL | S&P 500 成分股 |
-| ACN | ACN | S&P 500 成分股 |
-| ADBE | ADBE | S&P 500 成分股 |
+| ACN | Accenture | S&P 500 成分股 |
+| ADBE | Adobe | S&P 500 成分股 |
 | ADI | ADI | S&P 500 成分股 |
 | ADM | ADM | S&P 500 成分股 |
 | ADP | ADP | S&P 500 成分股 |
@@ -41,14 +41,14 @@
 | ALGN | ALGN | S&P 500 成分股 |
 | ALL | ALL | S&P 500 成分股 |
 | ALLE | ALLE | S&P 500 成分股 |
-| AMAT | AMAT | S&P 500 成分股 |
+| AMAT | Applied Materials | S&P 500 成分股 |
 | AMCR | AMCR | S&P 500 成分股 |
 | AMD | AMD | S&P 500 成分股 |
 | AME | AME | S&P 500 成分股 |
-| AMGN | AMGN | S&P 500 成分股 |
+| AMGN | Amgen | S&P 500 成分股 |
 | AMP | AMP | S&P 500 成分股 |
 | AMT | AMT | S&P 500 成分股 |
-| AMZN | AMZN | S&P 500 成分股 |
+| AMZN | Amazon | S&P 500 成分股 |
 | ANET | ANET | S&P 500 成分股 |
 | AON | AON | S&P 500 成分股 |
 | AOS | AOS | S&P 500 成分股 |
@@ -62,14 +62,14 @@
 | ARES | ARES | S&P 500 成分股 |
 | ATO | ATO | S&P 500 成分股 |
 | AVB | AVB | S&P 500 成分股 |
-| AVGO | AVGO | S&P 500 成分股 |
+| AVGO | Broadcom | S&P 500 成分股 |
 | AVY | AVY | S&P 500 成分股 |
 | AWK | AWK | S&P 500 成分股 |
 | AXON | AXON | S&P 500 成分股 |
 | AXP | AXP | S&P 500 成分股 |
 | AZO | AZO | S&P 500 成分股 |
 | BA | BA | S&P 500 成分股 |
-| BAC | BAC | S&P 500 成分股 |
+| BAC | Bank of America | S&P 500 成分股 |
 | BALL | BALL | S&P 500 成分股 |
 | BAX | BAX | S&P 500 成分股 |
 | BBY | BBY | S&P 500 成分股 |
@@ -85,7 +85,7 @@
 | BLK | BLK | S&P 500 成分股 |
 | BMY | BMY | S&P 500 成分股 |
 | BR | BR | S&P 500 成分股 |
-| BRK-B | BRK-B | S&P 500 成分股 |
+| BRK-B | Berkshire Hathaway | S&P 500 成分股 |
 | BRO | BRO | S&P 500 成分股 |
 | BSX | BSX | S&P 500 成分股 |
 | BX | BX | S&P 500 成分股 |
@@ -125,16 +125,16 @@
 | COO | COO | S&P 500 成分股 |
 | COP | COP | S&P 500 成分股 |
 | COR | COR | S&P 500 成分股 |
-| COST | COST | S&P 500 成分股 |
+| COST | Costco | S&P 500 成分股 |
 | CPAY | CPAY | S&P 500 成分股 |
 | CPB | CPB | S&P 500 成分股 |
 | CPRT | CPRT | S&P 500 成分股 |
 | CPT | CPT | S&P 500 成分股 |
 | CRH | CRH | S&P 500 成分股 |
 | CRL | CRL | S&P 500 成分股 |
-| CRM | CRM | S&P 500 成分股 |
-| CRWD | CRWD | S&P 500 成分股 |
-| CSCO | CSCO | S&P 500 成分股 |
+| CRM | Salesforce | S&P 500 成分股 |
+| CRWD | CrowdStrike | S&P 500 成分股 |
+| CSCO | Cisco | S&P 500 成分股 |
 | CSGP | CSGP | S&P 500 成分股 |
 | CSX | CSX | S&P 500 成分股 |
 | CTAS | CTAS | S&P 500 成分股 |
@@ -148,7 +148,7 @@
 | DAL | DAL | S&P 500 成分股 |
 | DASH | DASH | S&P 500 成分股 |
 | DD | DD | S&P 500 成分股 |
-| DDOG | DDOG | S&P 500 成分股 |
+| DDOG | Datadog | S&P 500 成分股 |
 | DE | DE | S&P 500 成分股 |
 | DECK | DECK | S&P 500 成分股 |
 | DELL | DELL | S&P 500 成分股 |
@@ -156,7 +156,7 @@
 | DGX | DGX | S&P 500 成分股 |
 | DHI | DHI | S&P 500 成分股 |
 | DHR | DHR | S&P 500 成分股 |
-| DIS | DIS | S&P 500 成分股 |
+| DIS | Walt Disney | S&P 500 成分股 |
 | DLR | DLR | S&P 500 成分股 |
 | DLTR | DLTR | S&P 500 成分股 |
 | DOC | DOC | S&P 500 成分股 |
@@ -168,7 +168,7 @@
 | DUK | DUK | S&P 500 成分股 |
 | DVA | DVA | S&P 500 成分股 |
 | DVN | DVN | S&P 500 成分股 |
-| DXCM | DXCM | S&P 500 成分股 |
+| DXCM | Dexcom | S&P 500 成分股 |
 | EA | EA | S&P 500 成分股 |
 | EBAY | EBAY | S&P 500 成分股 |
 | ECL | ECL | S&P 500 成分股 |
@@ -214,7 +214,7 @@
 | FOXA | FOXA | S&P 500 成分股 |
 | FRT | FRT | S&P 500 成分股 |
 | FSLR | FSLR | S&P 500 成分股 |
-| FTNT | FTNT | S&P 500 成分股 |
+| FTNT | Fortinet | S&P 500 成分股 |
 | FTV | FTV | S&P 500 成分股 |
 | GD | GD | S&P 500 成分股 |
 | GDDY | GDDY | S&P 500 成分股 |
@@ -222,14 +222,14 @@
 | GEHC | GEHC | S&P 500 成分股 |
 | GEN | GEN | S&P 500 成分股 |
 | GEV | GEV | S&P 500 成分股 |
-| GILD | GILD | S&P 500 成分股 |
+| GILD | Gilead | S&P 500 成分股 |
 | GIS | GIS | S&P 500 成分股 |
 | GL | GL | S&P 500 成分股 |
 | GLW | GLW | S&P 500 成分股 |
 | GM | GM | S&P 500 成分股 |
 | GNRC | GNRC | S&P 500 成分股 |
 | GOOG | GOOG | S&P 500 成分股 |
-| GOOGL | GOOGL | S&P 500 成分股 |
+| GOOGL | Alphabet | S&P 500 成分股 |
 | GPC | GPC | S&P 500 成分股 |
 | GPN | GPN | S&P 500 成分股 |
 | GRMN | GRMN | S&P 500 成分股 |
@@ -239,7 +239,7 @@
 | HAS | HAS | S&P 500 成分股 |
 | HBAN | HBAN | S&P 500 成分股 |
 | HCA | HCA | S&P 500 成分股 |
-| HD | HD | S&P 500 成分股 |
+| HD | Home Depot | S&P 500 成分股 |
 | HIG | HIG | S&P 500 成分股 |
 | HII | HII | S&P 500 成分股 |
 | HLT | HLT | S&P 500 成分股 |
@@ -258,18 +258,18 @@
 | IBKR | IBKR | S&P 500 成分股 |
 | IBM | IBM | S&P 500 成分股 |
 | ICE | ICE | S&P 500 成分股 |
-| IDXX | IDXX | S&P 500 成分股 |
+| IDXX | IDEXX | S&P 500 成分股 |
 | IEX | IEX | S&P 500 成分股 |
 | IFF | IFF | S&P 500 成分股 |
 | INCY | INCY | S&P 500 成分股 |
-| INTC | INTC | S&P 500 成分股 |
+| INTC | Intel | S&P 500 成分股 |
 | INTU | INTU | S&P 500 成分股 |
 | INVH | INVH | S&P 500 成分股 |
 | IP | IP | S&P 500 成分股 |
 | IQV | IQV | S&P 500 成分股 |
 | IR | IR | S&P 500 成分股 |
 | IRM | IRM | S&P 500 成分股 |
-| ISRG | ISRG | S&P 500 成分股 |
+| ISRG | Intuitive Surgical | S&P 500 成分股 |
 | IT | IT | S&P 500 成分股 |
 | ITW | ITW | S&P 500 成分股 |
 | IVZ | IVZ | S&P 500 成分股 |
@@ -278,8 +278,8 @@
 | JBL | JBL | S&P 500 成分股 |
 | JCI | JCI | S&P 500 成分股 |
 | JKHY | JKHY | S&P 500 成分股 |
-| JNJ | JNJ | S&P 500 成分股 |
-| JPM | JPM | S&P 500 成分股 |
+| JNJ | Johnson & Johnson | S&P 500 成分股 |
+| JPM | JPMorgan Chase | S&P 500 成分股 |
 | KDP | KDP | S&P 500 成分股 |
 | KEY | KEY | S&P 500 成分股 |
 | KEYS | KEYS | S&P 500 成分股 |
@@ -289,7 +289,7 @@
 | KLAC | KLAC | S&P 500 成分股 |
 | KMB | KMB | S&P 500 成分股 |
 | KMI | KMI | S&P 500 成分股 |
-| KO | KO | S&P 500 成分股 |
+| KO | Coca-Cola | S&P 500 成分股 |
 | KR | KR | S&P 500 成分股 |
 | KVUE | KVUE | S&P 500 成分股 |
 | L | L | S&P 500 成分股 |
@@ -299,7 +299,7 @@
 | LHX | LHX | S&P 500 成分股 |
 | LII | LII | S&P 500 成分股 |
 | LIN | LIN | S&P 500 成分股 |
-| LLY | LLY | S&P 500 成分股 |
+| LLY | Eli Lilly | S&P 500 成分股 |
 | LMT | LMT | S&P 500 成分股 |
 | LNT | LNT | S&P 500 成分股 |
 | LOW | LOW | S&P 500 成分股 |
@@ -310,18 +310,18 @@
 | LW | LW | S&P 500 成分股 |
 | LYB | LYB | S&P 500 成分股 |
 | LYV | LYV | S&P 500 成分股 |
-| MA | MA | S&P 500 成分股 |
+| MA | Mastercard | S&P 500 成分股 |
 | MAA | MAA | S&P 500 成分股 |
 | MAR | MAR | S&P 500 成分股 |
 | MAS | MAS | S&P 500 成分股 |
-| MCD | MCD | S&P 500 成分股 |
+| MCD | McDonald's | S&P 500 成分股 |
 | MCHP | MCHP | S&P 500 成分股 |
 | MCK | MCK | S&P 500 成分股 |
 | MCO | MCO | S&P 500 成分股 |
 | MDLZ | MDLZ | S&P 500 成分股 |
 | MDT | MDT | S&P 500 成分股 |
 | MET | MET | S&P 500 成分股 |
-| META | META | S&P 500 成分股 |
+| META | Meta | S&P 500 成分股 |
 | MGM | MGM | S&P 500 成分股 |
 | MKC | MKC | S&P 500 成分股 |
 | MLM | MLM | S&P 500 成分股 |
@@ -332,12 +332,12 @@
 | MOS | MOS | S&P 500 成分股 |
 | MPC | MPC | S&P 500 成分股 |
 | MPWR | MPWR | S&P 500 成分股 |
-| MRK | MRK | S&P 500 成分股 |
-| MRNA | MRNA | S&P 500 成分股 |
+| MRK | Merck | S&P 500 成分股 |
+| MRNA | Moderna | S&P 500 成分股 |
 | MRSH | MRSH | S&P 500 成分股 |
 | MS | MS | S&P 500 成分股 |
 | MSCI | MSCI | S&P 500 成分股 |
-| MSFT | MSFT | S&P 500 成分股 |
+| MSFT | Microsoft | S&P 500 成分股 |
 | MSI | MSI | S&P 500 成分股 |
 | MTB | MTB | S&P 500 成分股 |
 | MTCH | MTCH | S&P 500 成分股 |
@@ -348,17 +348,17 @@
 | NDSN | NDSN | S&P 500 成分股 |
 | NEE | NEE | S&P 500 成分股 |
 | NEM | NEM | S&P 500 成分股 |
-| NFLX | NFLX | S&P 500 成分股 |
+| NFLX | Netflix | S&P 500 成分股 |
 | NI | NI | S&P 500 成分股 |
 | NKE | NKE | S&P 500 成分股 |
 | NOC | NOC | S&P 500 成分股 |
-| NOW | NOW | S&P 500 成分股 |
+| NOW | ServiceNow | S&P 500 成分股 |
 | NRG | NRG | S&P 500 成分股 |
 | NSC | NSC | S&P 500 成分股 |
 | NTAP | NTAP | S&P 500 成分股 |
 | NTRS | NTRS | S&P 500 成分股 |
 | NUE | NUE | S&P 500 成分股 |
-| NVDA | NVDA | S&P 500 成分股 |
+| NVDA | NVIDIA | S&P 500 成分股 |
 | NVR | NVR | S&P 500 成分股 |
 | NWS | NWS | S&P 500 成分股 |
 | NWSA | NWSA | S&P 500 成分股 |
@@ -372,16 +372,16 @@
 | ORLY | ORLY | S&P 500 成分股 |
 | OTIS | OTIS | S&P 500 成分股 |
 | OXY | OXY | S&P 500 成分股 |
-| PANW | PANW | S&P 500 成分股 |
+| PANW | Palo Alto Networks | S&P 500 成分股 |
 | PAYC | PAYC | S&P 500 成分股 |
 | PAYX | PAYX | S&P 500 成分股 |
 | PCAR | PCAR | S&P 500 成分股 |
 | PCG | PCG | S&P 500 成分股 |
 | PEG | PEG | S&P 500 成分股 |
-| PEP | PEP | S&P 500 成分股 |
-| PFE | PFE | S&P 500 成分股 |
+| PEP | PepsiCo | S&P 500 成分股 |
+| PFE | Pfizer | S&P 500 成分股 |
 | PFG | PFG | S&P 500 成分股 |
-| PG | PG | S&P 500 成分股 |
+| PG | Procter & Gamble | S&P 500 成分股 |
 | PGR | PGR | S&P 500 成分股 |
 | PH | PH | S&P 500 成分股 |
 | PHM | PHM | S&P 500 成分股 |
@@ -402,12 +402,12 @@
 | PSX | PSX | S&P 500 成分股 |
 | PTC | PTC | S&P 500 成分股 |
 | PWR | PWR | S&P 500 成分股 |
-| PYPL | PYPL | S&P 500 成分股 |
+| PYPL | PayPal | S&P 500 成分股 |
 | Q | Q | S&P 500 成分股 |
-| QCOM | QCOM | S&P 500 成分股 |
+| QCOM | Qualcomm | S&P 500 成分股 |
 | RCL | RCL | S&P 500 成分股 |
 | REG | REG | S&P 500 成分股 |
-| REGN | REGN | S&P 500 成分股 |
+| REGN | Regeneron | S&P 500 成分股 |
 | RF | RF | S&P 500 成分股 |
 | RJF | RJF | S&P 500 成分股 |
 | RL | RL | S&P 500 成分股 |
@@ -465,32 +465,32 @@
 | TROW | TROW | S&P 500 成分股 |
 | TRV | TRV | S&P 500 成分股 |
 | TSCO | TSCO | S&P 500 成分股 |
-| TSLA | TSLA | S&P 500 成分股 |
+| TSLA | Tesla | S&P 500 成分股 |
 | TSN | TSN | S&P 500 成分股 |
 | TT | TT | S&P 500 成分股 |
 | TTD | TTD | S&P 500 成分股 |
 | TTWO | TTWO | S&P 500 成分股 |
-| TXN | TXN | S&P 500 成分股 |
+| TXN | Texas Instruments | S&P 500 成分股 |
 | TXT | TXT | S&P 500 成分股 |
 | TYL | TYL | S&P 500 成分股 |
 | UAL | UAL | S&P 500 成分股 |
-| UBER | UBER | S&P 500 成分股 |
+| UBER | Uber | S&P 500 成分股 |
 | UDR | UDR | S&P 500 成分股 |
 | UHS | UHS | S&P 500 成分股 |
 | ULTA | ULTA | S&P 500 成分股 |
-| UNH | UNH | S&P 500 成分股 |
+| UNH | UnitedHealth | S&P 500 成分股 |
 | UNP | UNP | S&P 500 成分股 |
 | UPS | UPS | S&P 500 成分股 |
 | URI | URI | S&P 500 成分股 |
 | USB | USB | S&P 500 成分股 |
-| V | V | S&P 500 成分股 |
+| V | Visa | S&P 500 成分股 |
 | VICI | VICI | S&P 500 成分股 |
 | VLO | VLO | S&P 500 成分股 |
 | VLTO | VLTO | S&P 500 成分股 |
 | VMC | VMC | S&P 500 成分股 |
 | VRSK | VRSK | S&P 500 成分股 |
 | VRSN | VRSN | S&P 500 成分股 |
-| VRTX | VRTX | S&P 500 成分股 |
+| VRTX | Vertex | S&P 500 成分股 |
 | VST | VST | S&P 500 成分股 |
 | VTR | VTR | S&P 500 成分股 |
 | VTRS | VTRS | S&P 500 成分股 |
@@ -505,7 +505,7 @@
 | WFC | WFC | S&P 500 成分股 |
 | WM | WM | S&P 500 成分股 |
 | WMB | WMB | S&P 500 成分股 |
-| WMT | WMT | S&P 500 成分股 |
+| WMT | Walmart | S&P 500 成分股 |
 | WRB | WRB | S&P 500 成分股 |
 | WSM | WSM | S&P 500 成分股 |
 | WST | WST | S&P 500 成分股 |
@@ -513,7 +513,7 @@
 | WY | WY | S&P 500 成分股 |
 | WYNN | WYNN | S&P 500 成分股 |
 | XEL | XEL | S&P 500 成分股 |
-| XOM | XOM | S&P 500 成分股 |
+| XOM | Exxon Mobil | S&P 500 成分股 |
 | XYL | XYL | S&P 500 成分股 |
 | XYZ | XYZ | S&P 500 成分股 |
 | YUM | YUM | S&P 500 成分股 |
@@ -536,9 +536,9 @@
 | MSTR | MSTR | Nasdaq 100 成分股 |
 | PDD | PDD | Nasdaq 100 成分股 |
 | SHOP | SHOP | Nasdaq 100 成分股 |
-| TEAM | TEAM | Nasdaq 100 成分股 |
+| TEAM | Atlassian | Nasdaq 100 成分股 |
 | TRI | TRI | Nasdaq 100 成分股 |
-| ZS | ZS | Nasdaq 100 成分股 |
+| ZS | Zscaler | Nasdaq 100 成分股 |
 
 ## 港股：恒生科技指数成分股（本地数据，共 159 只）
 
