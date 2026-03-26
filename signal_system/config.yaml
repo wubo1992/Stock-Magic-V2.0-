@@ -14,10 +14,9 @@ auto_universe:
   source: alpaca
   initial_lookback_days: 365   # 首次运行时，回抓多少天的新闻
   max_age_days: 365             # 超过此天数未被提及，自动移出股票池
-  # 暂时关闭指数成分股（S&P 500 + Nasdaq 100 已静态写入 UNIVERSE.md，不再动态抓取）
-  # include_indices:
-  #   - sp500
-  #   - nasdaq100
+  include_indices:
+    - sp500
+    - nasdaq100
 
 # 合并规则：最终股票池 = UNIVERSE.md ∪ 指数成分股 ∪ Alpaca 自动池（自动去重）
 
@@ -114,7 +113,7 @@ strategies:
     vcp_min_contractions: 2
     vcp_final_range_pct: 0.20    # 宽松（O'Neil 杯底可达 33%，用 20% 近似）
 
-    stop_loss_pct: 0.07          # O'Neil 经典 7% 止损
+    stop_loss_pct: 0.08          # O'Neil 经典 7% 止损
     trailing_stop_pct: 0.20
     time_stop_days: 20
     time_stop_min_gain: 0.03
@@ -213,7 +212,7 @@ strategies:
     min_breakout_pct: 0.005
     volume_mult: 3.0             # 放量至少 3 倍
 
-    stop_loss_pct: 0.06
+    stop_loss_pct: 0.08
     trailing_stop_pct: 0.15
     time_stop_days: 10           # Zanger 更短的时间止损（不持有不动的股票）
     time_stop_min_gain: 0.02
@@ -265,15 +264,18 @@ strategies:
 
   v_weinstein_adx:
     name: Weinstein Stage 2 + ADX 增强
-    description: "Weinstein Stage 2 + 50日最高价突破 + ADX(14)>25 趋势确认"
+    description: "Weinstein Stage 2 + ADX(14)>35 + RSI<80 趋势确认"
 
     sma_long: 150
     trend_lookback: 30
     pivot_lookback: 30
     min_breakout_pct: 0.005
     volume_mult: 1.5
+    rsi_max: 80
+    adx_threshold: 30
+    market_filter: false
 
-    stop_loss_pct: 0.10
+    stop_loss_pct: 0.08
     trailing_stop_pct: 0.20
     time_stop_days: 30
     time_stop_min_gain: 0.05
@@ -313,7 +315,7 @@ strategies:
   # ── Weinstein Stage 2 + EPS 基本面策略 ──────────────────────────
   # 以 Weinstein Stage 2 为技术框架，通过后再加 EPS 增长筛选
   v_eps_v2:
-    name: Weinstein+EPS 基本面策略
+    name: "Weinstein + EPS"
     description: "Weinstein Stage 2 技术框架 + EPS 增长筛选（3季度同比+环比增长）"
 
     # Weinstein Stage 2 技术参数
@@ -367,7 +369,7 @@ strategies:
     eps_qoq_required: true       # 环比是否必须增长
 
   # ── ADX50 动量突破策略 ─────────────────────────────────────
-  # 50日最高价突破 + ADX(14)>25 趋势确认
+  # 50日最高价突破 + ADX(14)>25 趋势确认 + RS 相对强度过滤
   v_adx50:
     name: ADX50 动量突破策略
     high_lookback: 50
@@ -375,6 +377,7 @@ strategies:
     adx_threshold: 25
     stop_loss_pct: 0.10
     take_profit_pct: 0.20
+    rs_min_percentile: 70
 
 # ------------------------------------------------------------
 # 输出设置
