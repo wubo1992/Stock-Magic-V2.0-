@@ -354,6 +354,12 @@ class BacktestEngine:
         if not market_data:
             raise RuntimeError("无法获取任何股票数据，回测中止。")
 
+        # 确保 SPY 在 market_data 中（用于市场整体趋势过滤）
+        if "SPY" not in market_data:
+            spy_data = fetch(["SPY"], history_days=total_days)
+            if spy_data and "SPY" in spy_data:
+                market_data["SPY"] = spy_data["SPY"]
+
         # 确定测试区间内的所有交易日
         ref_df = next(iter(market_data.values()))
         ref_index = ref_df.index

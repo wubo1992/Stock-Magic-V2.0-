@@ -222,8 +222,8 @@ def _check_eps_growth(
     """检查 EPS 增长是否满足条件"""
     eps_history = data.get('eps_history', [])
 
-    # 需要足够的季度数据：qoq需要quarters_required，yoy需要5个季度
-    min_required = max(quarters_required, 5) if yoy_required else quarters_required
+    # 需要足够的季度数据：qoq需要quarters_required，yoy需要7个季度（3组同比比较）
+    min_required = max(quarters_required, 7) if yoy_required else quarters_required
 
     if len(eps_history) < min_required:
         return {
@@ -240,17 +240,18 @@ def _check_eps_growth(
     recent = eps_history[:quarters_required]
     eps_values = [e[1] for e in recent]
 
-    # 检查同比增长（当前季度 vs 去年同期）
-    # 例如：2025-Q4 vs 2024-Q4，需要比较 index 0 vs index 4
-    # 注意：需要用完整的历史数据来比较
-    full_eps = [e[1] for e in eps_history[:5]]
+    # 检查同比增长（连续3个季度同比提升）
+    # eps_history[0] = 最新季度，需要比较：
+    #   [0] vs [4]  → 最近季度 vs 去年同期
+    #   [1] vs [5]  → 上季度   vs 上年度同期
+    #   [2] vs [6]  → 上上季度 vs 上上年度同期
+    full_eps = [e[1] for e in eps_history[:7]]
     yoy_growth = True
-    if yoy_required and len(full_eps) >= 5:
-        # 比较最新季度 vs 4个季度前
-        current = full_eps[0]
-        year_ago = full_eps[4]
-        if current <= year_ago:
-            yoy_growth = False
+    if yoy_required and len(full_eps) >= 7:
+        for i in range(3):
+            if full_eps[i] <= full_eps[i + 4]:
+                yoy_growth = False
+                break
 
     # 检查环比增长（连续增长）
     qoq_growth = True

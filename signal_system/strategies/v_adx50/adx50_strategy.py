@@ -1,7 +1,7 @@
 """
 strategies/v_adx50/adx50_strategy.py — ADX50 动量突破策略
 
-买入条件：收盘价 > 50日最高价 且 ADX(14) > 25
+买入条件：收盘价 > 50日最高价 且 ADX(14) > 25 且 RS 排名 >= 70%
 止损：亏损 -10%
 止盈：盈利 +20%
 """
@@ -9,6 +9,7 @@ strategies/v_adx50/adx50_strategy.py — ADX50 动量突破策略
 from dataclasses import dataclass
 from datetime import datetime
 
+import numpy as np
 import pandas as pd
 
 from events import EventQueue, SignalEvent
@@ -39,12 +40,17 @@ class ADX50Strategy(StrategyBase):
         super().__init__(strategy_config, market_data)
         self.live_mode = live_mode
         self.positions: dict[str, Position] = {}
+        # RS 计算缓存：{date_key: np.array(all_returns)}
+        self._rs_cache: dict[str, np.ndarray | None] = {}
+        # ADX 缓存：{date_key: {symbol: adx_value}}
+        self._adx_cache: dict[str, dict[str, float | None]] = {}
 
         self.high_lookback = self.cfg.get("high_lookback", 50)
         self.adx_period = self.cfg.get("adx_period", 14)
         self.adx_threshold = self.cfg.get("adx_threshold", 25)
         self.stop_loss_pct = self.cfg.get("stop_loss_pct", 0.10)
         self.take_profit_pct = self.cfg.get("take_profit_pct", 0.20)
+        self.rs_min_percentile = self.cfg.get("rs_min_percentile", 70)
 
     def run_date(self, date: datetime, queue: EventQueue) -> list[SignalEvent]:
         signals = []
@@ -54,7 +60,18 @@ class ADX50Strategy(StrategyBase):
             queue.put(sig)
             signals.append(sig)
 
-        # 2. 入场扫描
+        # 2. 每天批量计算所有股票的 ADX，缓存起来供入仓扫描使用
+        date_key = date.date()
+        if date_key not in self._adx_cache:
+            self._adx_cache[date_key] = {}
+            for symbol, df in self.market_data.items():
+                df_sliced = self._slice_to_date(df, date)
+                if len(df_sliced) < self.high_lookback + self.adx_period + 10:
+                    self._adx_cache[date_key][symbol] = None
+                else:
+                    self._adx_cache[date_key][symbol] = self._compute_adx(df_sliced, self.adx_period)
+
+        # 3. 入场扫描
         for symbol, df in self.market_data.items():
             df_to_date = self._slice_to_date(df, date)
             min_rows = self.high_lookback + self.adx_period + 10
@@ -108,8 +125,9 @@ class ADX50Strategy(StrategyBase):
         close_series = df["close"]
         high_series = df["high"]
 
-        # 计算 ADX(14) — 纯 pandas 实现
-        adx_value = self._compute_adx(df, self.adx_period)
+        # 从缓存中取个股 ADX（每天按股票批量算好一次）
+        date_key = date.date()
+        adx_value = self._adx_cache.get(date_key, {}).get(symbol)
         if adx_value is None:
             return None
         if adx_value <= self.adx_threshold:
@@ -124,6 +142,11 @@ class ADX50Strategy(StrategyBase):
         if current_close <= high_50:
             return None
 
+        # RS 过滤：相对强度排名
+        rs_ok, rs_value = self._check_rs(symbol, df, date)
+        if not rs_ok:
+            return None
+
         # 计算突破幅度
         breakout_pct = (current_close - high_50) / high_50
 
@@ -132,7 +155,8 @@ class ADX50Strategy(StrategyBase):
         reason = (
             f"[ADX50] 收盘价${current_close:.2f}突破{self.high_lookback}日高点${high_50:.2f}，"
             f"幅度+{breakout_pct*100:.1f}% | "
-            f"[ADX{self.adx_period}]={adx_value:.1f}>{self.adx_threshold}"
+            f"[ADX{self.adx_period}]={adx_value:.1f}>{self.adx_threshold} | "
+            f"[RS] 排名{rs_value:.0f}%"
         )
         signal = SignalEvent.create(
             symbol=symbol,
@@ -156,14 +180,44 @@ class ADX50Strategy(StrategyBase):
         mask = df.index <= date
         return df[mask]
 
+    def _check_rs(self, symbol: str, df: pd.DataFrame, date: datetime):
+        """
+        相对强度过滤：计算该股票过去一年的收益在全体股票中的排名百分位。
+        每天只计算一次所有股票的收益（缓存），之后直接查表。
+        返回 (是否通过, 百分位排名)
+        """
+        lookback = min(252, len(df))
+        if lookback < 20:
+            return False, 0.0
+        # 取出该股今日收益率
+        this_return = float(df["close"].iloc[-1] / df["close"].iloc[-lookback] - 1)
+        # 用 date.date() 做缓存 key，同一天不重复计算
+        date_key = date.date()
+        if date_key not in self._rs_cache:
+            # 每天首次调用：一次性向量化计算所有股票的收益率
+            all_returns = []
+            for sym, other_df in self.market_data.items():
+                sliced = self._slice_to_date(other_df, date)
+                if len(sliced) < lookback:
+                    continue
+                ret = float(sliced["close"].iloc[-1] / sliced["close"].iloc[-lookback] - 1)
+                all_returns.append(ret)
+            if len(all_returns) < 2:
+                self._rs_cache[date_key] = None
+            else:
+                self._rs_cache[date_key] = np.array(all_returns)
+        cached = self._rs_cache.get(date_key)
+        if cached is None or len(cached) < 2:
+            return True, 50.0
+        rs_percentile = float(np.mean(cached <= this_return) * 100)
+        return rs_percentile >= self.rs_min_percentile, rs_percentile
+
     def _compute_adx(self, df: pd.DataFrame, period: int = 14) -> float | None:
         """
         纯 pandas 计算 ADX(period)。
 
         返回当前最新的 ADX 值，若数据不足或全为 NaN 则返回 None。
-        使用 Wilder's smoothing 原版递推：
-          smoothed[period-1] = SMA(period)
-          smoothed[n] = smoothed[n-1] + (new_value - smoothed[n-1]) / period
+        使用 EWM 近似 Wilder smoothing（alpha = 1/period，业界标准近似）。
         """
         high = df["high"]
         low = df["low"]
@@ -181,23 +235,11 @@ class ADX50Strategy(StrategyBase):
         plus_dm = up_move.where((up_move > down_move) & (up_move > 0), 0.0)
         minus_dm = down_move.where((down_move > up_move) & (down_move > 0), 0.0)
 
-        # Wilder's smoothing — 严格递推实现
-        def wilder_smooth(series: pd.Series, period: int) -> pd.Series:
-            result = pd.Series(index=series.index, dtype=float)
-            # 前 period-1 个为 NaN（数据不足）
-            result.iloc[:period - 1] = float("nan")
-            # 第 period 个取简单均值作为起点
-            result.iloc[period - 1] = series.iloc[:period].mean()
-            # 之后每步递推
-            for i in range(period, len(series)):
-                result.iloc[i] = (
-                    result.iloc[i - 1] + (series.iloc[i] - result.iloc[i - 1]) / period
-                )
-            return result
-
-        tr_smooth = wilder_smooth(tr, period)
-        plus_dm_smooth = wilder_smooth(plus_dm, period)
-        minus_dm_smooth = wilder_smooth(minus_dm, period)
+        # Wilder's smoothing via EWM（业界标准近似）
+        alpha = 1.0 / period
+        tr_smooth = tr.ewm(alpha=alpha, adjust=False).mean()
+        plus_dm_smooth = plus_dm.ewm(alpha=alpha, adjust=False).mean()
+        minus_dm_smooth = minus_dm.ewm(alpha=alpha, adjust=False).mean()
 
         # Directional Indicators
         plus_di = (plus_dm_smooth / tr_smooth).where(tr_smooth > 0, 0.0) * 100
@@ -208,7 +250,7 @@ class ADX50Strategy(StrategyBase):
         dx = (abs(plus_di - minus_di) / di_sum).where(di_sum > 0, 0.0) * 100
 
         # ADX = Wilder smoothed DX
-        adx_series = wilder_smooth(dx, period)
+        adx_series = dx.ewm(alpha=alpha, adjust=False).mean()
         adx_value = adx_series.iloc[-1]
 
         if pd.isna(adx_value):

@@ -20,7 +20,7 @@ class EPSV2Strategy(WeinsteinStrategy):
     """Weinstein Stage 2 + EPS 基本面策略"""
 
     strategy_id = "v_eps_v2"
-    strategy_name = "Weinstein+EPS 基本面策略"
+    strategy_name = "Weinstein + EPS"
 
     def _check_entry(self, symbol, df, date):
         # 1. 执行 Weinstein Stage 2 技术分析

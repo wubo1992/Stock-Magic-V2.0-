@@ -1,9 +1,8 @@
 """
 strategies/v_weinstein_adx/weinstein_adx_strategy.py — Weinstein Stage 2 + ADX 增强版
 
-在 Weinstein Stage 2 策略基础上，增加两个买入条件：
-  1. 收盘价 > 50日最高价（确认价格处于上升趋势）
-  2. ADX(14) > 25（确认趋势强度足够）
+在 Weinstein Stage 2 策略基础上，增加一个买入条件：
+  1. ADX(14) > 25（确认趋势强度足够）
 
 继承 WeinsteinStrategy，复用出场逻辑和持仓追踪。
 
@@ -23,7 +22,7 @@ class WeinsteinADXStrategy(WeinsteinStrategy):
 
     def _check_entry(self, symbol, df, date):
         # 数据不足时跳过（继承父类需求 + ADX 需要额外数据）
-        need = max(self.sma_long + self.trend_lookback, 50 + 14)
+        need = max(self.sma_long + self.trend_lookback, 20 + 14)
         if len(df) < need:
             return None
 
@@ -57,26 +56,58 @@ class WeinsteinADXStrategy(WeinsteinStrategy):
         if vol_ratio < self.volume_mult:
             return None
 
-        # ── 2. 新增条件：收盘价 > 50日最高价 ─────────────────────────
-        high_50 = float(close_series.iloc[-50:].max())
-        if current <= high_50:
+        # ── 2. 新增条件：收盘价 > 20 EMA（短期趋势确认）────────────────
+        ema_20 = close_series.ewm(span=20, adjust=False).mean().iloc[-1]
+        if current <= ema_20:
             return None
 
-        # ── 3. 新增条件：ADX(14) > 25 ───────────────────────────────
-        adx_value = self._calc_adx(df, period=14)
-        if adx_value <= 25:
+        # ── 3. 新增条件：RSI(14) <= rsi_max（避免过度超买）────────────
+        rsi_max = self.cfg.get("rsi_max", 80)
+        delta = df["close"].diff()
+        gain = delta.where(delta > 0, 0.0).ewm(alpha=1/14, adjust=False).mean()
+        loss = (-delta.where(delta < 0, 0.0)).ewm(alpha=1/14, adjust=False).mean()
+        rs = gain / loss
+        rsi_14 = 100 - (100 / (1 + rs))
+        rsi_14 = float(rsi_14.iloc[-1])
+        if rsi_14 > rsi_max:
             return None
+
+        # ── 4. 新增条件：ADX(14) > adx_threshold（趋势强度确认）────────
+        adx_threshold = self.cfg.get("adx_threshold", 30)
+        adx_value = self._calc_adx(df, period=14)
+        if adx_value <= adx_threshold:
+            return None
+
+        # ── 5. 市场整体趋势过滤：SPY 在 SMA200 上方才入场 ─────────────
+        market_filter_enabled = self.cfg.get("market_filter", False)
+        spy_sma_val = None
+        if market_filter_enabled:
+            spy_df = self.market_data.get("SPY")
+            if spy_df is not None and len(spy_df) >= 200:
+                spy_close = spy_df["close"]
+                spy_sma200 = spy_close.rolling(200).mean()
+                spy_ts = spy_df.index.searchsorted(date)
+                spy_ts = min(spy_ts, len(spy_df) - 1)
+                if spy_ts >= 199:
+                    spy_current = float(spy_close.iloc[spy_ts])
+                    spy_sma_val = float(spy_sma200.iloc[spy_ts])
+                    if spy_current <= spy_sma_val:
+                        return None
 
         # ── 信号生成 ─────────────────────────────────────────────────
         breakout_pct = (current - pivot) / pivot
         strength = 4  # ADX 确认，趋势强度更高，提升到 4 星
         stop_loss = round(current * (1 - self.stop_loss_pct), 2)
+        spy_info = ""
+        if market_filter_enabled and spy_sma_val is not None:
+            spy_info = f"[SPY市场过滤] SPY>{spy_sma_val:.0f}均线 | "
         reason = (
             f"[Stage2] SMA{self.sma_long}({sma_now:.0f})上升{self.trend_lookback}天 | "
             f"[突破] 超{self.pivot_lookback}日整理区高点${pivot:.2f}，幅度+{breakout_pct*100:.1f}% | "
-            f"[50日高点] 收于50日最高${high_50:.2f} | "
-            f"[ADX] {adx_value:.1f}>25，趋势确认 | "
-            f"[量能] {vol_ratio:.1f}x均量"
+            f"[20EMA] 收于20EMA${ema_20:.2f}上方 | "
+            f"[RSI] {rsi_14:.1f}<{rsi_max}，无超买 | "
+            f"[ADX] {adx_value:.1f}>{adx_threshold}，趋势确认 | "
+            f"{spy_info}[量能] {vol_ratio:.1f}x均量"
         )
         signal = SignalEvent.create(
             symbol=symbol, timestamp=date, direction="buy",

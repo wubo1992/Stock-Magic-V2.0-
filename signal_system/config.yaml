@@ -59,7 +59,7 @@ strategies:
 
     # 出场条件
     stop_loss_pct: 0.10      # 固定止损：跌破入场价10%就出场
-    trailing_stop_pct: 0.20  # 追踪止盈：从持仓最高点回落20%就出场
+    trailing_stop_pct: 0.18  # 追踪止盈：从持仓最高点回落20%就出场
     time_stop_days: 20       # 时间止损：持仓超过这么多天
     time_stop_min_gain: 0.03 # 时间止损：若盈利不足3%，则出场（避免资金被套住）
 
@@ -87,7 +87,7 @@ strategies:
     vcp_final_range_pct: 0.12  # 测试D：放宽到12%（已采用）；基准：0.08
 
     stop_loss_pct: 0.10
-    trailing_stop_pct: 0.20
+    trailing_stop_pct: 0.18
     time_stop_days: 20
     time_stop_min_gain: 0.03
 
@@ -114,7 +114,7 @@ strategies:
     vcp_final_range_pct: 0.20    # 宽松（O'Neil 杯底可达 33%，用 20% 近似）
 
     stop_loss_pct: 0.08          # O'Neil 经典 7% 止损
-    trailing_stop_pct: 0.20
+    trailing_stop_pct: 0.18
     time_stop_days: 20
     time_stop_min_gain: 0.03
 
@@ -168,7 +168,7 @@ strategies:
     vcp_final_range_pct: 0.10
 
     stop_loss_pct: 0.08
-    trailing_stop_pct: 0.20
+    trailing_stop_pct: 0.18
     time_stop_days: 20
     time_stop_min_gain: 0.03
 
@@ -241,7 +241,7 @@ strategies:
     vcp_final_range_pct: 0.05    # 极紧
 
     stop_loss_pct: 0.08
-    trailing_stop_pct: 0.20
+    trailing_stop_pct: 0.18
     time_stop_days: 20
     time_stop_min_gain: 0.03
 
@@ -258,7 +258,7 @@ strategies:
     volume_mult: 1.5
 
     stop_loss_pct: 0.10
-    trailing_stop_pct: 0.20
+    trailing_stop_pct: 0.18
     time_stop_days: 30           # 中长期策略，给更多时间
     time_stop_min_gain: 0.05     # 持有 30 天仍不到 5% 才离场
 
@@ -271,12 +271,12 @@ strategies:
     pivot_lookback: 30
     min_breakout_pct: 0.005
     volume_mult: 1.5
-    rsi_max: 80
-    adx_threshold: 30
+    rsi_max: 85
+    adx_threshold: 35
     market_filter: false
 
     stop_loss_pct: 0.08
-    trailing_stop_pct: 0.20
+    trailing_stop_pct: 0.18
     time_stop_days: 30
     time_stop_min_gain: 0.05
 
@@ -303,7 +303,7 @@ strategies:
     vcp_final_range_pct: 0.12
 
     stop_loss_pct: 0.10
-    trailing_stop_pct: 0.20
+    trailing_stop_pct: 0.18
     time_stop_days: 20
     time_stop_min_gain: 0.03
 
@@ -326,7 +326,7 @@ strategies:
     volume_mult: 1.5
 
     stop_loss_pct: 0.10
-    trailing_stop_pct: 0.20
+    trailing_stop_pct: 0.18
     time_stop_days: 30           # 中长期策略，给更多时间
     time_stop_min_gain: 0.05
 
@@ -359,7 +359,7 @@ strategies:
     vcp_final_range_pct: 0.12   # v1_plus 的宽松 VCP
 
     stop_loss_pct: 0.10
-    trailing_stop_pct: 0.20
+    trailing_stop_pct: 0.18
     time_stop_days: 20
     time_stop_min_gain: 0.03
 
