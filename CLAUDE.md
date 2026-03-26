@@ -130,7 +130,7 @@ Step 5: 信号输出模块（打印 + 保存 CSV）
 signal_system/
 ├── main.py                        ← 运行入口（--mode / --strategy 参数）
 ├── config.yaml                    ← 所有可调参数（active_strategy: v1_plus）
-├── UNIVERSE.md                    ← 股票池主清单（~625 只，含 S&P 500 + Nasdaq 100，唯一来源）
+├── UNIVERSE.md                    ← 股票池主清单（775 只，美股/港股/台股，唯一来源）
 ├── run_daily.sh                   ← 每日自动扫描脚本（含 macOS 通知）
 ├── USAGE.md                       ← 用户使用手册（命令、目录结构、参数说明）
 ├── HOW_TO_ADD_STRATEGY.md         ← 新策略接入手册（供 Claude Code 读）
@@ -263,14 +263,15 @@ output:
 | Phase 4 | 多策略架构升级（strategies/ 重构） | ✅ 完成 |
 | Phase 5 | SA Quant 扫描器接入（--mode scan） | ✅ 完成 |
 | Phase 6 | 卖出信号持仓追踪（positions.json） | ✅ 完成 |
-| Phase 7 | V1+ 参数优化 + 股票池扩充（~325只）| ✅ 完成 |
+| Phase 7 | V1+ 参数优化 + 股票池扩充 | ✅ 完成 |
 | Phase 8 | 数据持久化增量更新架构（缓存 staleness 修复 + 三层加载策略）| ✅ 完成 |
-| Phase 9 | 指数成分股扩池（S&P 500 + Nasdaq 100，Wikipedia 自动拉取）| ✅ 完成 |
+| Phase 9 | 指数成分股扩池（S&P 500 + Nasdaq 100，静态写入 UNIVERSE.md）| ✅ 完成 |
 | Phase 10 | 7 大师策略变种实施 + 样本外回测对比 | ✅ 完成 |
 | Phase 11 | 多策略共享持仓（positions.json 统一，动态计算止损）| ✅ 完成 |
 | Phase 12 | 分批止盈功能（Partial Take Profit，参数化配置）| ✅ 完成 |
+| Phase 13 | UNIVERSE.md 三分法重构（美股/港股/台股），update_universe_sp500.py 防覆盖保护 | ✅ 完成 |
 
 ---
 
 *项目启动日期：2026-03-03*
-*最后更新：2026-03-20（Phase 9 启用 — S&P 500 + Nasdaq 100 全量接入，股票池扩至 1431 只）*
+*最后更新：2026-03-26（Phase 13 — UNIVERSE.md 三分法重构：美股517 + 港股206 + 台股52 = 775只，update_universe_sp500.py 防覆盖保护）*
