@@ -2,417 +2,29 @@
 
 > **这是手动股票池的唯一来源。**
 > 程序直接读取此文件，修改后下次运行自动生效，无需同步 `config.yaml`。
->
+
 > - **用户**：直接在对应板块表格里增删行即可
 > - **AI**：直接修改此文件（增删行），不需要改任何其他文件
 > - 删除的股票请移到末尾「待移出记录」节（保留历史，但不计入股票池）
->
-> **自动池**（Alpaca 新闻每日抓取，约 150-200 只）不在此文件，自动管理，查看命令：
-> ```bash
-> uv run python -c "import json; d=json.load(open('data/universe_cache.json')); print(f'自动池：{len(d)} 只'); print(' '.join(sorted(d.keys())))"
-> ```
 
 ---
 
-## 当前手动池总数：517 只（含 S&P 500 503 只 + Nasdaq 100 101 只，去重后 517 只）
+## 当前手动池总数：775 只（含美股517 + 港股206 + 台股52）
 
 ---
-
-## 板块一：科技巨头（Mag 7）
-
-| AAPL | Apple | 消费电子 + 服务生态 |
-| MSFT | Microsoft | 云计算(Azure) + AI(Copilot) |
-| NVDA | NVIDIA | AI芯片霸主，数据中心GPU |
-| GOOGL | Alphabet | 搜索广告 + 云(GCP) + AI |
-| TSLA | Tesla | 电动车 + 储能 + FSD |
-| AMZN | Amazon | 电商 + 云计算(AWS) |
-| META | Meta | 社交媒体 + 广告 + AI |
-
----
-
-## 板块二：成长股（其他）
-
-| AMD | Advanced Micro Devices | CPU/GPU，NVIDIA主要竞争者 |
-| TSM | Taiwan Semiconductor | 全球最大晶圆代工，苹果/英伟达供应商 |
-| PLTR | Palantir | 大数据/AI分析，政府+企业客户 |
-| FN | Fabrinet | 光学器件精密制造，光模块供应链 |
-| DY | Dycom Industries | 电信基础设施施工，5G建设受益 |
-| MU | Micron Technology | DRAM/NAND内存，AI服务器需求拉动 |
-| CRDO | Credo Technology | 高速互连芯片，数据中心AI网络 |
-| APP | AppLovin | 移动广告技术平台，高成长 |
-| TMUS | T-Mobile US | 美国最大5G运营商 |
-| UBER | Uber | 网约车+外卖，盈利拐点 |
-| RCL | Royal Caribbean | 邮轮龙头，消费复苏受益 |
-| CCL | Carnival | 邮轮，周期性消费复苏标的 |
-| OKTA | Okta | 身份认证云服务，零信任安全 |
-| TWLO | Twilio | 云通信平台(API) |
-| EAT | Brinker International | 餐饮连锁(Chili's)，成本管控改善 |
-| CLS | Celestica | 电子制造服务，AI服务器组装 |
-| AGX | Argan | 电力基础设施工程 |
-| POWL | Powell Industries | 电气设备，数据中心/电网受益 |
-| STRL | Sterling Infrastructure | 基础设施建设 |
-| WLDN | Willdan Group | 能源效率工程服务 |
-| ALL | Allstate | 财险龙头，保费涨价周期 |
-| SYF | Synchrony Financial | 消费信贷，零售联名信用卡 |
-| SKYW | SkyWest | 支线航空，区域航空复苏 |
-| BLBD | Blue Bird | 电动校车，政府补贴受益 |
-| CAAP | Corporacion America Airports | 新兴市场机场运营 |
-| NEM | Newmont | 全球最大金矿公司 |
-| CDE | Coeur Mining | 银金矿，贵金属小盘 |
-| KGC | Kinross Gold | 加拿大中型金矿 |
-| SSRM | SSR Mining | 加拿大多矿种矿业 |
-| B | Barnes Group | 工业零部件，航空+工业 |
-| TIGO | Millicom International | 拉美新兴市场电信 |
-| W | Wayfair | 线上家居电商，周期性复苏标的 |
-| PARR | Par Pacific | 炼油+便利店，特殊情况价值 |
-| INCY | Incyte | 生物制药，JAK抑制剂(血液病) |
-| TTMI | TTM Technologies | PCB制造，国防+数据中心 |
-| VISN | VisionWave Technologies | 新兴科技小盘 |
-| UNFI | United Natural Foods | 天然/有机食品分销 |
-| MFC | Manulife Financial | 加拿大人寿保险巨头 |
-| EZPW | EZCorp | 典当行+消费金融，特殊情况 |
-| ARQT | Arcutis Biotherapeutics | 皮肤病生物制药 |
-| CVSA | Companhia de Saneamento | 巴西水务公用事业 |
-| PPC | Pilgrim's Pride | 美国最大鸡肉加工商 |
-
----
-
-## 板块三：半导体（费城半导体指数 SOX）
-
-| AVGO | Broadcom | 网络芯片 + 软件，AI定制芯片(XPU) |
-| ASML | ASML Holding | EUV光刻机垄断，半导体设备 |
-| QCOM | Qualcomm | 手机基带芯片，汽车/IoT延伸 |
-| INTC | Intel | PC/服务器CPU，转型阶段 |
-| TXN | Texas Instruments | 模拟芯片，工业/汽车应用 |
-| AMAT | Applied Materials | 半导体薄膜设备龙头 |
-| ADI | Analog Devices | 高精度模拟芯片 |
-| KLAC | KLA Corporation | 半导体检测设备 |
-| LRCX | Lam Research | 刻蚀设备，存储芯片关键供应商 |
-| ARM | ARM Holdings | CPU架构授权，AI芯片设计基础 |
-| MRVL | Marvell Technology | 数据中心网络+存储芯片，AI受益 |
-| NXPI | NXP Semiconductors | 汽车芯片龙头 |
-| MCHP | Microchip Technology | 微控制器(MCU)，工业/汽车 |
-| ON | onsemi | 电源芯片，电动车+新能源 |
-| SWKS | Skyworks Solutions | 射频芯片，手机信号 |
-| MPWR | Monolithic Power Systems | 高效电源管理芯片，AI服务器 |
-| WDC | Western Digital | 硬盘+闪存，存储周期回升 |
-| STM | STMicroelectronics | 欧洲半导体，汽车+工业 |
-| TER | Teradyne | 半导体测试设备 |
-| ENTG | Entegris | 半导体材料/化学品，先进制程 |
-| RMBS | Rambus | 内存接口芯片，数据中心 |
-| LSCC | Lattice Semiconductor | 低功耗FPGA，边缘AI |
-| QRVO | Qorvo | 射频芯片，5G基站 |
-| WOLF | Wolfspeed | 碳化硅(SiC)芯片，电动车功率器件 |
-| COHR | Coherent | 光学+激光+化合物半导体 |
-
----
-
-## 板块四：光模块
-
-| LITE | Lumentum | 光收发器+激光，数据中心AI互连 |
-| AAOI | Applied Optoelectronics | 高速光模块，AI数据中心 |
-| MTSI | MACOM Technology Solutions | 光模块驱动芯片，高速互连 |
-| AXTI | AXT Inc | 砷化镓/磷化铟基板，光电子器件材料 |
-| GLW | Corning | 光纤光缆+特种玻璃，AI数据中心互连 |
-
----
-
-## 板块五：清洁能源 / 核能
-
-| CEG | Constellation Energy | 全美最大核能运营商，AI数据中心供电 |
-| VST | Vistra Energy | 核能+天然气发电，德克萨斯电力 |
-| TLN | Talen Energy | 核电站，AI数据中心直签协议 |
-| GEV | GE Vernova | GE能源业务分拆，电网+风电 |
-| BE | Bloom Energy | 固体氧化物燃料电池，清洁发电 |
-| NEE | NextEra Energy | 全球最大可再生能源公司 |
-| PWR | Quanta Services | 电力线路工程，电网升级受益 |
-| CCJ | Cameco | 全球最大铀矿公司，核能燃料 |
-| OKLO | Oklo | 小型模块化反应堆(SMR)，OpenAI支持 |
-| NNE | Nano Nuclear Energy | 微型核反应堆，概念成长 |
-
----
-
-## 板块六：传统能源（石油/天然气）
-
-| XOM | ExxonMobil | 美国最大石油公司 |
-| CVX | Chevron | 美国第二大石油公司 |
-| COP | ConocoPhillips | 美国最大独立油气勘探公司 |
-| EOG | EOG Resources | 页岩油龙头，低成本高效率 |
-| OXY | Occidental Petroleum | 石油+化工，巴菲特持仓 |
-| FANG | Diamondback Energy | 二叠纪盆地页岩油，低成本 |
-| MPC | Marathon Petroleum | 美国最大炼油商 |
-| VLO | Valero Energy | 大型炼油+可再生燃料 |
-| PSX | Phillips 66 | 炼油+化工+中游管道 |
-| SLB | SLB (Schlumberger) | 全球最大油服公司 |
-| TRMD | Teekay Tankers | 原油/成品油海运，航运周期 |
-
----
-
-## 板块七：黄金 / 贵金属（流媒体/Royalty 模式）
-
-> NEM、KGC、SSRM、CDE 这四只传统金矿股已归在"成长股"板块，此处仅列 Streaming/Royalty 模式的低风险矿业公司。
-
-| AEM | Agnico Eagle Mines | 大型高质量金矿，低成本生产 |
-| WPM | Wheaton Precious Metals | 贵金属流媒体(Streaming)模式，低风险 |
-| RGLD | Royal Gold | 黄金Royalty/流媒体，稳定现金流 |
-| AGI | Alamos Gold | 中型成长矿，多国矿山 |
-
----
-
-## 板块八：医疗健康
-
-| LLY | Eli Lilly | 减肥药(GLP-1)龙头，Mounjaro/Zepbound |
-| UNH | UnitedHealth Group | 美国最大医疗保险公司 |
-| ABBV | AbbVie | 生物制药，Humira专利到期后转型 |
-| MRK | Merck | 制药巨头，Keytruda(癌症免疫) |
-| ISRG | Intuitive Surgical | 达芬奇手术机器人垄断 |
-| TMO | Thermo Fisher Scientific | 生命科学仪器+试剂，行业基础设施 |
-| ABT | Abbott Laboratories | 医疗器械+诊断+营养品 |
-| DHR | Danaher | 生命科学+水处理，精密工业 |
-| BMY | Bristol-Myers Squibb | 大型肿瘤/血液病制药 |
-| CVS | CVS Health | 药店+保险+诊所，垂直整合 |
-| HCA | HCA Healthcare | 美国最大私立医院连锁 |
-| VRTX | Vertex Pharmaceuticals | 囊性纤维化用药垄断，高利润率 |
-
----
-
-## 板块九：防御性消费 / 零售
-
-| COST | Costco | 会员制仓储零售，强护城河 |
-| WMT | Walmart | 大众消费零售+电商，防御性强 |
-| PG | Procter & Gamble | 日用消费品，品牌矩阵（洗护/纸品） |
-| KO | Coca-Cola | 软饮料，全球分销网络，经典防御股 |
-| PEP | PepsiCo | 饮料+零食(Frito-Lay)，多元化消费 |
-| MCD | McDonald's | 全球快餐连锁，特许经营轻资产 |
-| HD | Home Depot | 家装建材零售龙头，地产周期受益 |
-| NKE | Nike | 全球运动品牌，DTC转型中 |
-| DIS | Walt Disney | 内容IP+流媒体(Disney+)+主题公园 |
-
----
-
-## 板块十：保险 / 金融科技
-
-| CB | Chubb | 全球最大财产险，巴菲特持仓 |
-| TRV | Travelers Companies | 美国大型商业财险 |
-| AFL | Aflac | 补充健康险，日本市场龙头 |
-| MCO | Moody's | 信用评级+风险数据，强定价权 |
-| SPGI | S&P Global | 评级+指数+数据，垄断性商业模式 |
-| V | Visa | 全球支付网络，轻资产高利润 |
-| MA | Mastercard | 全球支付网络，Visa竞争对手 |
-
----
-
-## 板块十一：银行 / 投行
-
-| JPM | JPMorgan Chase | 全球最大投资银行，综合金融 |
-| BAC | Bank of America | 美国第二大商业银行 |
-| GS | Goldman Sachs | 顶级投行，财富管理+交易 |
-| MS | Morgan Stanley | 投行+财富管理，机构业务 |
-| AXP | American Express | 高端信用卡，高净值客群 |
-
----
-
-## 板块十二：科技平台（非半导体）
-
-| ORCL | Oracle | 云数据库转型，AI基础设施受益 |
-| CRM | Salesforce | 企业CRM龙头，AI Agent(Agentforce) |
-| NFLX | Netflix | 流媒体盈利拐点，广告层增长 |
-
----
-
-## 板块十三：工业 / 国防
-
-| GE | GE Aerospace | 商用+军用航空发动机，高景气 |
-| CAT | Caterpillar | 建筑/矿山设备，基建周期 |
-| RTX | RTX Corporation | 国防(导弹)+航空发动机(普惠) |
-| UPS | United Parcel Service | 全球快递物流 |
-| HON | Honeywell | 工业自动化+航空电子+楼宇系统 |
-| VRT | Vertiv Holdings | 数据中心电源/散热基础设施，AI算力支撑 |
-
----
-
-## 板块十四：电信 / 基础设施
-
-| T | AT&T | 美国大型电信，高股息，去杠杆中 |
-| AMT | American Tower | 通信铁塔REIT，5G升级+全球扩张 |
-
----
-
-## 板块十五：SaaS / 云软件
-
-| ADBE | Adobe | 创意软件+数字媒体，订阅制转型完成 |
-| NOW | ServiceNow | 企业工作流自动化，政府+大企业客户 |
-| PANW | Palo Alto Networks | 网络安全平台，零信任架构 |
-| CRWD | CrowdStrike | 终端安全，云原生 EDR 龙头 |
-| DDOG | Datadog | 云监控可观测性平台，DevOps必备 |
-| NET | Cloudflare | CDN+网络安全，边缘计算平台 |
-| ZS | Zscaler | 零信任云安全，SASE架构 |
-| VEEV | Veeva Systems | 生命科学行业云软件垄断 |
-| WDAY | Workday | 企业HR+财务云软件 |
-| TEAM | Atlassian | 软件协作工具(Jira/Confluence) |
-| SNPS | Synopsys | EDA芯片设计软件，AI加速 |
-| CDNS | Cadence Design Systems | EDA工具+仿真软件 |
-| ANSS | ANSYS | 工程仿真软件，航空+汽车+半导体 |
-| PAYC | Paycom Software | 中小企业HR薪资云软件 |
-| HUBS | HubSpot | 中小企业CRM+营销自动化 |
-| DOCU | DocuSign | 电子签名SaaS，法律+金融行业 |
-| MDB | MongoDB | NoSQL数据库，云原生开发者优选 |
-| ANET | Arista Networks | 数据中心高速网络交换机，AI基础设施 |
-| TTD | The Trade Desk | 程序化广告技术平台 |
-| SHOP | Shopify | 电商建站SaaS，中小商家首选 |
-| FTNT | Fortinet | 网络安全设备+订阅，中小企业防火墙 |
-| INTU | Intuit | 财务软件(TurboTax/QuickBooks)，消费+中小企业 |
-
----
-
-## 板块十六：支付 / 金融科技补充
-
-| PYPL | PayPal | 在线支付，Venmo+Braintree，转型中 |
-| FIS | Fidelity National Information Services | 金融科技基础设施，银行+零售支付 |
-| FISV | Fiserv | 支付处理+金融科技，Clover POS |
-| XYZ | Block (Square) | 小微商家支付+现金应用(CashApp) |
-
----
-
-## 板块十七：医疗器械 / 大型制药补充
-
-| REGN | Regeneron Pharmaceuticals | 生物制药，Eylea+Dupixent双线增长 |
-| GILD | Gilead Sciences | 抗病毒药物，HIV/肝炎/肿瘤 |
-| AMGN | Amgen | 大型生物制药，减肥药进军 |
-| BIIB | Biogen | 神经系统疾病，阿尔茨海默症新药 |
-| PFE | Pfizer | 全球制药巨头，后疫情时代转型 |
-| JNJ | Johnson & Johnson | 医疗器械+制药，分拆消费品部门 |
-| SYK | Stryker | 骨科+神经外科医疗器械 |
-| BSX | Boston Scientific | 心血管+内镜医疗器械 |
-| EW | Edwards Lifesciences | 心脏瓣膜+血流动力学监测 |
-| DXCM | Dexcom | 连续血糖监测仪，糖尿病管理 |
-| IDXX | IDEXX Laboratories | 宠物诊断+检测，兽医行业必需 |
-| ZBH | Zimmer Biomet | 关节置换植入物，骨科器械 |
-| RMD | ResMed | 睡眠呼吸暂停设备+软件，CPAP龙头 |
-| STE | STERIS | 医疗器械消毒+手术室服务 |
-| IQV | IQVIA Holdings | 医药数据分析+临床研究服务 |
-
----
-
-## 板块十八：工业 / 国防补充
-
-| LMT | Lockheed Martin | 全球最大国防承包商，F-35战机 |
-| NOC | Northrop Grumman | 国防航空航天，B-21隐形轰炸机 |
-| TDG | TransDigm Group | 航空零部件垄断，军民两用 |
-| AXON | Axon Enterprise | 执法科技(泰瑟枪+执法摄像+云平台) |
-| ROK | Rockwell Automation | 工业自动化，智能制造 |
-| ETN | Eaton Corporation | 电气+液压，电网升级受益 |
-| DE | Deere & Company | 农业机械+施工设备，精准农业 |
-| FAST | Fastenal | 工业紧固件分销，供应链管理 |
-| ITW | Illinois Tool Works | 工业多元化，汽车+建筑+食品设备 |
-| PH | Parker Hannifin | 运动控制系统，航空+工业液压 |
-| MMM | 3M | 工业多元化，黏合剂+安全产品 |
-| CMI | Cummins Inc | 柴油+氢能发动机，重型设备动力 |
-| WM | Waste Management | 美国最大固废处理+回收 |
-| RSG | Republic Services | 固废处理，环保+可再生天然气 |
-
----
-
-## 板块十九：消费 / 零售补充
-
-| SBUX | Starbucks | 全球咖啡连锁，中国市场复苏受关注 |
-| CMG | Chipotle Mexican Grill | 快速休闲餐饮，数字化运营领先 |
-| LOW | Lowe's Companies | 家装建材零售，HD主要竞争对手 |
-| TGT | Target | 美国综合零售商，自有品牌+当日达 |
-| DECK | Deckers Outdoor | UGG+HOKA品牌，运动鞋高成长 |
-| YUM | Yum! Brands | 快餐连锁(KFC/Pizza Hut/Taco Bell)特许经营 |
-| LULU | Lululemon Athletica | 高端运动服饰，瑜伽+男装扩张 |
-| PHM | PulteGroup | 美国大型住宅建商，首购+改善型 |
-| TOL | Toll Brothers | 豪华住宅建商，高端买家群体 |
-| NVR | NVR Inc | 住宅建商，资产轻模式典范 |
-| BKNG | Booking Holdings | 全球在线旅游OTA，Booking.com+Priceline |
-| EXPE | Expedia Group | 在线旅游平台，Vrbo+Hotels.com |
-
----
-
-## 板块二十：银行 / 多元金融补充
-
-| BLK | BlackRock | 全球最大资产管理公司，ETF(iShares)巨头 |
-| SCHW | Charles Schwab | 美国最大折扣券商，资产托管 |
-| CME | CME Group | 全球最大衍生品交易所，利率+商品期货 |
-| ICE | Intercontinental Exchange | 证券交易所+金融数据，NYSE母公司 |
-| MSCI | MSCI Inc | 股票指数+ESG评级，机构投资基础设施 |
-| USB | U.S. Bancorp | 美国第五大商业银行，稳健运营 |
-| WFC | Wells Fargo | 美国第四大银行，零售+抵押贷款 |
-| C | Citigroup | 美国第三大银行，全球业务重组中 |
-| NDAQ | Nasdaq Inc | 证券交易所+金融科技，数据业务高增长 |
-| CBOE | CBOE Global Markets | 期权交易所，VIX指数发布方 |
-
----
-
-## 板块二十一：大宗商品 / 材料 / 能源补充
-
-| FCX | Freeport-McMoRan | 全球最大铜矿，电动车+电网铜需求 |
-| NUE | Nucor Corporation | 美国最大钢铁公司，电炉炼钢低成本 |
-| CF | CF Industries | 全球最大氮肥生产商，农业+清洁氨 |
-| MOS | The Mosaic Company | 钾肥+磷肥，农业大宗商品 |
-| HAL | Halliburton | 油服公司，钻井+完井服务 |
-| DVN | Devon Energy | 页岩油气，二叠纪盆地核心资产 |
-| APA | APA Corporation | 石油+天然气勘探，北美+海外多元 |
-| MRO | Marathon Oil | 石油勘探生产，北美页岩油 |
-| X | United States Steel | 美国钢铁，汽车+建筑用钢 |
-| AA | Alcoa Corporation | 全球铝业巨头，铝土矿到铝材一体化 |
-| CLF | Cleveland-Cliffs | 美国最大平板钢材生产商，汽车供应链 |
-
----
-
-## 板块二十二：亚太 / 新兴市场 ADR
-
-| BABA | Alibaba Group | 中国电商+云计算(阿里云)，港股+美股双挂牌 |
-| BIDU | Baidu | 中国搜索引擎+AI(文心一言)+自动驾驶 |
-| JD | JD.com | 中国自营电商+物流，3C家电强项 |
-| SE | Sea Limited | 东南亚电商(Shopee)+游戏(Garena)+金融 |
-| PDD | PDD Holdings | 拼多多+Temu，极低价电商全球扩张 |
-
----
-
-## 板块二十三：房地产 / REIT
-
-| PLD | Prologis | 全球最大工业物流REIT，电商仓储受益 |
-| PSA | Public Storage | 美国最大自助仓储REIT |
-| O | Realty Income | 零售净租赁REIT，月付股息 |
-| EQR | Equity Residential | 美国大型公寓REIT，城市核心地段 |
-| WY | Weyerhaeuser | 木材+木材产品REIT，住宅建设受益 |
-
----
-
-## 板块二十四：成长股补充（近年高成长）
-
-| CELH | Celsius Holdings | 功能饮料高成长，健身文化受益 |
-| BILL | Bill.com | 中小企业应付/应收账款自动化 |
-| ZM | Zoom Video Communications | 视频会议，企业版+电话系统转型 |
-| DT | Dynatrace | 云可观测性+安全平台，全栈监控 |
-| RBLX | Roblox | 游戏创作平台，青少年元宇宙社区 |
-| SNOW | Snowflake | 云数据仓库，数据共享平台 |
-| ALNY | Alnylam Pharmaceuticals | RNA干扰疗法(RNAi)，罕见病基因药 |
-| CRSP | CRISPR Therapeutics | 基因编辑疗法，首个获批镰刀型细胞病 |
-| MRNA | Moderna | mRNA技术平台，癌症疫苗+流感疫苈 |
-| BMRN | BioMarin Pharmaceutical | 罕见病酶替代疗法，PKU+MPS治疗 |
-| VZ | Verizon Communications | 美国第二大电信运营商，高股息防御 |
-| CMCSA | Comcast | 有线宽带+NBC环球，内容+基础设施 |
-| CHTR | Charter Communications | 美国第二大有线电视+宽带运营商 |
-
----
-
-
 
 ## 板块 S：标普 500 成分股（静态写入，Wikipedia 定期更新）
 
 | 代码 | 公司 | 简介 |
 |------|------|------|
 | A | A | S&P 500 成分股 |
-| AAPL | Apple | S&P 500 成分股 |
-| ABBV | AbbVie | S&P 500 成分股 |
+| AAPL | AAPL | S&P 500 成分股 |
+| ABBV | ABBV | S&P 500 成分股 |
 | ABNB | ABNB | S&P 500 成分股 |
-| ABT | Abbott Labs | S&P 500 成分股 |
+| ABT | ABT | S&P 500 成分股 |
 | ACGL | ACGL | S&P 500 成分股 |
-| ACN | Accenture | S&P 500 成分股 |
-| ADBE | Adobe | S&P 500 成分股 |
+| ACN | ACN | S&P 500 成分股 |
+| ADBE | ADBE | S&P 500 成分股 |
 | ADI | ADI | S&P 500 成分股 |
 | ADM | ADM | S&P 500 成分股 |
 | ADP | ADP | S&P 500 成分股 |
@@ -429,14 +41,14 @@
 | ALGN | ALGN | S&P 500 成分股 |
 | ALL | ALL | S&P 500 成分股 |
 | ALLE | ALLE | S&P 500 成分股 |
-| AMAT | Applied Materials | S&P 500 成分股 |
+| AMAT | AMAT | S&P 500 成分股 |
 | AMCR | AMCR | S&P 500 成分股 |
 | AMD | AMD | S&P 500 成分股 |
 | AME | AME | S&P 500 成分股 |
-| AMGN | Amgen | S&P 500 成分股 |
+| AMGN | AMGN | S&P 500 成分股 |
 | AMP | AMP | S&P 500 成分股 |
 | AMT | AMT | S&P 500 成分股 |
-| AMZN | Amazon | S&P 500 成分股 |
+| AMZN | AMZN | S&P 500 成分股 |
 | ANET | ANET | S&P 500 成分股 |
 | AON | AON | S&P 500 成分股 |
 | AOS | AOS | S&P 500 成分股 |
@@ -450,32 +62,32 @@
 | ARES | ARES | S&P 500 成分股 |
 | ATO | ATO | S&P 500 成分股 |
 | AVB | AVB | S&P 500 成分股 |
-| AVGO | Broadcom | S&P 500 成分股 |
+| AVGO | AVGO | S&P 500 成分股 |
 | AVY | AVY | S&P 500 成分股 |
 | AWK | AWK | S&P 500 成分股 |
 | AXON | AXON | S&P 500 成分股 |
 | AXP | AXP | S&P 500 成分股 |
 | AZO | AZO | S&P 500 成分股 |
 | BA | BA | S&P 500 成分股 |
-| BAC | Bank of America | S&P 500 成分股 |
+| BAC | BAC | S&P 500 成分股 |
 | BALL | BALL | S&P 500 成分股 |
 | BAX | BAX | S&P 500 成分股 |
 | BBY | BBY | S&P 500 成分股 |
-| BDX | Becton Dickinson | S&P 500 成分股 |
+| BDX | BDX | S&P 500 成分股 |
 | BEN | BEN | S&P 500 成分股 |
 | BF-B | BF-B | S&P 500 成分股 |
 | BG | BG | S&P 500 成分股 |
-| BIIB | Biogen | S&P 500 成分股 |
+| BIIB | BIIB | S&P 500 成分股 |
 | BK | BK | S&P 500 成分股 |
 | BKNG | BKNG | S&P 500 成分股 |
 | BKR | BKR | S&P 500 成分股 |
 | BLDR | BLDR | S&P 500 成分股 |
 | BLK | BLK | S&P 500 成分股 |
-| BMY | Bristol-Myers | S&P 500 成分股 |
+| BMY | BMY | S&P 500 成分股 |
 | BR | BR | S&P 500 成分股 |
-| BRK-B | Berkshire Hathaway | S&P 500 成分股 |
+| BRK-B | BRK-B | S&P 500 成分股 |
 | BRO | BRO | S&P 500 成分股 |
-| BSX | Boston Scientific | S&P 500 成分股 |
+| BSX | BSX | S&P 500 成分股 |
 | BX | BX | S&P 500 成分股 |
 | BXP | BXP | S&P 500 成分股 |
 | C | C | S&P 500 成分股 |
@@ -488,7 +100,7 @@
 | CBRE | CBRE | S&P 500 成分股 |
 | CCI | CCI | S&P 500 成分股 |
 | CCL | CCL | S&P 500 成分股 |
-| CDNS | Cadence Design | S&P 500 成分股 |
+| CDNS | CDNS | S&P 500 成分股 |
 | CDW | CDW | S&P 500 成分股 |
 | CEG | CEG | S&P 500 成分股 |
 | CF | CF | S&P 500 成分股 |
@@ -496,7 +108,7 @@
 | CHD | CHD | S&P 500 成分股 |
 | CHRW | CHRW | S&P 500 成分股 |
 | CHTR | CHTR | S&P 500 成分股 |
-| CI | Cigna | S&P 500 成分股 |
+| CI | CI | S&P 500 成分股 |
 | CIEN | CIEN | S&P 500 成分股 |
 | CINF | CINF | S&P 500 成分股 |
 | CL | CL | S&P 500 成分股 |
@@ -513,16 +125,16 @@
 | COO | COO | S&P 500 成分股 |
 | COP | COP | S&P 500 成分股 |
 | COR | COR | S&P 500 成分股 |
-| COST | Costco | S&P 500 成分股 |
+| COST | COST | S&P 500 成分股 |
 | CPAY | CPAY | S&P 500 成分股 |
 | CPB | CPB | S&P 500 成分股 |
 | CPRT | CPRT | S&P 500 成分股 |
 | CPT | CPT | S&P 500 成分股 |
 | CRH | CRH | S&P 500 成分股 |
 | CRL | CRL | S&P 500 成分股 |
-| CRM | Salesforce | S&P 500 成分股 |
-| CRWD | CrowdStrike | S&P 500 成分股 |
-| CSCO | Cisco | S&P 500 成分股 |
+| CRM | CRM | S&P 500 成分股 |
+| CRWD | CRWD | S&P 500 成分股 |
+| CSCO | CSCO | S&P 500 成分股 |
 | CSGP | CSGP | S&P 500 成分股 |
 | CSX | CSX | S&P 500 成分股 |
 | CTAS | CTAS | S&P 500 成分股 |
@@ -530,21 +142,21 @@
 | CTSH | CTSH | S&P 500 成分股 |
 | CTVA | CTVA | S&P 500 成分股 |
 | CVNA | CVNA | S&P 500 成分股 |
-| CVS | CVS Health | S&P 500 成分股 |
+| CVS | CVS | S&P 500 成分股 |
 | CVX | CVX | S&P 500 成分股 |
 | D | D | S&P 500 成分股 |
 | DAL | DAL | S&P 500 成分股 |
 | DASH | DASH | S&P 500 成分股 |
 | DD | DD | S&P 500 成分股 |
-| DDOG | Datadog | S&P 500 成分股 |
+| DDOG | DDOG | S&P 500 成分股 |
 | DE | DE | S&P 500 成分股 |
 | DECK | DECK | S&P 500 成分股 |
 | DELL | DELL | S&P 500 成分股 |
 | DG | DG | S&P 500 成分股 |
 | DGX | DGX | S&P 500 成分股 |
 | DHI | DHI | S&P 500 成分股 |
-| DHR | Danaher | S&P 500 成分股 |
-| DIS | Walt Disney | S&P 500 成分股 |
+| DHR | DHR | S&P 500 成分股 |
+| DIS | DIS | S&P 500 成分股 |
 | DLR | DLR | S&P 500 成分股 |
 | DLTR | DLTR | S&P 500 成分股 |
 | DOC | DOC | S&P 500 成分股 |
@@ -556,7 +168,7 @@
 | DUK | DUK | S&P 500 成分股 |
 | DVA | DVA | S&P 500 成分股 |
 | DVN | DVN | S&P 500 成分股 |
-| DXCM | Dexcom | S&P 500 成分股 |
+| DXCM | DXCM | S&P 500 成分股 |
 | EA | EA | S&P 500 成分股 |
 | EBAY | EBAY | S&P 500 成分股 |
 | ECL | ECL | S&P 500 成分股 |
@@ -579,7 +191,7 @@
 | ETN | ETN | S&P 500 成分股 |
 | ETR | ETR | S&P 500 成分股 |
 | EVRG | EVRG | S&P 500 成分股 |
-| EW | Edwards Lifesciences | S&P 500 成分股 |
+| EW | EW | S&P 500 成分股 |
 | EXC | EXC | S&P 500 成分股 |
 | EXE | EXE | S&P 500 成分股 |
 | EXPD | EXPD | S&P 500 成分股 |
@@ -602,7 +214,7 @@
 | FOXA | FOXA | S&P 500 成分股 |
 | FRT | FRT | S&P 500 成分股 |
 | FSLR | FSLR | S&P 500 成分股 |
-| FTNT | Fortinet | S&P 500 成分股 |
+| FTNT | FTNT | S&P 500 成分股 |
 | FTV | FTV | S&P 500 成分股 |
 | GD | GD | S&P 500 成分股 |
 | GDDY | GDDY | S&P 500 成分股 |
@@ -610,14 +222,14 @@
 | GEHC | GEHC | S&P 500 成分股 |
 | GEN | GEN | S&P 500 成分股 |
 | GEV | GEV | S&P 500 成分股 |
-| GILD | Gilead | S&P 500 成分股 |
+| GILD | GILD | S&P 500 成分股 |
 | GIS | GIS | S&P 500 成分股 |
 | GL | GL | S&P 500 成分股 |
 | GLW | GLW | S&P 500 成分股 |
 | GM | GM | S&P 500 成分股 |
 | GNRC | GNRC | S&P 500 成分股 |
 | GOOG | GOOG | S&P 500 成分股 |
-| GOOGL | Alphabet | S&P 500 成分股 |
+| GOOGL | GOOGL | S&P 500 成分股 |
 | GPC | GPC | S&P 500 成分股 |
 | GPN | GPN | S&P 500 成分股 |
 | GRMN | GRMN | S&P 500 成分股 |
@@ -627,7 +239,7 @@
 | HAS | HAS | S&P 500 成分股 |
 | HBAN | HBAN | S&P 500 成分股 |
 | HCA | HCA | S&P 500 成分股 |
-| HD | Home Depot | S&P 500 成分股 |
+| HD | HD | S&P 500 成分股 |
 | HIG | HIG | S&P 500 成分股 |
 | HII | HII | S&P 500 成分股 |
 | HLT | HLT | S&P 500 成分股 |
@@ -641,23 +253,23 @@
 | HST | HST | S&P 500 成分股 |
 | HSY | HSY | S&P 500 成分股 |
 | HUBB | HUBB | S&P 500 成分股 |
-| HUM | Humana | S&P 500 成分股 |
+| HUM | HUM | S&P 500 成分股 |
 | HWM | HWM | S&P 500 成分股 |
 | IBKR | IBKR | S&P 500 成分股 |
 | IBM | IBM | S&P 500 成分股 |
 | ICE | ICE | S&P 500 成分股 |
-| IDXX | IDEXX | S&P 500 成分股 |
+| IDXX | IDXX | S&P 500 成分股 |
 | IEX | IEX | S&P 500 成分股 |
 | IFF | IFF | S&P 500 成分股 |
 | INCY | INCY | S&P 500 成分股 |
-| INTC | Intel | S&P 500 成分股 |
-| INTU | Intuit | S&P 500 成分股 |
+| INTC | INTC | S&P 500 成分股 |
+| INTU | INTU | S&P 500 成分股 |
 | INVH | INVH | S&P 500 成分股 |
 | IP | IP | S&P 500 成分股 |
-| IQV | IQVIA | S&P 500 成分股 |
+| IQV | IQV | S&P 500 成分股 |
 | IR | IR | S&P 500 成分股 |
 | IRM | IRM | S&P 500 成分股 |
-| ISRG | Intuitive Surgical | S&P 500 成分股 |
+| ISRG | ISRG | S&P 500 成分股 |
 | IT | IT | S&P 500 成分股 |
 | ITW | ITW | S&P 500 成分股 |
 | IVZ | IVZ | S&P 500 成分股 |
@@ -666,8 +278,8 @@
 | JBL | JBL | S&P 500 成分股 |
 | JCI | JCI | S&P 500 成分股 |
 | JKHY | JKHY | S&P 500 成分股 |
-| JNJ | Johnson & Johnson | S&P 500 成分股 |
-| JPM | JPMorgan Chase | S&P 500 成分股 |
+| JNJ | JNJ | S&P 500 成分股 |
+| JPM | JPM | S&P 500 成分股 |
 | KDP | KDP | S&P 500 成分股 |
 | KEY | KEY | S&P 500 成分股 |
 | KEYS | KEYS | S&P 500 成分股 |
@@ -677,7 +289,7 @@
 | KLAC | KLAC | S&P 500 成分股 |
 | KMB | KMB | S&P 500 成分股 |
 | KMI | KMI | S&P 500 成分股 |
-| KO | Coca-Cola | S&P 500 成分股 |
+| KO | KO | S&P 500 成分股 |
 | KR | KR | S&P 500 成分股 |
 | KVUE | KVUE | S&P 500 成分股 |
 | L | L | S&P 500 成分股 |
@@ -687,7 +299,7 @@
 | LHX | LHX | S&P 500 成分股 |
 | LII | LII | S&P 500 成分股 |
 | LIN | LIN | S&P 500 成分股 |
-| LLY | Eli Lilly | S&P 500 成分股 |
+| LLY | LLY | S&P 500 成分股 |
 | LMT | LMT | S&P 500 成分股 |
 | LNT | LNT | S&P 500 成分股 |
 | LOW | LOW | S&P 500 成分股 |
@@ -698,18 +310,18 @@
 | LW | LW | S&P 500 成分股 |
 | LYB | LYB | S&P 500 成分股 |
 | LYV | LYV | S&P 500 成分股 |
-| MA | Mastercard | S&P 500 成分股 |
+| MA | MA | S&P 500 成分股 |
 | MAA | MAA | S&P 500 成分股 |
 | MAR | MAR | S&P 500 成分股 |
 | MAS | MAS | S&P 500 成分股 |
-| MCD | McDonald's | S&P 500 成分股 |
+| MCD | MCD | S&P 500 成分股 |
 | MCHP | MCHP | S&P 500 成分股 |
 | MCK | MCK | S&P 500 成分股 |
 | MCO | MCO | S&P 500 成分股 |
 | MDLZ | MDLZ | S&P 500 成分股 |
 | MDT | MDT | S&P 500 成分股 |
 | MET | MET | S&P 500 成分股 |
-| META | Meta | S&P 500 成分股 |
+| META | META | S&P 500 成分股 |
 | MGM | MGM | S&P 500 成分股 |
 | MKC | MKC | S&P 500 成分股 |
 | MLM | MLM | S&P 500 成分股 |
@@ -720,33 +332,33 @@
 | MOS | MOS | S&P 500 成分股 |
 | MPC | MPC | S&P 500 成分股 |
 | MPWR | MPWR | S&P 500 成分股 |
-| MRK | Merck | S&P 500 成分股 |
-| MRNA | Moderna | S&P 500 成分股 |
+| MRK | MRK | S&P 500 成分股 |
+| MRNA | MRNA | S&P 500 成分股 |
 | MRSH | MRSH | S&P 500 成分股 |
 | MS | MS | S&P 500 成分股 |
 | MSCI | MSCI | S&P 500 成分股 |
-| MSFT | Microsoft | S&P 500 成分股 |
+| MSFT | MSFT | S&P 500 成分股 |
 | MSI | MSI | S&P 500 成分股 |
 | MTB | MTB | S&P 500 成分股 |
 | MTCH | MTCH | S&P 500 成分股 |
-| MTD | Mettler-Toledo | S&P 500 成分股 |
+| MTD | MTD | S&P 500 成分股 |
 | MU | MU | S&P 500 成分股 |
 | NCLH | NCLH | S&P 500 成分股 |
 | NDAQ | NDAQ | S&P 500 成分股 |
 | NDSN | NDSN | S&P 500 成分股 |
 | NEE | NEE | S&P 500 成分股 |
 | NEM | NEM | S&P 500 成分股 |
-| NFLX | Netflix | S&P 500 成分股 |
+| NFLX | NFLX | S&P 500 成分股 |
 | NI | NI | S&P 500 成分股 |
 | NKE | NKE | S&P 500 成分股 |
 | NOC | NOC | S&P 500 成分股 |
-| NOW | ServiceNow | S&P 500 成分股 |
+| NOW | NOW | S&P 500 成分股 |
 | NRG | NRG | S&P 500 成分股 |
 | NSC | NSC | S&P 500 成分股 |
 | NTAP | NTAP | S&P 500 成分股 |
 | NTRS | NTRS | S&P 500 成分股 |
 | NUE | NUE | S&P 500 成分股 |
-| NVDA | NVIDIA | S&P 500 成分股 |
+| NVDA | NVDA | S&P 500 成分股 |
 | NVR | NVR | S&P 500 成分股 |
 | NWS | NWS | S&P 500 成分股 |
 | NWSA | NWSA | S&P 500 成分股 |
@@ -760,16 +372,16 @@
 | ORLY | ORLY | S&P 500 成分股 |
 | OTIS | OTIS | S&P 500 成分股 |
 | OXY | OXY | S&P 500 成分股 |
-| PANW | Palo Alto Networks | S&P 500 成分股 |
+| PANW | PANW | S&P 500 成分股 |
 | PAYC | PAYC | S&P 500 成分股 |
-| PAYX | Paychex | S&P 500 成分股 |
+| PAYX | PAYX | S&P 500 成分股 |
 | PCAR | PCAR | S&P 500 成分股 |
 | PCG | PCG | S&P 500 成分股 |
 | PEG | PEG | S&P 500 成分股 |
-| PEP | PepsiCo | S&P 500 成分股 |
-| PFE | Pfizer | S&P 500 成分股 |
+| PEP | PEP | S&P 500 成分股 |
+| PFE | PFE | S&P 500 成分股 |
 | PFG | PFG | S&P 500 成分股 |
-| PG | Procter & Gamble | S&P 500 成分股 |
+| PG | PG | S&P 500 成分股 |
 | PGR | PGR | S&P 500 成分股 |
 | PH | PH | S&P 500 成分股 |
 | PHM | PHM | S&P 500 成分股 |
@@ -790,16 +402,16 @@
 | PSX | PSX | S&P 500 成分股 |
 | PTC | PTC | S&P 500 成分股 |
 | PWR | PWR | S&P 500 成分股 |
-| PYPL | PayPal | S&P 500 成分股 |
+| PYPL | PYPL | S&P 500 成分股 |
 | Q | Q | S&P 500 成分股 |
-| QCOM | Qualcomm | S&P 500 成分股 |
+| QCOM | QCOM | S&P 500 成分股 |
 | RCL | RCL | S&P 500 成分股 |
 | REG | REG | S&P 500 成分股 |
-| REGN | Regeneron | S&P 500 成分股 |
+| REGN | REGN | S&P 500 成分股 |
 | RF | RF | S&P 500 成分股 |
 | RJF | RJF | S&P 500 成分股 |
 | RL | RL | S&P 500 成分股 |
-| RMD | ResMed | S&P 500 成分股 |
+| RMD | RMD | S&P 500 成分股 |
 | ROK | ROK | S&P 500 成分股 |
 | ROL | ROL | S&P 500 成分股 |
 | ROP | ROP | S&P 500 成分股 |
@@ -816,13 +428,13 @@
 | SMCI | SMCI | S&P 500 成分股 |
 | SNA | SNA | S&P 500 成分股 |
 | SNDK | SNDK | S&P 500 成分股 |
-| SNPS | Synopsys | S&P 500 成分股 |
+| SNPS | SNPS | S&P 500 成分股 |
 | SO | SO | S&P 500 成分股 |
 | SOLV | SOLV | S&P 500 成分股 |
 | SPG | SPG | S&P 500 成分股 |
 | SPGI | SPGI | S&P 500 成分股 |
 | SRE | SRE | S&P 500 成分股 |
-| STE | STERIS | S&P 500 成分股 |
+| STE | STE | S&P 500 成分股 |
 | STLD | STLD | S&P 500 成分股 |
 | STT | STT | S&P 500 成分股 |
 | STX | STX | S&P 500 成分股 |
@@ -831,7 +443,7 @@
 | SWK | SWK | S&P 500 成分股 |
 | SWKS | SWKS | S&P 500 成分股 |
 | SYF | SYF | S&P 500 成分股 |
-| SYK | Stryker | S&P 500 成分股 |
+| SYK | SYK | S&P 500 成分股 |
 | SYY | SYY | S&P 500 成分股 |
 | T | T | S&P 500 成分股 |
 | TAP | TAP | S&P 500 成分股 |
@@ -844,7 +456,7 @@
 | TGT | TGT | S&P 500 成分股 |
 | TJX | TJX | S&P 500 成分股 |
 | TKO | TKO | S&P 500 成分股 |
-| TMO | Thermo Fisher | S&P 500 成分股 |
+| TMO | TMO | S&P 500 成分股 |
 | TMUS | TMUS | S&P 500 成分股 |
 | TPL | TPL | S&P 500 成分股 |
 | TPR | TPR | S&P 500 成分股 |
@@ -853,32 +465,32 @@
 | TROW | TROW | S&P 500 成分股 |
 | TRV | TRV | S&P 500 成分股 |
 | TSCO | TSCO | S&P 500 成分股 |
-| TSLA | Tesla | S&P 500 成分股 |
+| TSLA | TSLA | S&P 500 成分股 |
 | TSN | TSN | S&P 500 成分股 |
 | TT | TT | S&P 500 成分股 |
 | TTD | TTD | S&P 500 成分股 |
 | TTWO | TTWO | S&P 500 成分股 |
-| TXN | Texas Instruments | S&P 500 成分股 |
+| TXN | TXN | S&P 500 成分股 |
 | TXT | TXT | S&P 500 成分股 |
 | TYL | TYL | S&P 500 成分股 |
 | UAL | UAL | S&P 500 成分股 |
-| UBER | Uber | S&P 500 成分股 |
+| UBER | UBER | S&P 500 成分股 |
 | UDR | UDR | S&P 500 成分股 |
 | UHS | UHS | S&P 500 成分股 |
 | ULTA | ULTA | S&P 500 成分股 |
-| UNH | UnitedHealth | S&P 500 成分股 |
+| UNH | UNH | S&P 500 成分股 |
 | UNP | UNP | S&P 500 成分股 |
 | UPS | UPS | S&P 500 成分股 |
 | URI | URI | S&P 500 成分股 |
 | USB | USB | S&P 500 成分股 |
-| V | Visa | S&P 500 成分股 |
+| V | V | S&P 500 成分股 |
 | VICI | VICI | S&P 500 成分股 |
 | VLO | VLO | S&P 500 成分股 |
 | VLTO | VLTO | S&P 500 成分股 |
 | VMC | VMC | S&P 500 成分股 |
 | VRSK | VRSK | S&P 500 成分股 |
 | VRSN | VRSN | S&P 500 成分股 |
-| VRTX | Vertex | S&P 500 成分股 |
+| VRTX | VRTX | S&P 500 成分股 |
 | VST | VST | S&P 500 成分股 |
 | VTR | VTR | S&P 500 成分股 |
 | VTRS | VTRS | S&P 500 成分股 |
@@ -893,7 +505,7 @@
 | WFC | WFC | S&P 500 成分股 |
 | WM | WM | S&P 500 成分股 |
 | WMB | WMB | S&P 500 成分股 |
-| WMT | Walmart | S&P 500 成分股 |
+| WMT | WMT | S&P 500 成分股 |
 | WRB | WRB | S&P 500 成分股 |
 | WSM | WSM | S&P 500 成分股 |
 | WST | WST | S&P 500 成分股 |
@@ -901,11 +513,11 @@
 | WY | WY | S&P 500 成分股 |
 | WYNN | WYNN | S&P 500 成分股 |
 | XEL | XEL | S&P 500 成分股 |
-| XOM | Exxon Mobil | S&P 500 成分股 |
+| XOM | XOM | S&P 500 成分股 |
 | XYL | XYL | S&P 500 成分股 |
 | XYZ | XYZ | S&P 500 成分股 |
 | YUM | YUM | S&P 500 成分股 |
-| ZBH | Zimmer Biomet | S&P 500 成分股 |
+| ZBH | ZBH | S&P 500 成分股 |
 | ZBRA | ZBRA | S&P 500 成分股 |
 | ZTS | ZTS | S&P 500 成分股 |
 
@@ -918,15 +530,292 @@
 | ASML | ASML | Nasdaq 100 成分股 |
 | CCEP | CCEP | Nasdaq 100 成分股 |
 | FER | FER | Nasdaq 100 成分股 |
-| INSM | Insmed Incorporated | Nasdaq 100 成分股 |
+| INSM | INSM | Nasdaq 100 成分股 |
 | MELI | MELI | Nasdaq 100 成分股 |
 | MRVL | MRVL | Nasdaq 100 成分股 |
 | MSTR | MSTR | Nasdaq 100 成分股 |
 | PDD | PDD | Nasdaq 100 成分股 |
 | SHOP | SHOP | Nasdaq 100 成分股 |
-| TEAM | Atlassian | Nasdaq 100 成分股 |
+| TEAM | TEAM | Nasdaq 100 成分股 |
 | TRI | TRI | Nasdaq 100 成分股 |
-| ZS | Zscaler | Nasdaq 100 成分股 |
+| ZS | ZS | Nasdaq 100 成分股 |
+
+## 港股：恒生科技指数成分股（本地数据，共 159 只）
+
+> Yahoo Finance 数据源（格式如 0700.HK）。数据已本地缓存。
+
+| 代码 | 公司 | 简介 |
+|------|------|------|
+| 0001.HK | 长和 | 恒生科技指数成分股 |
+| 0005.HK | 汇丰控股 | 恒生科技指数成分股 |
+| 0006.HK | 电能实业 | 恒生科技指数成分股 |
+| 0016.HK | 新鸿基地产 | 恒生科技指数成分股 |
+| 0066.HK | 港铁公司 | 恒生科技指数成分股 |
+| 0241.HK | 阿里健康 | 恒生科技指数成分股 |
+| 0267.HK | 中信股份 | 恒生科技指数成分股 |
+| 0285.HK | 万洲国际 | 恒生科技指数成分股 |
+| 0288.HK | 华润啤酒 | 恒生科技指数成分股 |
+| 0293.HK | 国泰航空 | 恒生科技指数成分股 |
+| 0300.HK | 东方海外 | 恒生科技指数成分股 |
+| 0316.HK | 统一企业集团 | 恒生科技指数成分股 |
+| 0322.HK | 康师傅 | 恒生科技指数成分股 |
+| 0388.HK | 0388.HK | 恒生科技指数成分股 |
+| 0688.HK | 中国海外发展 | 恒生科技指数成分股 |
+| 0700.HK | 腾讯控股 | 恒生科技指数成分股 |
+| 0762.HK | 中国联通 | 恒生科技指数成分股 |
+| 0823.HK | 领展房产基金 | 恒生科技指数成分股 |
+| 0836.HK | 华润电力 | 恒生科技指数成分股 |
+| 0857.HK | 信义光能 | 恒生科技指数成分股 |
+| 0881.HK | 中海油 | 恒生科技指数成分股 |
+| 0883.HK | 中移动 | 恒生科技指数成分股 |
+| 0939.HK | 建设银行 | 恒生科技指数成分股 |
+| 0941.HK | 中国移动 | 恒生科技指数成分股 |
+| 0968.HK | 0968.HK | 恒生科技指数成分股 |
+| 0981.HK | 中芯国际 | 恒生科技指数成分股 |
+| 0992.HK | 联想集团 | 恒生科技指数成分股 |
+| 1024.HK | 恒安国际 | 恒生科技指数成分股 |
+| 1038.HK | 长江基建 | 恒生科技指数成分股 |
+| 1088.HK | 中国电力 | 恒生科技指数成分股 |
+| 1093.HK | 石药集团 | 恒生科技指数成分股 |
+| 1099.HK | 中国平安 | 恒生科技指数成分股 |
+| 1109.HK | 华润置地 | 恒生科技指数成分股 |
+| 1113.HK | 长实集团 | 恒生科技指数成分股 |
+| 1177.HK | 中国生物制药 | 恒生科技指数成分股 |
+| 1209.HK | 华润万象生活 | 恒生科技指数成分股 |
+| 1211.HK | 比亚迪 | 恒生科技指数成分股 |
+| 1299.HK | 友邦保险 | 恒生科技指数成分股 |
+| 1378.HK | 中国淀粉 | 恒生科技指数成分股 |
+| 1398.HK | 工商银行 | 恒生科技指数成分股 |
+| 1448.HK | 福田汽车 | 恒生科技指数成分股 |
+| 1555.HK | 敏华控股 | 恒生科技指数成分股 |
+| 1755.HK | 融创中国 | 恒生科技指数成分股 |
+| 1766.HK | 中国中车 | 恒生科技指数成分股 |
+| 1772.HK | 赣锋锂业 | 恒生科技指数成分股 |
+| 1810.HK | 小米集团 | 恒生科技指数成分股 |
+| 1876.HK | 百济神州 | 恒生科技指数成分股 |
+| 1880.HK | 1880.HK | 恒生科技指数成分股 |
+| 1919.HK | 1919.HK | 恒生科技指数成分股 |
+| 1928.HK | 同道猎聘 | 恒生科技指数成分股 |
+| 1929.HK | 安踏体育 | 恒生科技指数成分股 |
+| 1988.HK | 1988.HK | 恒生科技指数成分股 |
+| 1997.HK | 九龙仓 | 恒生科技指数成分股 |
+| 2002.HK | 中州证券 | 恒生科技指数成分股 |
+| 2008.HK | 瑞声科技 | 恒生科技指数成分股 |
+| 2015.HK | 中通快递 | 恒生科技指数成分股 |
+| 2018.HK | 中芯国际 | 恒生科技指数成分股 |
+| 2020.HK | 药明生物 | 恒生科技指数成分股 |
+| 2038.HK | 富途控股 | 恒生科技指数成分股 |
+| 2057.HK | 申洲国际 | 恒生科技指数成分股 |
+| 2068.HK | 中国铝业 | 恒生科技指数成分股 |
+| 2111.HK | 昆仑能源 | 恒生科技指数成分股 |
+| 2130.HK | 微创医疗 | 恒生科技指数成分股 |
+| 2150.HK | 创梦天地 | 恒生科技指数成分股 |
+| 2196.HK | 复星医药 | 恒生科技指数成分股 |
+| 2202.HK | 万科海外 | 恒生科技指数成分股 |
+| 2238.HK | 广汽集团 | 恒生科技指数成分股 |
+| 2269.HK | 蒙牛乳业 | 恒生科技指数成分股 |
+| 2282.HK | 敏实集团 | 恒生科技指数成分股 |
+| 2313.HK | 李宁 | 恒生科技指数成分股 |
+| 2314.HK | 瑞声科技 | 恒生科技指数成分股 |
+| 2318.HK | 平安保险 | 恒生科技指数成分股 |
+| 2319.HK | 蒙牛乳业 | 恒生科技指数成分股 |
+| 2329.HK | 国药控股 | 恒生科技指数成分股 |
+| 2331.HK | 舜宇光学 | 恒生科技指数成分股 |
+| 2338.HK | 潍柴动力 | 恒生科技指数成分股 |
+| 2342.HK | 宇通客车 | 恒生科技指数成分股 |
+| 2355.HK | 宝龙地产 | 恒生科技指数成分股 |
+| 2359.HK | 京东健康 | 恒生科技指数成分股 |
+| 2382.HK | 舜宇光学 | 恒生科技指数成分股 |
+| 2388.HK | 中银香港 | 恒生科技指数成分股 |
+| 2600.HK | 中国铝业 | 恒生科技指数成分股 |
+| 2601.HK | 中国太保 | 恒生科技指数成分股 |
+| 2607.HK | 中信证券 | 恒生科技指数成分股 |
+| 2618.HK | 京东物流 | 恒生科技指数成分股 |
+| 2628.HK | 中国人寿 | 恒生科技指数成分股 |
+| 2688.HK | 新奥能源 | 恒生科技指数成分股 |
+| 2698.HK | 魏桥创业 | 恒生科技指数成分股 |
+| 2700.HK | 金蝶国际 | 恒生科技指数成分股 |
+| 2727.HK | 儒林河 | 恒生科技指数成分股 |
+| 2777.HK | 富力地产 | 恒生科技指数成分股 |
+| 2866.HK | 中集集团 | 恒生科技指数成分股 |
+| 2883.HK | 中海油服 | 恒生科技指数成分股 |
+| 2899.HK | 紫金矿业 | 恒生科技指数成分股 |
+| 2908.HK | 特步国际 | 恒生科技指数成分股 |
+| 2912.HK | 恒安国际 | 恒生科技指数成分股 |
+| 3001.HK | 健鼎 | 恒生科技指数成分股 |
+| 3311.HK | 中国建筑 | 恒生科技指数成分股 |
+| 3319.HK | 融创服务 | 恒生科技指数成分股 |
+| 3320.HK | 华润燃气 | 恒生科技指数成分股 |
+| 3328.HK | 交通银行 | 恒生科技指数成分股 |
+| 3360.HK | 华能国际 | 恒生科技指数成分股 |
+| 3377.HK | 青岛港 | 恒生科技指数成分股 |
+| 3383.HK | 雅居乐 | 恒生科技指数成分股 |
+| 3606.HK | 信义玻璃 | 恒生科技指数成分股 |
+| 3688.HK | 信义光能 | 恒生科技指数成分股 |
+| 3690.HK | 美团 | 恒生科技指数成分股 |
+| 3692.HK | 翰森制药 | 恒生科技指数成分股 |
+| 3709.HK | 和谐汽车 | 恒生科技指数成分股 |
+| 3818.HK | 3818.HK | 恒生科技指数成分股 |
+| 3888.HK | 金山云 | 恒生科技指数成分股 |
+| 3900.HK | 绿城中国 | 恒生科技指数成分股 |
+| 3968.HK | 招商银行 | 恒生科技指数成分股 |
+| 3988.HK | 中国银行 | 恒生科技指数成分股 |
+| 6030.HK | 招商证券 | 恒生科技指数成分股 |
+| 6055.HK | 中国中铁 | 恒生科技指数成分股 |
+| 6098.HK | 平安好医生 | 恒生科技指数成分股 |
+| 6099.HK | 招商证券 | 恒生科技指数成分股 |
+| 6108.HK | 电讯盈科 | 恒生科技指数成分股 |
+| 6169.HK | 滔搏 | 恒生科技指数成分股 |
+| 6618.HK | 京东健康 | 恒生科技指数成分股 |
+| 6623.HK | 时代天使 | 恒生科技指数成分股 |
+| 6626.HK | 心泰健康 | 恒生科技指数成分股 |
+| 6628.HK | 和黄医药 | 恒生科技指数成分股 |
+| 6690.HK | 京东工业 | 恒生科技指数成分股 |
+| 6818.HK | 中海外发展 | 恒生科技指数成分股 |
+| 6862.HK | 农夫山泉 | 恒生科技指数成分股 |
+| 6913.HK | 景瑞控股 | 恒生科技指数成分股 |
+| 6928.HK | 电能实业 | 恒生科技指数成分股 |
+| 6969.HK | 京东物流 | 恒生科技指数成分股 |
+| 6993.HK | 融创服务 | 恒生科技指数成分股 |
+| 8095.HK | 南方通信 | 恒生科技指数成分股 |
+| 8215.HK | 北大青鸟 | 恒生科技指数成分股 |
+| 8257.HK | 华星控股 | 恒生科技指数成分股 |
+| 8262.HK | 壹照明 | 恒生科技指数成分股 |
+| 8285.HK | 久久王 | 恒生科技指数成分股 |
+| 9399.HK | 新城悦服务 | 恒生科技指数成分股 |
+| 9600.HK | 猫眼娱乐 | 恒生科技指数成分股 |
+| 9618.HK | 京东集团 | 恒生科技指数成分股 |
+| 9668.HK | 金风科技 | 恒生科技指数成分股 |
+| 9688.HK | 9688.HK | 恒生科技指数成分股 |
+| 9812.HK | 香港交易所 | 恒生科技指数成分股 |
+| 9886.HK | 百度 | 恒生科技指数成分股 |
+| 9888.HK | 9888.HK | 恒生科技指数成分股 |
+| 9896.HK | 泰和小贷 | 恒生科技指数成分股 |
+| 9901.HK | 9901.HK | 恒生科技指数成分股 |
+| 9922.HK | 濠亮环球 | 恒生科技指数成分股 |
+| 9933.HK | 恒安国际 | 恒生科技指数成分股 |
+| 9955.HK | 景瑞控股 | 恒生科技指数成分股 |
+| 9960.HK | 万物云 | 恒生科技指数成分股 |
+| 9961.HK | 携程集团 | 恒生科技指数成分股 |
+| 9966.HK | 9966.HK | 恒生科技指数成分股 |
+| 9968.HK | 9968.HK | 恒生科技指数成分股 |
+| 9969.HK | 9969.HK | 恒生科技指数成分股 |
+| 9973.HK | 希玛眼科 | 恒生科技指数成分股 |
+| 9983.HK | 9983.HK | 恒生科技指数成分股 |
+| 9988.HK | 阿里巴巴 | 恒生科技指数成分股 |
+| 9992.HK | 泡泡玛特 | 恒生科技指数成分股 |
+| 9999.HK | 网易 | 恒生科技指数成分股 |
+
+## 港股：其他港股（本地数据，共 47 只）
+
+| 代码 | 公司 | 简介 |
+|------|------|------|
+| 0002.HK | 中电控股 | 港股 |
+| 0003.HK | 香港中华煤气 | 港股 |
+| 0012.HK | 恒基兆业 | 港股 |
+| 0017.HK | 新世界发展 | 港股 |
+| 0027.HK | 0027.HK | 港股 |
+| 0101.HK | 恒基兆业 | 港股 |
+| 0151.HK | 东亚银行 | 港股 |
+| 0175.HK | 吉利汽车 | 港股 |
+| 0256.HK | 0256.HK | 港股 |
+| 0291.HK | 华润创业 | 港股 |
+| 0386.HK | 中国石化 | 港股 |
+| 0511.HK | 电视广播 | 港股 |
+| 0635.HK | 0635.HK | 港股 |
+| 0669.HK | 创科实业 | 港股 |
+| 0788.HK | 中国铁塔 | 港股 |
+| 0868.HK | 信和置业 | 港股 |
+| 0912.HK | 恒安国际 | 港股 |
+| 0960.HK | 龙湖集团 | 港股 |
+| 0966.HK | 0966.HK | 港股 |
+| 1044.HK | 恒安国际 | 港股 |
+| 1186.HK | 中国建材 | 港股 |
+| 1288.HK | 农业银行 | 港股 |
+| 1336.HK | 新华保险 | 港股 |
+| 1339.HK | 中国人保 | 港股 |
+| 1347.HK | 华虹半导体 | 港股 |
+| 1355.HK | 龙光集团 | 港股 |
+| 1515.HK | 1515.HK | 港股 |
+| 1559.HK | 雅各臣 | 港股 |
+| 1608.HK | 福耀玻璃 | 港股 |
+| 1789.HK | 洛阳钼业 | 港股 |
+| 1800.HK | 中国电力 | 港股 |
+| 1818.HK | 1818.HK | 港股 |
+| 1833.HK | 银泰黄金 | 港股 |
+| 1860.HK | 新高焦化 | 港股 |
+| 1898.HK | 中国中铁 | 港股 |
+| 1900.HK | 中国智能交通 | 港股 |
+| 1966.HK | 1966.HK | 港股 |
+| 2088.HK | 华能国际 | 港股 |
+| 2330.HK | 2330.HK | 港股 |
+| 3333.HK | 恒大地产 | 港股 |
+| 3898.HK | 3898.HK | 港股 |
+| 8060.HK | 华人置业 | 港股 |
+| 9633.HK | 9633.HK | 港股 |
+| 9696.HK | 9696.HK | 港股 |
+| 9868.HK | 小鹏汽车 | 港股 |
+| 9889.HK | 9889.HK | 港股 |
+| 9900.HK | 9900.HK | 港股 |
+
+## 台股（本地数据，共 52 只）
+
+> Yahoo Finance 数据源（格式如 2330.TW）。数据已本地缓存。
+
+| 代码 | 公司 | 简介 |
+|------|------|------|
+| 1301.TW | 台塑 | 台股 |
+| 1303.TW | 南亚 | 台股 |
+| 1308.TW | 台化 | 台股 |
+| 1326.TW | 台聚集 | 台股 |
+| 2201.TW | 裕隆 | 台股 |
+| 2204.TW | 中华车 | 台股 |
+| 2303.TW | 联电 | 台股 |
+| 2308.TW | 台达电 | 台股 |
+| 2317.TW | 鸿海 | 台股 |
+| 2327.TW | 国巨 | 台股 |
+| 2330.TW | 台积电 | 台股 |
+| 2344.TW | 中华映管 | 台股 |
+| 2345.TW | 智邦 | 台股 |
+| 2357.TW | 华硕 | 台股 |
+| 2379.TW | 瑞昱 | 台股 |
+| 2408.TW | 光宝 | 台股 |
+| 2409.TW | 友達 | 台股 |
+| 2412.TW | 中华电信 | 台股 |
+| 2454.TW | 联发科 | 台股 |
+| 2455.TW | 2455.TW | 台股 |
+| 2481.TW | 2481.TW | 台股 |
+| 2492.TW | 2492.TW | 台股 |
+| 2603.TW | 2603.TW | 台股 |
+| 2609.TW | 2609.TW | 台股 |
+| 2615.TW | 2615.TW | 台股 |
+| 2618.TW | 2618.TW | 台股 |
+| 2701.TW | 2701.TW | 台股 |
+| 2801.TW | 2801.TW | 台股 |
+| 2880.TW | 2880.TW | 台股 |
+| 2881.TW | 2881.TW | 台股 |
+| 2882.TW | 2882.TW | 台股 |
+| 2886.TW | 2886.TW | 台股 |
+| 2891.TW | 2891.TW | 台股 |
+| 2892.TW | 2892.TW | 台股 |
+| 2912.TW | 2912.TW | 台股 |
+| 3005.TW | 3005.TW | 台股 |
+| 3034.TW | 3034.TW | 台股 |
+| 3035.TW | 3035.TW | 台股 |
+| 3037.TW | 3037.TW | 台股 |
+| 3045.TW | 远传 | 台股 |
+| 3443.TW | 3443.TW | 台股 |
+| 3532.TW | 3532.TW | 台股 |
+| 3702.TW | 3702.TW | 台股 |
+| 4564.TW | 4564.TW | 台股 |
+| 4904.TW | 4904.TW | 台股 |
+| 5871.TW | 5871.TW | 台股 |
+| 6183.TW | 6183.TW | 台股 |
+| 6213.TW | 6213.TW | 台股 |
+| 6770.TW | 6770.TW | 台股 |
+| 8011.TW | 8011.TW | 台股 |
+| 8081.TW | 8081.TW | 台股 |
+| 9802.TW | 9802.TW | 台股 |
 
 ## 操作说明
 
