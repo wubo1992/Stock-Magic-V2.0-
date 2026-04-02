@@ -45,7 +45,8 @@ from universe.manager import get_universe, _read_universe_md
 from universe.updater import run_scan
 
 # 加载 .env 文件（Alpaca API Key 等）
-load_dotenv()
+_env_path = Path(__file__).parent / ".env"
+load_dotenv(dotenv_path=str(_env_path), override=True)
 
 
 def load_config(config_path: str = "config.yaml") -> dict:
@@ -107,10 +108,26 @@ def run_live(config: dict, strategy_arg: str | None) -> None:
         print("[错误] 未能获取任何股票数据，退出")
         sys.exit(1)
 
+    # 确保基准 ETF 在 market_data 中（用于分市场 RS 计算）
+    for benchmark, syms in [("SPY", ["SPY"]), ("ASHR", ["ASHR"]), ("EWT", ["EWT"])]:
+        if benchmark not in market_data:
+            data = fetch(syms, history_days=history_days, live_mode=True)
+            if data and benchmark in data:
+                market_data[benchmark] = data[benchmark]
+
     # Step 3: 运行策略
     t3 = time.time()
     print(f"\n[步骤 3/3] 运行 {strategy_name}...")
-    strategy = strategy_cls(strategy_config, market_data, live_mode=True)
+    # v_trend_collection 需要所有趋势策略实例
+    if strategy_key == "v_trend_collection":
+        from strategies.registry import STRATEGY_REGISTRY
+        all_strategies = []
+        for sid, cls in STRATEGY_REGISTRY.items():
+            if sid not in ("v_adx50", "v_trend_collection"):
+                all_strategies.append(cls(strategy_config, market_data, live_mode=True))
+        strategy = strategy_cls(strategy_config, market_data, live_mode=True, all_strategies=all_strategies)
+    else:
+        strategy = strategy_cls(strategy_config, market_data, live_mode=True)
 
     # 载入上次持仓（跨天追踪出场条件）
     saved_positions = load_positions(strategy_id)
@@ -173,6 +190,8 @@ def run_backtest(
     end_str: str,
     split: bool = False,
     save_signals: bool = False,
+    position_size: float = 1000.0,
+    initial_capital: float = 50000.0,
 ) -> None:
     """
     回测模式：在历史数据上逐日运行策略，输出完整的性能报告。
@@ -217,6 +236,8 @@ def run_backtest(
             config, strategy_cls, strategy_config, strategy_name,
             manual_symbols, start_date, split_point, "样本内",
             save_signals=save_signals,
+            position_size=position_size,
+            initial_capital=initial_capital,
         )
 
         print("\n" + "─" * 60)
@@ -225,12 +246,16 @@ def run_backtest(
             config, strategy_cls, strategy_config, strategy_name,
             manual_symbols, split_point, end_date, "样本外 OOS ← 真正的考试",
             save_signals=save_signals,
+            position_size=position_size,
+            initial_capital=initial_capital,
         )
     else:
         _run_single_backtest(
             config, strategy_cls, strategy_config, strategy_name,
             manual_symbols, start_date, end_date,
             save_signals=save_signals,
+            position_size=position_size,
+            initial_capital=initial_capital,
         )
 
 
@@ -244,6 +269,8 @@ def _run_single_backtest(
     end_date: datetime,
     label: str = "",
     save_signals: bool = False,
+    position_size: float = 1000.0,
+    initial_capital: float = 50000.0,
 ) -> None:
     """运行单段回测，打印报告并保存 Markdown 文件。"""
     try:
@@ -256,6 +283,8 @@ def _run_single_backtest(
             end_date=end_date,
             save_signals_csv=save_signals,
             strategy_id=strategy_cls.strategy_id if save_signals else "",
+            position_size=position_size,
+            initial_capital=initial_capital,
         )
         result = engine.run(verbose=True)
         result.print_report(label=label, strategy_name=strategy_name)
@@ -344,6 +373,20 @@ def main() -> None:
         help="回测时同时把买入信号追加写入 signals.csv（用于补档过去几天的信号历史）",
     )
     parser.add_argument(
+        "--position-size",
+        type=float,
+        default=1000.0,
+        dest="position_size",
+        help="每次买入金额（美元），默认 1000",
+    )
+    parser.add_argument(
+        "--initial-capital",
+        type=float,
+        default=50000.0,
+        dest="initial_capital",
+        help="初始本金（美元），默认 50000",
+    )
+    parser.add_argument(
         "--dry-run",
         action="store_true",
         dest="dry_run",
@@ -366,11 +409,19 @@ def main() -> None:
 
     # 支持 --all-strategies 一次性跑完全部策略
     if args.mode == "live" and args.all_strategies:
-        from strategies.registry import STRATEGY_REGISTRY
-        strategy_keys = list(STRATEGY_REGISTRY.keys())
+        from strategies.registry import STRATEGY_REGISTRY, STRATEGY_CATEGORIES
+        strategy_keys = [k for k in STRATEGY_REGISTRY.keys() if k != "v_trend_collection"]
+
+        # 按类别分组显示
+        categories: dict[str, list[str]] = {}
+        for k in strategy_keys:
+            cat = STRATEGY_CATEGORIES.get(k, "未分类")
+            categories.setdefault(cat, []).append(k)
+
         print(f"=" * 60)
         print(f"全策略实盘扫描（共 {len(strategy_keys)} 个策略）")
-        print(f"策略列表：{strategy_keys}")
+        for cat, keys in categories.items():
+            print(f"  【{cat}】{keys}")
         print(f"=" * 60)
 
         # ── 共享数据下载（所有策略只下载一次）─────────────────────
@@ -385,7 +436,13 @@ def main() -> None:
         if not market_data:
             print("[错误] 未能获取任何股票数据，退出")
             sys.exit(1)
-        print(f"[数据] 成功获取 {len(market_data)}/{len(symbols)} 只股票的数据")
+        # 确保基准 ETF 在 market_data 中（用于分市场 RS 计算）
+        for benchmark, syms in [("SPY", ["SPY"]), ("ASHR", ["ASHR"]), ("EWT", ["EWT"])]:
+            if benchmark not in market_data:
+                data = fetch(syms, history_days=history_days, live_mode=True)
+                if data and benchmark in data:
+                    market_data[benchmark] = data[benchmark]
+        print(f"[数据] 成功获取 {len(market_data)}/{len(symbols)} 只股票的数据（含基准 ETF）")
         t_data = time.time()
         print(f"[耗时] 共享数据获取: {t_data - t0:.1f}秒\n")
 
@@ -397,11 +454,21 @@ def main() -> None:
 
             t1 = time.time()
             strategy_cls, strategy_id, strategy_name, strategy_config = resolve_strategy(config, sk)
-            print(f"{strategy_name} 信号系统 — 实盘模式")
+            cat = STRATEGY_CATEGORIES.get(sk, "未分类")
+            print(f"{strategy_name}【{cat}】信号系统 — 实盘模式")
             print(f"运行时间：{datetime.now().strftime('%Y-%m-%d %H:%M')}")
             print("=" * 60)
 
-            strategy = strategy_cls(strategy_config, market_data, live_mode=True)
+            # v_trend_collection 需要所有趋势策略实例
+            if sk == "v_trend_collection":
+                from strategies.registry import STRATEGY_REGISTRY
+                all_strats = []
+                for sid, cls in STRATEGY_REGISTRY.items():
+                    if sid not in ("v_adx50", "v_trend_collection"):
+                        all_strats.append(cls(strategy_config, market_data, live_mode=True))
+                strategy = strategy_cls(strategy_config, market_data, live_mode=True, all_strategies=all_strats)
+            else:
+                strategy = strategy_cls(strategy_config, market_data, live_mode=True)
 
             saved_positions = load_positions(strategy_id)
             if saved_positions:
@@ -453,7 +520,7 @@ def main() -> None:
             print("[错误] 回测模式必须指定 --start 和 --end")
             parser.print_help()
             sys.exit(1)
-        run_backtest(config, args.strategy, args.start, args.end, split=args.split, save_signals=args.save_signals)
+        run_backtest(config, args.strategy, args.start, args.end, split=args.split, save_signals=args.save_signals, position_size=args.position_size, initial_capital=args.initial_capital)
     elif args.mode == "scan":
         run_scan_mode(config, dry_run=args.dry_run)
 

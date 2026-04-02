@@ -31,26 +31,23 @@ load_dotenv(env_path)
 ALPHA_VANTAGE_API_KEY = os.getenv("ALPHA_VANTAGE_API_KEY", "")
 ALPHA_VANTAGE_BASE_URL = "https://www.alphavantage.co/query"
 
+# Finnhub API 配置（EPS 备选数据源，60次/分钟免费额度）
+FINNHUB_API_KEY = os.getenv("FINNHUB_API_KEY", "")
+FINNHUB_BASE_URL = "https://finnhub.io/api/v1"
+
 # ─── 路径配置 ──────────────────────────────────────────────────────────
 CACHE_DIR = Path(__file__).parent / "cache"
 CACHE_DIR.mkdir(exist_ok=True)
 
-# 缓存有效期：90 天（一个季度）
-EPS_CACHE_DAYS = 90
-
 
 def _eps_cache_path(symbol: str) -> Path:
-    """EPS 缓存文件路径"""
+    """EPS 缓存文件路径（永久缓存）"""
     return CACHE_DIR / f"eps_{symbol}.pkl"
 
 
 def _is_cache_valid(path: Path) -> bool:
-    """检查缓存是否有效"""
-    if not path.exists():
-        return False
-    mtime = datetime.fromtimestamp(path.stat().st_mtime, tz=timezone.utc)
-    age = datetime.now(tz=timezone.utc) - mtime
-    return age.days < EPS_CACHE_DAYS
+    """检查缓存是否存在（历史 EPS 数据永久有效，不需要过期机制）"""
+    return path.exists()
 
 
 def get_eps_growth(
@@ -104,35 +101,123 @@ def get_eps_growth(
         except Exception as e:
             print(f"[EPS] {symbol} 缓存读取失败: {e}")
 
-    # 从 Alpha Vantage 获取数据
-    print(f"[EPS] {symbol} 从 Alpha Vantage 获取数据...")
-    eps_history = _fetch_eps_from_av(symbol)
+    # 尝试 Finnhub（优先，免费额度充足：60次/分钟）
+    if FINNHUB_API_KEY:
+        print(f"[EPS] {symbol} 从 Finnhub 获取数据...")
+        eps_history = _fetch_eps_from_finnhub(symbol)
+        if eps_history:
+            # 缓存数据
+            try:
+                with open(cache_path, "wb") as f:
+                    pickle.dump({'eps_history': eps_history}, f)
+                print(f"[EPS] {symbol} 已缓存")
+            except Exception as e:
+                print(f"[EPS] {symbol} 缓存失败: {e}")
+            return _check_eps_growth(
+                {'eps_history': eps_history},
+                quarters_required,
+                yoy_required,
+                qoq_required
+            )
 
-    if not eps_history:
-        return {
-            'has_data': False,
-            'quarters': 0,
-            'yoy_growth': False,
-            'qoq_growth': False,
-            'latest_eps': None,
-            'eps_history': [],
-            'error': 'Failed to fetch EPS data'
-        }
+    # Finnhub 失败，尝试 Alpha Vantage
+    if ALPHA_VANTAGE_API_KEY:
+        print(f"[EPS] {symbol} 从 Alpha Vantage 获取数据...")
+        eps_history = _fetch_eps_from_av(symbol)
+        if not eps_history:
+            return {
+                'has_data': False,
+                'quarters': 0,
+                'yoy_growth': False,
+                'qoq_growth': False,
+                'latest_eps': None,
+                'eps_history': [],
+                'error': 'Failed to fetch EPS data'
+            }
+        # 缓存数据
+        try:
+            with open(cache_path, "wb") as f:
+                pickle.dump({'eps_history': eps_history}, f)
+            print(f"[EPS] {symbol} 已缓存")
+        except Exception as e:
+            print(f"[EPS] {symbol} 缓存失败: {e}")
+        return _check_eps_growth(
+            {'eps_history': eps_history},
+            quarters_required,
+            yoy_required,
+            qoq_required
+        )
 
-    # 缓存数据
+    return {
+        'has_data': False,
+        'quarters': 0,
+        'yoy_growth': False,
+        'qoq_growth': False,
+        'latest_eps': None,
+        'eps_history': [],
+        'error': 'No EPS API configured (set FINNHUB_API_KEY or ALPHA_VANTAGE_API_KEY)'
+    }
+
+def _fetch_eps_from_finnhub(symbol: str) -> list:
+    """从 Finnhub 获取 EPS 数据（季度历史）"""
+    if not FINNHUB_API_KEY:
+        return []
+
+    url = f"{FINNHUB_BASE_URL}/stock/metric"
+    params = {
+        "symbol": symbol,
+        "metric": "eps",  # 季度 EPS 历史
+        "token": FINNHUB_API_KEY,
+    }
     try:
-        with open(cache_path, "wb") as f:
-            pickle.dump({'eps_history': eps_history}, f)
-        print(f"[EPS] {symbol} 已缓存")
-    except Exception as e:
-        print(f"[EPS] {symbol} 缓存失败: {e}")
+        resp = requests.get(url, params=params, timeout=30)
+        if resp.status_code != 200:
+            return []
+        data = resp.json()
+        if data.get("error"):
+            print(f"[Finnhub EPS] {symbol} 错误: {data['error']}")
+            return []
 
-    return _check_eps_growth(
-        {'eps_history': eps_history},
-        quarters_required,
-        yoy_required,
-        qoq_required
-    )
+        # Finnhub 返回: {"series": {"quarterly": {"eps": [{"period": "2025-12-27", "v": 2.8424}, ...]}}}
+        series_quarterly = data.get("series", {}).get("quarterly", {})
+        eps_data = series_quarterly.get("eps", [])
+        if not eps_data:
+            return []
+
+        eps_history = []
+        for item in eps_data:
+            period_raw = item.get("period", "")  # "2025-12-27" 格式
+            eps_val = item.get("v")
+            if not period_raw or eps_val is None:
+                continue
+            try:
+                eps = float(eps_val)
+                if eps == 0:
+                    continue
+                # 转换 "2025-12-27" -> "2025-Q4"
+                parts = period_raw.split("-")
+                year = parts[0]
+                month = int(parts[1])
+                quarter = (month - 1) // 3 + 1
+                period_str = f"{year}-Q{quarter}"
+                eps_history.append((period_str, eps))
+            except (ValueError, TypeError, IndexError):
+                continue
+
+        # 按时间倒序（最新在前）
+        def sort_key(item):
+            try:
+                year_str, q_str = item[0].split("-Q")
+                return (int(year_str), int(q_str))
+            except:
+                return (0, 0)
+
+        eps_history.sort(key=sort_key, reverse=True)
+        return eps_history
+
+    except Exception as e:
+        print(f"[Finnhub EPS] {symbol} 获取失败: {e}")
+        return []
 
 
 def _fetch_eps_from_av(symbol: str, max_retries: int = 3) -> list:

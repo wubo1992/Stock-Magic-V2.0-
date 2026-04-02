@@ -28,7 +28,7 @@ data:
   history_days: 3652       # 拉取多少天历史数据（约10年，覆盖多个完整牛熊周期）
 
 # ── 默认策略（--strategy 未指定时使用）─────────────────────
-active_strategy: v1_plus
+active_strategy: v_eps_v2
 
 # ── 策略参数（每个策略独立命名空间）──────────────────────────
 strategies:
@@ -91,115 +91,6 @@ strategies:
     time_stop_days: 20
     time_stop_min_gain: 0.03
 
-  # ── O'Neil CANSLIM 技术版 ────────────────────────────────────
-  # 宽松 VCP（允许更深整理，近似 O'Neil 的"杯柄形态"），RS≥80，止损 7%
-  v_oneil:
-    name: O'Neil CANSLIM 技术版
-    description: "宽松 VCP 近似杯柄形态，RS Top 20%，7% 止损。注：无 EPS/ROE 基本面筛选"
-
-    sma_short: 50
-    sma_mid: 150
-    sma_long: 200
-    trend_lookback: 20
-    low_52w_mult: 1.25
-    high_52w_mult: 0.75
-
-    rs_min_percentile: 80        # IBD 风格 RS≥80（Top 20%）
-    pivot_lookback: 30
-    min_breakout_pct: 0.005
-    volume_mult: 1.5
-
-    vcp_lookback: 60             # 稍长，检测更宽的杯形
-    vcp_min_contractions: 2
-    vcp_final_range_pct: 0.20    # 宽松（O'Neil 杯底可达 33%，用 20% 近似）
-
-    stop_loss_pct: 0.08          # O'Neil 经典 7% 止损
-    trailing_stop_pct: 0.18
-    time_stop_days: 20
-    time_stop_min_gain: 0.03
-
-  # ── David Ryan 精简 CANSLIM ──────────────────────────────────
-  # 极紧 VCP，强调整理"形态紧密性"，RS≥80，追踪止损更紧（15%）
-  v_ryan:
-    name: Ryan 精简 CANSLIM
-    description: "极紧 VCP（5%），RS Top 20%，8% 止损。注：无小市值过滤（缺少市值数据）"
-
-    sma_short: 50
-    sma_mid: 150
-    sma_long: 200
-    trend_lookback: 20
-    low_52w_mult: 1.25
-    high_52w_mult: 0.75
-
-    rs_min_percentile: 80
-    pivot_lookback: 30
-    min_breakout_pct: 0.005
-    volume_mult: 2.0             # 整理期量能需更明显萎缩才算"紧密"
-
-    vcp_lookback: 50
-    vcp_min_contractions: 2
-    vcp_final_range_pct: 0.05    # 极紧（vs v1_plus 的 0.12）
-
-    stop_loss_pct: 0.08
-    trailing_stop_pct: 0.15      # Ryan 从高点回落 15% 出场
-    time_stop_days: 20
-    time_stop_min_gain: 0.03
-
-  # ── Oliver Kell VCP 2.0 ────────────────────────────────────
-  # 放量要求极严（3x），突破幅度更高，RS≥80
-  v_kell:
-    name: Kell VCP 2.0
-    description: "高量能门槛（3x），突破≥1.5%，RS Top 20%。注：无 EPS≥50% 基本面筛选"
-
-    sma_short: 50
-    sma_mid: 150
-    sma_long: 200
-    trend_lookback: 20
-    low_52w_mult: 1.25
-    high_52w_mult: 0.75
-
-    rs_min_percentile: 80
-    pivot_lookback: 30
-    min_breakout_pct: 0.015      # 突破幅度至少 1.5%（vs v1_plus 的 0.5%）
-    volume_mult: 3.0             # 突破量至少 3 倍（vs v1_plus 的 1.5x）
-
-    vcp_lookback: 50
-    vcp_min_contractions: 2
-    vcp_final_range_pct: 0.10
-
-    stop_loss_pct: 0.08
-    trailing_stop_pct: 0.18
-    time_stop_days: 20
-    time_stop_min_gain: 0.03
-
-  # ── Kullamägi VCP 变种 ──────────────────────────────────────
-  # 极紧止损（5%），极端放量要求（4x），快速时间止损
-  # ⚠️ 注：Episodic Pivot 入场未实现（需要财报超预期数据）
-  v_kullamaggi:
-    name: Kullamägi VCP 变种
-    description: "止损 5%（最紧），放量 4x（极端），⚠️ Episodic Pivot 未实现"
-
-    sma_short: 50
-    sma_mid: 150
-    sma_long: 200
-    trend_lookback: 20
-    low_52w_mult: 1.25
-    high_52w_mult: 0.75
-
-    rs_min_percentile: 75
-    pivot_lookback: 30
-    min_breakout_pct: 0.005
-    volume_mult: 4.0             # 极端放量要求（vs 1.5x）
-
-    vcp_lookback: 50
-    vcp_min_contractions: 2
-    vcp_final_range_pct: 0.08
-
-    stop_loss_pct: 0.05          # 极紧止损 5%（vs 10%）
-    trailing_stop_pct: 0.12      # 从高点回落 12% 出场
-    time_stop_days: 15           # 更短时间止损
-    time_stop_min_gain: 0.02
-
   # ── Zanger 纯技术动量 ─────────────────────────────────────
   # 无 RS 过滤，无 VCP，只要 SMA150 上升 + 高量突破（3x）
   v_zanger:
@@ -212,59 +103,57 @@ strategies:
     min_breakout_pct: 0.005
     volume_mult: 3.0             # 放量至少 3 倍
 
-    stop_loss_pct: 0.08
+    stop_loss_pct: 0.07
     trailing_stop_pct: 0.15
     time_stop_days: 10           # Zanger 更短的时间止损（不持有不动的股票）
     time_stop_min_gain: 0.02
 
-  # ── Stine 超强精选（无内部人数据版）────────────────────────
-  # RS 门槛最高（Top 10%），极紧 VCP，高量
-  # ⚠️ 注：内部人士买入（SEC Form 4）条件缺失，缺少此核心过滤器
-  v_stine:
-    name: Stine 超强精选（无内部人数据版）
-    description: "RS Top 10%，极紧 VCP（5%），放量 3x，⚠️ 内部人买入条件缺失"
-
-    sma_short: 50
-    sma_mid: 150
-    sma_long: 200
-    trend_lookback: 20
-    low_52w_mult: 1.25
-    high_52w_mult: 0.75          # 距 52 周高点不超过 25%（已在高位区）
-
-    rs_min_percentile: 90        # Top 10%（vs v1_plus 的 70%）
-    pivot_lookback: 30
-    min_breakout_pct: 0.005
-    volume_mult: 3.0
-
-    vcp_lookback: 50
-    vcp_min_contractions: 2
-    vcp_final_range_pct: 0.05    # 极紧
-
-    stop_loss_pct: 0.08
-    trailing_stop_pct: 0.18
-    time_stop_days: 20
-    time_stop_min_gain: 0.03
-
   # ── Weinstein Stage 2 阶段分析 ──────────────────────────────
   # 只用 SMA150，无 VCP，无 RS，Stage 2 突破入场，中长期持有
   v_weinstein:
-    name: Weinstein Stage 2 分析
-    description: "SMA150 上升 + 价格突破整理区，无 VCP，无 RS，长周期策略"
+    name: Weinstein Stage 2
+    description: "Weinstein原版：SMA30上升趋势 + 整理区突破 + SPY>SMA50过滤 + RS + 8%止损/20%追踪"
 
-    sma_long: 150                # 核心工具：30 周均线（≈150 日）
-    trend_lookback: 30           # SMA150 需上升至少 30 天（Stage 2 确认）
-    pivot_lookback: 30
-    min_breakout_pct: 0.005
-    volume_mult: 1.5
+    sma_market: 50              # 市场趋势：SPY > SMA50
+    sma_stage2: 30             # Stage 2 核心均线：30 日
+    sma_long: 150               # 长期均线（供参考）
 
-    stop_loss_pct: 0.10
-    trailing_stop_pct: 0.18
-    time_stop_days: 30           # 中长期策略，给更多时间
-    time_stop_min_gain: 0.05     # 持有 30 天仍不到 5% 才离场
+    stage2_lookback: 30        # SMA30 需上升至少 30 天
+    consolidation_days: 15       # 整理区间至少 15 天
+    min_breakout_pct: 0.01      # 突破幅度≥1%（放松）
+    volume_mult: 1.5            # 放量≥1.5倍
+    max_deviation_pct: 0.35     # 乖离率≤35%（避免追高）
+    rs_min_percentile: 70        # RS排名前30%
+
+    stop_loss_pct: 0.08         # 止损 8%
+    trailing_stop_pct: 0.20     # 追踪止盈 20%
 
   v_weinstein_adx:
-    name: Weinstein Stage 2 + ADX 增强
-    description: "Weinstein Stage 2 + ADX(14)>35 + RSI<80 趋势确认"
+    name: Weinstein Stage 2 + ADX 增强（优化版）
+    description: "ADX>25 + 追踪止盈15% + 放量2.0x，年化+6.9%，夏普0.61（vs 基线0.52）"
+
+    sma_long: 150
+    trend_lookback: 30
+    pivot_lookback: 30
+    min_breakout_pct: 0.005
+    volume_mult: 2.0          # ← 1.5 → 2.0（量能门槛提高，信号更干净）
+    rsi_max: 85
+    adx_threshold: 25          # ← 35 → 25（降低趋势门槛，允许弱趋势进入）
+    market_filter: false
+    spy_bear_stop_loss: 0.05
+
+    stop_loss_pct: 0.07
+    trailing_stop_pct: 0.15    # ← 0.18 → 0.15（紧止盈降低波动，提升夏普）
+    time_stop_days: 30
+    time_stop_min_gain: 0.05
+
+  # ── Weinstein Stage 2 + ADX 牛熊自适应 ──────────────────────────
+  # 方向1（放宽RSI）+ 方向3（市场环境检测）优化版
+  # 牛市模式：SPY > SMA150 且 ADX > 20 → 放宽 RSI<90, ADX>25, 确认20天, 量1.2x
+  # 熊市模式：SPY <= SMA150 → 收紧 RSI<85, ADX>35, 确认30天, 量1.5x
+  v_weinstein_bullbear:
+    name: Weinstein Stage 2 + ADX 牛熊自适应
+    description: "SPY检测牛熊自动切换参数：牛市放宽RSI/ADX/确认期，熊市收紧"
 
     sma_long: 150
     trend_lookback: 30
@@ -274,11 +163,18 @@ strategies:
     rsi_max: 85
     adx_threshold: 35
     market_filter: false
+    spy_bear_stop_loss: 0.05
 
-    stop_loss_pct: 0.08
+    stop_loss_pct: 0.07
     trailing_stop_pct: 0.18
     time_stop_days: 30
     time_stop_min_gain: 0.05
+
+    # 熊市参数（牛市用放宽后的默认值，代码里写死）
+    trend_lookback_bear: 30
+    rsi_max_bear: 85
+    adx_threshold_bear: 35
+    volume_mult_bear: 1.5
 
   # ── EPS 基本面因子策略 ────────────────────────────────
   # SEPA 技术分析 + EPS 增长筛选（Alpha Vantage 数据源）
@@ -315,8 +211,8 @@ strategies:
   # ── Weinstein Stage 2 + EPS 基本面策略 ──────────────────────────
   # 以 Weinstein Stage 2 为技术框架，通过后再加 EPS 增长筛选
   v_eps_v2:
-    name: "Weinstein + EPS"
-    description: "Weinstein Stage 2 技术框架 + EPS 增长筛选（3季度同比+环比增长）"
+    name: "Weinstein + EPS (优化版)"
+    description: "Weinstein Stage 2 技术框架 + EPS 增长筛选（冠军参数：OOS夏普1.39，2016-2026年化6.4%）"
 
     # Weinstein Stage 2 技术参数
     sma_long: 150                # 核心工具：30 周均线（≈150 日）
@@ -325,13 +221,13 @@ strategies:
     min_breakout_pct: 0.005
     volume_mult: 1.5
 
-    stop_loss_pct: 0.10
-    trailing_stop_pct: 0.18
-    time_stop_days: 30           # 中长期策略，给更多时间
+    stop_loss_pct: 0.08          # 优化后：更紧止损（原 0.10）
+    trailing_stop_pct: 0.15       # 优化后：更紧追踪止盈（原 0.18）
+    time_stop_days: 60           # 优化后：更长持仓窗口（原 30）
     time_stop_min_gain: 0.05
 
     # EPS 基本面参数
-    eps_quarters_required: 3     # 需要几个季度 EPS 数据
+    eps_quarters_required: 2      # 优化后：少看1季度，更宽松（原 3）
     eps_yoy_required: true       # 同比是否必须增长
     eps_qoq_required: true       # 环比是否必须增长
 
@@ -378,6 +274,220 @@ strategies:
     stop_loss_pct: 0.10
     take_profit_pct: 0.20
     rs_min_percentile: 70
+
+  # ── Weinstein Modified 分批止盈版 ─────────────────────────────
+  # 基于 Weinstein Stage 2，修改出场逻辑：
+  # 1. 强制固定止损 10%
+  # 2. 去掉时间止损
+  # 3. 涨超 20% 后，卖出一半止盈
+  # 4. 另一半采用买入价止损 + 追踪止盈 20%
+  v_weinstein_mod:
+    name: Weinstein Modified 分批止盈版
+    description: "Weinstein Stage 2 + 分批止盈：涨超20%卖一半，剩余追踪止盈20%"
+
+    # Weinstein Stage 2 技术参数
+    sma_long: 150
+    trend_lookback: 30
+    pivot_lookback: 30
+    min_breakout_pct: 0.005
+    volume_mult: 2.5              # 更高放量要求以减少信号
+
+    # RS 过滤参数（提高门槛以减少信号）
+    rs_min_percentile: 95        # Top 5%，高门槛
+
+    # 分批止盈参数
+    profit_take_level: 0.20      # 涨超20%时卖出一半
+    trailing_stop_pct: 0.20      # 追踪止盈20%
+    stop_loss_pct: 0.10          # 固定止损10%
+
+  # ── Weinstein 分批止盈精细化版 ─────────────────────────────
+  # 改进2：三档分批止盈（15%卖1/3，25%卖1/3，剩余1/3追踪止盈25%）
+  v_weinstein_take_profit:
+    name: Weinstein 分批止盈精细化
+    description: "三档止盈：涨15%卖1/3，涨25%再卖1/3，剩余追踪止盈25%"
+
+    sma_long: 150
+    trend_lookback: 30
+    pivot_lookback: 30
+    min_breakout_pct: 0.005
+    volume_mult: 2.5
+    rs_min_percentile: 95        # Top 5%
+
+    # 三档止盈参数
+    tier1_pct: 0.15             # 第一档：涨15%卖1/3
+    tier2_pct: 0.25             # 第二档：涨25%再卖1/3
+    tier3_trailing: 0.25         # 第三档：追踪止盈25%
+    stop_loss_pct: 0.10          # 固定止损10%
+
+  # ── Weinstein 市场环境过滤版 ─────────────────────────────
+  # 改进3：SPY < SMA150 时禁止新买入（熊市过滤）
+  v_weinstein_market_filter:
+    name: Weinstein 市场环境过滤版
+    description: "SPY低于SMA150时禁止买入，排除熊市假信号"
+
+    sma_long: 150
+    trend_lookback: 30
+    pivot_lookback: 30
+    min_breakout_pct: 0.005
+    volume_mult: 2.5
+    rs_min_percentile: 95
+
+    profit_take_level: 0.20
+    trailing_stop_pct: 0.20
+    stop_loss_pct: 0.10
+
+  # ── Weinstein 板块相对强度版 ─────────────────────────────
+  # 改进4：只买板块内RS排名前50%的股票（等权板块基准）
+  v_weinstein_sector:
+    name: Weinstein 板块相对强度版
+    description: "板块内RS排名前50%才买入，避免逆板块做多"
+
+    sma_long: 150
+    trend_lookback: 30
+    pivot_lookback: 30
+    min_breakout_pct: 0.005
+    volume_mult: 2.5
+    rs_min_percentile: 95
+
+    sector_rs_min_pct: 50       # 板块内排名前50%
+    profit_take_level: 0.20
+    trailing_stop_pct: 0.20
+    stop_loss_pct: 0.10
+
+  # ── Weinstein 市场过滤+严格放量版 ─────────────────────────
+  # 改进3+：市场环境过滤 + 3x 严格放量
+  v_weinstein_mf_strict:
+    name: Weinstein 市场过滤+严格放量
+    description: "SPY低于SMA150时禁止买入 + 3x放量确认（而非2.5x）"
+
+    sma_long: 150
+    trend_lookback: 30
+    pivot_lookback: 30
+    min_breakout_pct: 0.005
+    volume_mult: 2.5              # 基础放量（代码里用 volume_mult_strict=3.0）
+    volume_mult_strict: 3.0       # 严格放量要求
+    rs_min_percentile: 95
+
+    profit_take_level: 0.20
+    trailing_stop_pct: 0.20
+    stop_loss_pct: 0.10
+
+  # ── Weinstein 熊市逆势版 ─────────────────────────────
+  # 方向1：熊市不空仓，专门找"逆势强势股"
+  # 熊市时要求 RS Top 3%（最强中的最强）+ 价格>20EMA
+  # 牛市时正常 Weinstein 入场
+  v_weinstein_bear_outperform:
+    name: Weinstein 熊市逆势版
+    description: "熊市（SPY<SMA150）专找RS Top3%+20EMA强势股，8%止损+三档止盈"
+
+    sma_long: 150
+    trend_lookback: 30
+    pivot_lookback: 30
+    min_breakout_pct: 0.005
+    volume_mult_strict: 3.0       # 3x 严格放量
+
+    # 熊市时 RS 要求（Top 3%），牛市时用 90
+    bear_rs_min: 97               # 熊市时 RS 门槛（Top 3%）
+    rs_min_percentile: 90         # 牛市时 RS 门槛
+
+    # 止损（熊市 8%，牛市维持 Weinstein 原版 10%）
+    stop_loss_pct: 0.08          # 熊市更紧止损
+
+    # 三档止盈
+    tier1_pct: 0.15             # 涨15%卖1/3
+    tier2_pct: 0.25             # 涨25%再卖1/3
+    tier3_trailing: 0.20         # 剩余追踪止盈20%
+
+  # ── Weinstein 牛市灵敏捕捉版 ─────────────────────────────
+  # 方向2：用 SMA50 替代 SMA150 判断市场（更灵敏）
+  # SPY > SMA50 → 牛市，允许建仓
+  # SPY ≤ SMA50 → 熊市，禁止建仓
+  v_weinstein_bull_sensitive:
+    name: Weinstein 牛市灵敏捕捉版
+    description: "SPY>SMA50，RS80+2.0x放量，10%/追踪分批止盈，5%/10%分批止损，$2000/笔"
+
+    sma_long: 150
+    trend_lookback: 30
+    pivot_lookback: 30
+    min_breakout_pct: 0.005
+    volume_mult_strict: 2.0       # 2.0x 放量（放宽增加信号）
+    sma_market: 50                # 市场判断用 SMA50（灵敏）
+    rs_min_percentile: 80         # RS Top 20%
+
+    # 出场参数
+    # 止损：跌5%卖一半，跌10%卖剩下一半
+    stop_loss_tier1: 0.05
+    stop_loss_tier2: 0.10
+    # 止盈：涨10%卖一半，剩余追踪止盈15%
+    profit_take_tier1: 0.10      # 第一档止盈
+    trailing_stop_pct: 0.15       # 追踪止盈15%
+
+  # ── 实验A：盈亏平衡止损 ────────────────────────────────────
+  # 卖出一半后，剩余止损立刻移到入场价（保本）
+  v_weinstein_bull_sensitive_a:
+    name: Weinstein 牛市灵敏捕捉版 实验A（盈亏平衡止损）
+    description: "A: +10%卖一半后剩余移至盈亏平衡止损，其他同原始"
+    sma_long: 150
+    trend_lookback: 30
+    pivot_lookback: 30
+    min_breakout_pct: 0.005
+    volume_mult_strict: 2.0
+    sma_market: 50
+    rs_min_percentile: 80
+    stop_loss_tier1: 0.05
+    stop_loss_tier2: 0.10
+    profit_take_tier1: 0.10
+    trailing_stop_pct: 0.15
+
+  # ── 实验B：时间止损 ────────────────────────────────────────
+  # 止损一后剩余半仓启动20天时间止损，加速资金周转
+  v_weinstein_bull_sensitive_b:
+    name: Weinstein 牛市灵敏捕捉版 实验B（时间止损）
+    description: "B: 止损一后20天时间止损，其他同原始"
+    sma_long: 150
+    trend_lookback: 30
+    pivot_lookback: 30
+    min_breakout_pct: 0.005
+    volume_mult_strict: 2.0
+    sma_market: 50
+    rs_min_percentile: 80
+    stop_loss_tier1: 0.05
+    stop_loss_tier2: 0.10
+    profit_take_tier1: 0.10
+    trailing_stop_pct: 0.15
+
+  # ── 实验C：SPY动量过滤 ───────────────────────────────────
+  # SPY>SMA50 且 SMA50 正在上升（20日），加速牛市确认
+  v_weinstein_bull_sensitive_c:
+    name: Weinstein 牛市灵敏捕捉版 实验C（SPY动量过滤）
+    description: "C: SPY>SMA50且SMA50上升，出场同原始"
+    sma_long: 150
+    trend_lookback: 30
+    pivot_lookback: 30
+    min_breakout_pct: 0.005
+    volume_mult_strict: 2.0
+    sma_market: 50
+    rs_min_percentile: 80
+    stop_loss_tier1: 0.05
+    stop_loss_tier2: 0.10
+    profit_take_tier1: 0.10
+    trailing_stop_pct: 0.15
+
+  # ── 实验AB：时间止损 + 盈亏平衡止损（组合）──────────────
+  v_weinstein_bull_sensitive_ab:
+    name: Weinstein 牛市灵敏捕捉版 实验AB（时间+盈亏平衡止损）
+    description: "AB: 20天时间止损 + 止盈后盈亏平衡止损，合并B+A核心改进"
+    sma_long: 150
+    trend_lookback: 30
+    pivot_lookback: 30
+    min_breakout_pct: 0.005
+    volume_mult_strict: 2.0
+    sma_market: 50
+    rs_min_percentile: 80
+    stop_loss_tier1: 0.05
+    stop_loss_tier2: 0.10
+    profit_take_tier1: 0.10
+    trailing_stop_pct: 0.15
 
 # ------------------------------------------------------------
 # 输出设置

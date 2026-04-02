@@ -44,7 +44,8 @@ from universe.manager import get_universe, _read_universe_md
 from universe.updater import run_scan
 
 # 加载 .env 文件（Alpaca API Key 等）
-load_dotenv()
+_env_path = Path(__file__).parent / "signal_system" / ".env"
+load_dotenv(dotenv_path=str(_env_path), override=True)
 
 
 def load_config(config_path: str = "config.yaml") -> dict:

@@ -6,6 +6,7 @@ strategies/v_eps_v1_plus/eps_v1_plus_strategy.py — EPS V1 Plus 策略
 筛选顺序：
   1. SEPAPlusStrategy._check_entry（SEPA + VCP 技术分析）
   2. EPS 增长检查（基本面过滤）
+     - 无 EPS 数据 → 跳过，不出信号
 
 对应 config.yaml 的 strategies.v_eps_v1_plus 段。
 """
@@ -19,17 +20,17 @@ class EPSV1PlusStrategy(SEPAPlusStrategy):
     """EPS V1 Plus 策略：v1_plus 技术框架 + EPS 基本面过滤"""
 
     strategy_id = "v_eps_v1_plus"
-    strategy_name = "EPS V1 Plus"
+    strategy_name = "v1_plus+EPS"
 
     def _check_entry(self, symbol, df, date):
-        # 1. 执行 SEPAPlusStrategy 技术分析（继承自 V1 的完整 SEPA + VCP 检查）
+        # 1. 执行 SEPAPlusStrategy 技术分析
         signal_or_none = super()._check_entry(symbol, df, date)
         if signal_or_none is None:
             return None
 
         signal = signal_or_none
 
-        # 2. 技术条件通过后，检查 EPS 增长（基本面过滤）
+        # 2. 技术条件通过后，检查 EPS 增长
         eps_quarters = self.cfg.get("eps_quarters_required", 3)
         eps_yoy = self.cfg.get("eps_yoy_required", True)
         eps_qoq = self.cfg.get("eps_qoq_required", True)
@@ -42,6 +43,7 @@ class EPSV1PlusStrategy(SEPAPlusStrategy):
         )
 
         if not eps_passed:
+            # EPS 抓不到或筛选未通过，跳过
             return None
 
         # 3. 全部通过，组装增强信号
@@ -54,8 +56,7 @@ class EPSV1PlusStrategy(SEPAPlusStrategy):
             f"{sep_reason}"
         )
 
-        enhanced_signal = SignalEvent.create(
+        return SignalEvent.create(
             symbol=symbol, timestamp=date, direction="buy",
             strength=signal.data["strength"], reason=reason, stop_loss=stop_loss,
         )
-        return enhanced_signal

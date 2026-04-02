@@ -69,7 +69,10 @@ def _is_us_stock(symbol: str) -> bool:
 
 
 def fetch(
-    symbols: list[str], history_days: int, live_mode: bool = False
+    symbols: list[str],
+    history_days: int,
+    live_mode: bool = False,
+    end_date: datetime | None = None,
 ) -> dict[str, pd.DataFrame]:
     """
     获取多只股票的日线历史数据。
@@ -84,11 +87,14 @@ def fetch(
         history_days:  往前拉多少天的数据
         live_mode:     实盘模式时设为 True，强制要求最新收盘数据（当天或上一交易日）
                        回测模式设为 False，允许 3 天缓存宽容（覆盖周末/节假日）
+        end_date:      可选，指定数据截止日期。回测时传入实际回测结束日，
+                       本地数据以此判断是否足够新（避免用 datetime.now() 误判过期）
 
     返回：
         {symbol: DataFrame}，DataFrame 列：open, high, low, close, volume
     """
-    end_date = datetime.now(tz=timezone.utc)
+    if end_date is None:
+        end_date = datetime.now(tz=timezone.utc)
     start_date = end_date - timedelta(days=history_days)
 
     t0 = time.time()
@@ -99,7 +105,7 @@ def fetch(
     # ── 第一步：三分类 ────────────────────────────────────────────
     t1 = time.time()
     for symbol in symbols:
-        local = _load_local(symbol, start_date)
+        local = _load_local(symbol)
         if local is None:
             need_full.append(symbol)
         else:
@@ -147,6 +153,33 @@ def fetch(
                 yahoo_result = _fetch_via_yahoo(still_missing, start_date, end_date, history_days)
                 for symbol, df in yahoo_result.items():
                     result[symbol] = df
+                    _save_local(symbol, df)
+
+            # ── Alpha Vantage 补充：Alpaca 数据不足 2016 年则补充 2010-2016 ─
+            # 检查 Alpaca 返回的数据中，有哪些股票的截止日期早于 2016-01-01
+            # 这说明其历史不够长，需要用 Alpha Vantage 补充早期数据
+            cutoff_2016 = datetime(2016, 1, 1, tzinfo=timezone.utc)
+            need_av_backfill = []
+            for symbol, df in alpaca_result.items():
+                last_date = df.index[-1]
+                if last_date.tzinfo is None:
+                    last_date = last_date.tz_localize("UTC")
+                if last_date < cutoff_2016:
+                    need_av_backfill.append(symbol)
+
+            if need_av_backfill:
+                print(f"[数据] {len(need_av_backfill)} 只股票 Alpaca 数据截止于 2016 年前，用 Alpha Vantage 补充历史...")
+                av_result = _fetch_via_alpha_vantage(need_av_backfill, start_date, end_date)
+                for symbol, df in av_result.items():
+                    # Alpha Vantage 可能有更早的数据，合并
+                    existing = result.get(symbol)
+                    if existing is not None and not existing.empty:
+                        merged = pd.concat([df, existing])
+                        merged = merged[~merged.index.duplicated(keep="last")]
+                        merged = merged.sort_index()
+                        result[symbol] = merged
+                    else:
+                        result[symbol] = df
                     _save_local(symbol, df)
 
     # ── 第三步：增量更新（使用 Alpaca + Yahoo 备用）────────────────────────────
@@ -223,13 +256,10 @@ def clear_cache(symbol: str | None = None) -> None:
 # 本地持久化读写（永久存储，不做时效性判断）
 # ══════════════════════════════════════════════════════════════════
 
-def _load_local(symbol: str, start_date: datetime) -> pd.DataFrame | None:
+def _load_local(symbol: str) -> pd.DataFrame | None:
     """
-    读取本地持久化数据。
-
-    只做历史覆盖检查，不做时效性判断（时效由 fetch() 外层处理）：
-    - 若本地数据的第一条不晚于所需起始日期（允许 30 天误差），则返回
-    - 否则返回 None，触发全量下载
+    读取本地持久化数据。只要本地文件存在且可读就直接返回，
+    不做历史覆盖检查，不做时效性判断。
     """
     cache_file = CACHE_DIR / f"{symbol}.pkl"
     if not cache_file.exists():
@@ -242,14 +272,6 @@ def _load_local(symbol: str, start_date: datetime) -> pd.DataFrame | None:
         return None
 
     if df is None or df.empty:
-        return None
-
-    first = df.index[0]
-    if first.tzinfo is None:
-        first = first.tz_localize("UTC")
-
-    # 检查历史覆盖：本地数据起始点不能比所需起点晚太多
-    if first > start_date + timedelta(days=30):
         return None
 
     return df
@@ -380,6 +402,103 @@ def _alpaca_fetch_batch(
 
 
 # ══════════════════════════════════════════════════════════════════
+# Alpha Vantage API（补充早期历史数据，2010-2016 专用）
+# ══════════════════════════════════════════════════════════════════
+
+_AV_BASE = "https://www.alphavantage.co/query"
+
+
+def _fetch_via_alpha_vantage(
+    symbols: list[str],
+    start_date: datetime,
+    end_date: datetime,
+) -> dict[str, pd.DataFrame]:
+    """
+    用 Alpha Vantage TIME_SERIES_DAILY（outputsize=full）补充历史数据。
+    每次调用返回约 20 年历史数据，适合补充 Alpaca/Yahoo 覆盖不到的 2010-2016 段。
+    限流：5 次/分钟，25 次/天（免费层）。
+    """
+    api_key = os.environ.get("ALPHA_VANTAGE_API_KEY", "")
+    if not api_key:
+        print("[数据] 未配置 ALPHA_VANTAGE_API_KEY，跳过")
+        return {}
+
+    result: dict[str, pd.DataFrame] = {}
+    # Alpha Vantage 免费层限流：5 次/分钟
+    # 为保险起见每次 sleep 12 秒，25 次/d * 12s = 5 分钟，刚好够用
+    delay = 12
+
+    for i, symbol in enumerate(symbols):
+        if i > 0 and i % 5 == 0:
+            print(f"[数据] Alpha Vantage 已下载 {i}/{len(symbols)} 只，暂停防限流...")
+            time.sleep(delay)
+        time.sleep(delay)
+        df = _av_fetch_one(symbol, api_key)
+        if df is not None and not df.empty:
+            # 按时间窗口裁剪
+            df = df[(df.index >= start_date) & (df.index <= end_date)]
+            if not df.empty:
+                result[symbol] = df
+                print(f"[数据]   {symbol}: AV 返回 {len(df)} 条 ({df.index[0].date()} ~ {df.index[-1].date()})")
+            else:
+                print(f"[数据]   {symbol}: AV 数据不在目标区间内")
+        else:
+            print(f"[数据]   {symbol}: AV 下载失败或无数据")
+
+    print(f"[数据] Alpha Vantage 成功 {len(result)}/{len(symbols)} 只")
+    return result
+
+
+def _av_fetch_one(symbol: str, api_key: str) -> pd.DataFrame | None:
+    """单只股票从 Alpha Vantage 下载 full daily 数据（CSV 格式）。"""
+    url = f"{_AV_BASE}?function=TIME_SERIES_DAILY&symbol={symbol}&outputsize=full&apikey={api_key}&datatype=csv"
+    try:
+        resp = requests.get(url, timeout=30)
+        resp.raise_for_status()
+        text = resp.text.strip()
+        if "Invalid API call" in text or "premium" in text.lower():
+            print(f"[数据]   {symbol}: AV API 调用无效或需要 premium")
+            return None
+        lines = text.split("\n")
+        if len(lines) < 2:
+            return None
+        # CSV format: date,open,high,low,close,volume
+        header = lines[0].split(",")
+        expected = ["timestamp", "open", "high", "low", "close", "volume"]
+        if header[:6] != expected:
+            # Try alternative format
+            pass
+        records = []
+        for line in lines[1:]:
+            parts = line.split(",")
+            if len(parts) < 6:
+                continue
+            try:
+                dt = pd.to_datetime(parts[0], utc=True)
+                records.append({
+                    "open": float(parts[1]),
+                    "high": float(parts[2]),
+                    "low": float(parts[3]),
+                    "close": float(parts[4]),
+                    "volume": int(parts[5]),
+                })
+            except (ValueError, IndexError):
+                continue
+        if not records:
+            return None
+        df = pd.DataFrame(records)
+        df.index = pd.DatetimeIndex([r["date"] for r in records], tz="UTC")
+        df.index.name = "date"
+        df = df[["open", "high", "low", "close", "volume"]]
+        df = df.dropna()
+        df = df[df["volume"] > 0]
+        return df
+    except Exception as e:
+        print(f"[数据]   {symbol}: AV 请求异常 {e}")
+        return None
+
+
+# ══════════════════════════════════════════════════════════════════
 # Yahoo Finance v8 API（备用来源）
 # ══════════════════════════════════════════════════════════════════
 
@@ -410,26 +529,22 @@ def _fetch_via_yahoo(
 def _yahoo_download_one(
     symbol: str, history_days: int, session: requests.Session
 ) -> pd.DataFrame | None:
-    """单只股票的 Yahoo Finance 下载，最多重试 3 次。"""
+    """单只股票的 Yahoo Finance 下载，403 直接跳过不重试。"""
     print(f"[数据] Yahoo 下载 {symbol}...")
-    for attempt in range(3):
-        if attempt > 0:
-            wait = 15 * attempt
-            print(f"[数据]   重试中，等待 {wait}s...")
-            time.sleep(wait)
-        try:
-            url = _YF_API.format(symbol=symbol)
-            params = {"interval": "1d", "range": _days_to_range(history_days)}
-            resp = session.get(url, params=params, timeout=15)
-            if resp.status_code == 403:
-                print(f"[数据]   {symbol} 被限流（403）")
-                continue
-            resp.raise_for_status()
-            df = _parse_yahoo_response(resp.json())
-            if df is not None and not df.empty:
-                return df
-        except Exception as e:
-            print(f"[数据]   {symbol} 第 {attempt+1} 次失败：{e}")
+    try:
+        url = _YF_API.format(symbol=symbol)
+        params = {"interval": "1d", "range": _days_to_range(history_days)}
+        resp = session.get(url, params=params, timeout=15)
+        if resp.status_code == 403:
+            print(f"[数据]   {symbol} 被限流（403），跳过")
+            return None
+        resp.raise_for_status()
+        df = _parse_yahoo_response(resp.json())
+        if df is not None and not df.empty:
+            return df
+        print(f"[数据]   {symbol} 无有效数据，跳过")
+    except Exception as e:
+        print(f"[数据]   {symbol} 下载失败：{e}")
     return None
 
 

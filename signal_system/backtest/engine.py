@@ -45,6 +45,7 @@ class Trade:
     exit_reason: str = ""
     pnl_pct: float = 0.0        # 盈亏百分比，正数=盈利，负数=亏损
     signal_strength: int = 0    # 入场时的信号强度
+    entry_reason: str = ""       # 入场原因（策略详细指标）
 
     @property
     def is_closed(self) -> bool:
@@ -79,6 +80,12 @@ class BacktestResult:
 
     # 净值曲线（每日）
     equity_curve: pd.Series
+
+    # 资金使用指标（仅固定金额模式）
+    max_positions: int = 0       # 峰值持仓股数
+    avg_positions: float = 0.0    # 平均持仓股数
+    capital_usage_pct: float = 0.0  # 峰值资金使用比率（%）
+
 
     def print_report(self, label: str = "", strategy_name: str = "SEPA Minervini") -> None:
         """按 STRATEGY_PROTOCOL.md 规定的格式打印回测报告。"""
@@ -117,6 +124,14 @@ class BacktestResult:
             return
 
         print(f"  总交易笔数：{self.total_trades} 笔")
+        # 实际金额（固定金额模式可通过初始净值 > 1 来判断）
+        if len(self.equity_curve) >= 2 and float(self.equity_curve.iloc[0]) > 1:
+            init_eq = float(self.equity_curve.iloc[0])
+            final_eq = float(self.equity_curve.iloc[-1])
+            dollar_ret = final_eq - init_eq
+            pct_ret = dollar_ret / init_eq * 100
+            sign = "+" if dollar_ret >= 0 else ""
+            print(f"  初始本金：${init_eq:,.0f}  →  最终净值：${final_eq:,.0f}  实际收益：{sign}${dollar_ret:,.0f} ({pct_ret:+.1f}%)")
         print(f"  {'指标':<18} {'数值':>10}   {'及格线':>10}  {'状态'}")
         print(f"  {'-'*48}")
         print(f"  {'胜率':<18} {self.win_rate*100:>9.1f}%   {'> 40%':>10}   {win_pass}")
@@ -125,6 +140,10 @@ class BacktestResult:
         print(f"  {'每月信号数':<15} {self.signals_per_month:>10.1f}   {'2 ~ 10':>10}   {freq_pass}")
         print(f"  {'年化收益':<16} {self.annualized_return*100:>9.1f}%   {'> 15%':>10}   {ar_pass}")
         print(f"  {'夏普比率':<16} {self.sharpe_ratio:>10.2f}   {'> 1.0':>10}   {sr_pass}")
+        if self.max_positions > 0:
+            print(f"  {'峰值持仓':<16} {self.max_positions:>10} 股")
+            print(f"  {'平均持仓':<15} {self.avg_positions:>10.1f} 股")
+            print(f"  {'资金使用峰值':<13} {self.capital_usage_pct:>9.1f}%")
         print(f"  {'-'*48}")
         print(f"  综合评级：{passes}/6 项达标")
         print()
@@ -326,6 +345,8 @@ class BacktestEngine:
         end_date: datetime,
         save_signals_csv: bool = False,
         strategy_id: str = "",
+        position_size: float | None = None,  # None = 等权重百分比模型，数值 = 固定金额（如 1000）
+        initial_capital: float = 10_000.0,   # 初始本金（固定金额模型用）
     ) -> None:
         self.config = config
         self.strategy_cls = strategy_cls
@@ -335,6 +356,8 @@ class BacktestEngine:
         self.end_date = _ensure_utc(end_date)
         self.save_signals_csv = save_signals_csv
         self.strategy_id = strategy_id
+        self.position_size = position_size
+        self.initial_capital = initial_capital
 
     def run(self, verbose: bool = True) -> BacktestResult:
         """
@@ -350,15 +373,16 @@ class BacktestEngine:
         if verbose:
             print(f"  下载历史数据（{total_days} 天）...")
 
-        market_data = fetch(self.symbols, history_days=total_days)
+        market_data = fetch(self.symbols, history_days=total_days, end_date=self.end_date)
         if not market_data:
             raise RuntimeError("无法获取任何股票数据，回测中止。")
 
-        # 确保 SPY 在 market_data 中（用于市场整体趋势过滤）
-        if "SPY" not in market_data:
-            spy_data = fetch(["SPY"], history_days=total_days)
-            if spy_data and "SPY" in spy_data:
-                market_data["SPY"] = spy_data["SPY"]
+        # 确保基准 ETF 在 market_data 中（用于分市场 RS 计算）
+        for benchmark, syms in [("SPY", ["SPY"]), ("ASHR", ["ASHR"]), ("EWT", ["EWT"])]:
+            if benchmark not in market_data:
+                data = fetch(syms, history_days=total_days, end_date=self.end_date)
+                if data and benchmark in data:
+                    market_data[benchmark] = data[benchmark]
 
         # 确定测试区间内的所有交易日
         ref_df = next(iter(market_data.values()))
@@ -380,7 +404,18 @@ class BacktestEngine:
             print(f"  回测区间共 {len(trading_days)} 个交易日，开始逐日运行...")
 
         # 初始化策略和事件队列
-        strategy = self.strategy_cls(self.strategy_config, market_data)
+        # v_trend_collection 需要所有趋势策略实例
+        if getattr(self.strategy_cls, "strategy_id", None) == "v_trend_collection":
+            from strategies.registry import STRATEGY_REGISTRY
+            all_strategies = []
+            for sid, cls in STRATEGY_REGISTRY.items():
+                if sid not in ("v_adx50", "v_trend_collection"):
+                    all_strategies.append(cls(self.strategy_config, market_data))
+            strategy = self.strategy_cls(
+                self.strategy_config, market_data, all_strategies=all_strategies
+            )
+        else:
+            strategy = self.strategy_cls(self.strategy_config, market_data)
         queue = EventQueue()
 
         # 追踪所有交易
@@ -409,6 +444,7 @@ class BacktestEngine:
                         entry_date=dt,
                         entry_price=entry_price,
                         signal_strength=strength,
+                        entry_reason=reason,
                     )
                     open_trades[symbol] = trade
                     all_trades.append(trade)
@@ -454,7 +490,9 @@ class BacktestEngine:
         if verbose:
             print(f"  共产生 {len(all_trades)} 笔交易，构建净值曲线...")
 
-        equity_curve = self._build_equity_curve(closed_trades, market_data, trading_days)
+        equity_curve, max_pos, avg_pos, cap_usage = self._build_equity_curve(
+            closed_trades, market_data, trading_days
+        )
 
         # 计算汇总指标
         metrics = self._calculate_metrics(closed_trades, equity_curve)
@@ -465,28 +503,27 @@ class BacktestEngine:
             symbols=self.symbols,
             trades=all_trades,
             equity_curve=equity_curve,
+            max_positions=max_pos,
+            avg_positions=avg_pos,
+            capital_usage_pct=cap_usage,
             **metrics,
         )
-
-    # ────────────────────────────────────────────────────────────
-    # 净值曲线构建
-    # ────────────────────────────────────────────────────────────
 
     def _build_equity_curve(
         self,
         closed_trades: list[Trade],
         market_data: dict,
         trading_days: pd.DatetimeIndex,
-    ) -> pd.Series:
+    ) -> tuple[pd.Series, int, float, float]:
         """
         逐日计算组合净值。
 
-        方法：
-          - 将所有持仓视为等权重（每个头寸贡献相同）
-          - 每日组合收益 = 所有当日持仓的日收益率之均值
-          - 净值从 1.0 开始累乘
+        返回：(equity_series, max_positions, avg_positions, capital_usage_pct)
+        固定金额模式返回持仓统计数据；等权重百分比模式后三个值为 0。
 
-        这是最简单且透明的方式。实盘时可根据具体仓位大小调整。
+        两种模型：
+          - position_size = None（默认）：等权重百分比模型，净值从 1.0 累乘
+          - position_size = 数值（如 1000）：固定金额模型，初始本金 initial_capital
         """
         # 预处理：确保 market_data 的 index 都有时区信息
         sliced_data: dict[str, pd.DataFrame] = {}
@@ -501,6 +538,141 @@ class BacktestEngine:
             index=pd.DatetimeIndex(trading_days),
             dtype=float,
         )
+
+        # ── 固定金额模型 ────────────────────────────────────────────
+        if self.position_size is not None:
+            cash = float(self.initial_capital)
+            active_positions: dict[str, dict] = {}  # symbol -> {shares, cost}
+            sorted_trades = sorted(closed_trades, key=lambda t: _ensure_utc(t.entry_date))
+            daily_position_counts: list[int] = []
+
+            for i, date in enumerate(trading_days):
+                dt = date.to_pydatetime()
+                if dt.tzinfo is None:
+                    dt = dt.replace(tzinfo=timezone.utc)
+                dt_date = dt.date()
+
+                # ── 当日卖出：资金回 cash ──────────────────────────────
+                for t in closed_trades:
+                    exit_dt = _ensure_utc(t.exit_date) if t.exit_date else None
+                    if exit_dt and exit_dt.date() == dt_date and t.symbol in active_positions:
+                        pos = active_positions[t.symbol]
+                        pnl = (t.exit_price - t.entry_price) * pos['shares']
+                        cash += self.position_size + pnl
+                        del active_positions[t.symbol]
+
+                # ── 新买入：现金不足时先卖持仓 ─────────────────────────
+                trade_idx = 0
+                while trade_idx < len(sorted_trades):
+                    t = sorted_trades[trade_idx]
+                    entry_date = _ensure_utc(t.entry_date).date()
+                    if entry_date < dt_date:
+                        trade_idx += 1
+                        continue
+                    if entry_date == dt_date and t.symbol not in active_positions:
+                        needed = self.position_size
+                        # 现金不够时，卖出收益最低+持仓最久的
+                        while cash < needed and active_positions:
+                            # 计算每只持仓的当前收益%（当日收盘价）
+                            perf = []
+                            for sym, pos in active_positions.items():
+                                df = sliced_data.get(sym)
+                                cur_price = pos['entry_price']  # 默认用入场价
+                                if df is not None:
+                                    mask = df.index <= dt
+                                    if mask.sum() >= 1:
+                                        cur_price = float(df["close"][mask].iloc[-1])
+                                ret_pct = (cur_price - pos['entry_price']) / pos['entry_price']
+                                days_held = (dt_date - _ensure_utc(t.entry_date).date()).days if 'entry_date' in pos else 0
+                                perf.append((sym, ret_pct, days_held))
+                            # 排序：收益最低优先，收益相同则持仓最久优先
+                            perf.sort(key=lambda x: (x[1], x[2]))
+                            sym_to_sell = perf[0][0]
+                            pos = active_positions[sym_to_sell]
+                            df = sliced_data.get(sym_to_sell)
+                            cur_price = pos['entry_price']
+                            if df is not None:
+                                mask = df.index <= dt
+                                if mask.sum() >= 1:
+                                    cur_price = float(df["close"][mask].iloc[-1])
+                            sell_value = cur_price * pos['shares']
+                            cash += sell_value
+                            del active_positions[sym_to_sell]
+                        # 现金足够后再买入
+                        if cash >= needed:
+                            shares = needed / t.entry_price
+                            active_positions[t.symbol] = {
+                                'shares': shares,
+                                'cost': needed,
+                                'entry_price': t.entry_price,
+                                'entry_date': _ensure_utc(t.entry_date).date(),
+                            }
+                            cash -= needed
+                    break
+
+                # 计算持仓市值
+                pos_value = 0.0
+                for sym, pos in active_positions.items():
+                    df = sliced_data.get(sym)
+                    if df is not None:
+                        mask = df.index <= dt
+                        if mask.sum() >= 1:
+                            cur_price = float(df["close"][mask].iloc[-1])
+                            pos_value += cur_price * pos['shares']
+
+                equity.iloc[i] = cash + pos_value
+                daily_position_counts.append(len(active_positions))
+
+            # 统计持仓数据
+            max_positions = max(daily_position_counts) if daily_position_counts else 0
+            avg_positions = float(np.mean(daily_position_counts)) if daily_position_counts else 0.0
+            peak_used = max_positions * self.position_size
+            capital_usage_pct = round(peak_used / self.initial_capital * 100, 1) if self.initial_capital > 0 else 0.0
+
+            return equity, max_positions, avg_positions, capital_usage_pct
+
+        # ── 等权重百分比模型（默认）────────────────────────────────
+        portfolio_value = 1.0
+
+        for i, date in enumerate(trading_days):
+            dt = date.to_pydatetime()
+            if dt.tzinfo is None:
+                dt = dt.replace(tzinfo=timezone.utc)
+
+            # 找当日活跃的持仓
+            active_symbols = []
+            for trade in closed_trades:
+                entry = _ensure_utc(trade.entry_date)
+                exit_ = _ensure_utc(trade.exit_date)
+                if entry <= dt <= exit_:
+                    active_symbols.append(trade.symbol)
+
+            if not active_symbols or i == 0:
+                equity.iloc[i] = portfolio_value
+                continue
+
+            # 计算每个持仓今日的日收益率
+            daily_returns = []
+            for sym in active_symbols:
+                df = sliced_data.get(sym)
+                if df is None:
+                    continue
+                mask = df.index <= dt
+                if mask.sum() < 2:
+                    continue
+                today_close = float(df["close"][mask].iloc[-1])
+                prev_close = float(df["close"][mask].iloc[-2])
+                if prev_close > 0:
+                    daily_returns.append(today_close / prev_close - 1)
+
+            if daily_returns:
+                portfolio_value *= (1 + float(np.mean(daily_returns)))
+
+            equity.iloc[i] = portfolio_value
+
+        return equity, 0, 0.0, 0.0
+
+        # ── 等权重百分比模型（默认）────────────────────────────────
         portfolio_value = 1.0
 
         for i, date in enumerate(trading_days):

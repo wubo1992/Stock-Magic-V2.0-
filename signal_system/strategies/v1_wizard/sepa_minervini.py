@@ -31,6 +31,7 @@ class Position:
     highest_price: float
     days_held: int = 0
     shares: float = 0.0  # 持仓股数，用户手动填写
+    bear_market: bool = False  # 入场时SPY是否低于SMA150（熊市环境标记）
     # stop_loss 由各策略根据自身参数动态计算，不存储
 
 
@@ -69,6 +70,16 @@ class SEPAStrategy(StrategyBase):
         # 分批止盈参数
         self.partial_tp_enabled = self.cfg.get("partial_tp_enabled", False)
         self.partial_tp_levels = self.cfg.get("partial_tp_levels", [])
+
+        # RS 分市场缓存：{date_key: {market: {symbol: rs_score}}}
+        self._rs_cache: dict[str, dict[str, dict[str, float]]] = {}
+
+        # 固定 RS 股票池：只用 UNIVERSE.md 中的股票，避免每日浮动影响百分位
+        try:
+            from universe.manager import _read_universe_md
+            self._universe_symbols: set[str] = set(_read_universe_md())
+        except Exception:
+            self._universe_symbols: set[str] = set()
 
     def run_date(self, date: datetime, queue: EventQueue) -> list[SignalEvent]:
         signals = []
@@ -249,22 +260,121 @@ class SEPAStrategy(StrategyBase):
             f"SMA200上升中，距52W低点+{pct_from_low:.0f}%，距52W高点{pct_from_high:.0f}%"
         )
 
+    def _get_market(self, symbol: str) -> str:
+        """根据股票代码判断所在市场。"""
+        if symbol.endswith(".HK"):
+            return "HK"
+        elif symbol.endswith(".TW"):
+            return "TW"
+        else:
+            return "US"
+
     def _check_rs(self, symbol, df, date):
+        """
+        分市场RS评分 + 分市场各自排名。
+
+        每个市场各自用基准ETF计算RS分数，然后在该市场内部排名百分位。
+        美股基准：SPY；港股基准：ASHR；台股基准：EWT。
+        """
+        BENCHMARK_FOR_MARKET = {"US": "SPY", "HK": "ASHR", "TW": "EWT"}
+        BENCHMARKS = ("SPY", "ASHR", "EWT")
+        date_key = date.date()
+
+        market = self._get_market(symbol)
+
+        # 初始化每天的缓存
+        if date_key not in self._rs_cache:
+            self._rs_cache[date_key] = {}
+
+        market_cache = self._rs_cache[date_key]
+
+        def period_return(sliced_df, periods):
+            if sliced_df is None or len(sliced_df) < periods:
+                return np.nan
+            return float(sliced_df["close"].iloc[-1] / sliced_df["close"].iloc[-periods] - 1)
+
+        # 该市场尚未缓存 → 一次性计算整个市场的RS分数
+        if market not in market_cache:
+            bench_sym = BENCHMARK_FOR_MARKET[market]
+            bench_df = self.market_data.get(bench_sym)
+            if bench_df is None:
+                return self._check_rs_legacy(symbol, df, date)
+
+            bench_sliced = self._slice_to_date(bench_df, date)
+            b252 = period_return(bench_sliced, 252)
+            b126 = period_return(bench_sliced, 126)
+            b60  = period_return(bench_sliced, 60)
+
+            if any(np.isnan(x) for x in [b252, b126, b60]):
+                return self._check_rs_legacy(symbol, df, date)
+
+            scores = {}  # {symbol: rs_score}
+            for sym, other_df in self.market_data.items():
+                if self._get_market(sym) != market:
+                    continue
+                s = self._slice_to_date(other_df, date)
+                s252 = period_return(s, 252)
+                s126 = period_return(s, 126)
+                s60  = period_return(s, 60)
+                if any(np.isnan(x) for x in [s252, s126, s60]):
+                    continue
+                scores[sym] = (0.4 * (s252 / b252 - 1) +
+                              0.3 * (s126 / b126 - 1) +
+                              0.3 * (s60  / b60  - 1))
+
+            if len(scores) < 2:
+                market_cache[market] = {}
+                return True, 50.0
+
+            market_cache[market] = scores
+
+        scores = market_cache[market]
+
+        # 当前股票不在该市场缓存里 → 跳过
+        if symbol not in scores:
+            return False, 0.0
+
+        rs_score = scores[symbol]
+        # 只用 UNIVERSE.md 固定池计算百分位，避免每日股票数量波动影响排名
+        universe_scores = [v for k, v in scores.items() if k in self._universe_symbols]
+        if not universe_scores:
+            universe_scores = list(scores.values())
+        rs_percentile = float(np.mean([s <= rs_score for s in universe_scores]) * 100)
+        # 美股 top 30%，港股台股放宽到 top 50%
+        threshold = 70 if market == "US" else 50
+        return rs_percentile >= threshold, rs_percentile
+
+    def _check_rs_legacy(self, symbol, df, date):
+        """原来的RS计算方式（池内排名），仅作 fallback。"""
+        BENCHMARKS = ("SPY", "ASHR", "EWT")
         lookback = min(252, len(df))
         if lookback < 20:
             return False, 0.0
         this_return = float(df["close"].iloc[-1] / df["close"].iloc[-lookback] - 1)
-        all_returns = []
-        for sym, other_df in self.market_data.items():
-            other_sliced = self._slice_to_date(other_df, date)
-            if len(other_sliced) < lookback:
-                continue
-            ret = float(other_sliced["close"].iloc[-1] / other_sliced["close"].iloc[-lookback] - 1)
-            all_returns.append(ret)
-        if len(all_returns) < 2:
+        date_key = date.date()
+        if date_key not in self._rs_cache:
+            self._rs_cache[date_key] = {}
+        if "legacy" not in self._rs_cache[date_key]:
+            all_returns = []
+            for sym, other_df in self.market_data.items():
+                if sym in BENCHMARKS:
+                    continue
+                other_sliced = self._slice_to_date(other_df, date)
+                if len(other_sliced) < lookback:
+                    continue
+                ret = float(other_sliced["close"].iloc[-1] / other_sliced["close"].iloc[-lookback] - 1)
+                all_returns.append(ret)
+            if len(all_returns) < 2:
+                self._rs_cache[date_key]["legacy"] = None
+            else:
+                self._rs_cache[date_key]["legacy"] = np.array(all_returns)
+        cached = self._rs_cache[date_key].get("legacy")
+        if cached is None or len(cached) < 2:
             return True, 50.0
-        rs_percentile = float(np.mean([r <= this_return for r in all_returns]) * 100)
-        return rs_percentile >= self.rs_min_percentile, rs_percentile
+        rs_percentile = float(np.mean(cached <= this_return) * 100)
+        market = self._get_market(symbol)
+        threshold = 70 if market == "US" else 50
+        return rs_percentile >= threshold, rs_percentile
 
     def _check_vcp(self, df):
         lookback = self.vcp_lookback

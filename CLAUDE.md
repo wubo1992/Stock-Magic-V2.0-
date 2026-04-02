@@ -82,7 +82,7 @@
 
 ```
 Step 1: 项目文件夹结构 + 依赖安装说明
-Step 2: 数据获取模块（从 yfinance 拉取美股历史数据）
+Step 2: 数据获取模块（Alpaca IEX 为主，Yahoo Finance 备用，支持本地缓存落盘）
 Step 3: 事件总线（Event Queue）基础框架
 Step 4: 策略模块（实现 Phase 0 确认的策略）
 Step 5: 信号输出模块（打印 + 保存 CSV）
@@ -146,7 +146,7 @@ signal_system/
 ├── data/
 │   ├── fetcher.py                 ← 数据获取（三层策略：本地直用 / 增量 delta / 全量下载）
 │   ├── universe_cache.json        ← Alpaca 新闻自动抓取的股票缓存（勿手动编辑）
-│   └── cache/                     ← 日线数据本地持久化（.pkl，永久保存，实盘每日增量更新）
+│   └── cache/                     ← 日线数据本地持久化（.pkl，**永久保存，永不删除，优先使用**）
 │
 ├── universe/
 │   ├── manager.py                 ← 股票池合并（手动 ∪ 指数 ∪ 自动，去重）

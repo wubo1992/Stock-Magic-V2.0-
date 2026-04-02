@@ -39,24 +39,23 @@ UNIVERSE_MD = Path(__file__).parent.parent / "UNIVERSE.md"
 _TICKER_RE = re.compile(r'^[A-Z0-9]{1,6}(\.[A-Z0-9]{1,5})?$')
 
 
-def _read_universe_md() -> list[str]:
+def _read_universe_md(filename: str | None = None) -> list[str]:
     """
     从 UNIVERSE.md 解析正式手动股票池。
 
-    解析逻辑：
-    - 读取所有 Markdown 表格数据行
-    - 遇到「待移出记录」标题行时停止（该节记录已退出的股票，不算在内）
-    - 跳过表头行（第一列含中文）和分隔行（第一列含 ---）
-    - 第一列即股票代码（必须匹配大写字母格式）
+    参数：
+        filename：可选，指定Universe文件名。默认为 "UNIVERSE.md"。
+                   用于测试时传入 "UNIVERSE_test.md" 等副本。
     """
-    if not UNIVERSE_MD.exists():
-        print(f"[警告] UNIVERSE.md 不存在，手动股票池为空：{UNIVERSE_MD}")
+    universe_file = Path(__file__).parent.parent / (filename or "UNIVERSE.md")
+    if not universe_file.exists():
+        print(f"[警告] {filename or 'UNIVERSE.md'} 不存在，手动股票池为空：{universe_file}")
         return []
 
     symbols: list[str] = []
     in_code_block = False
 
-    with open(UNIVERSE_MD, "r", encoding="utf-8") as f:
+    with open(universe_file, "r", encoding="utf-8") as f:
         for line in f:
             line = line.strip()
 

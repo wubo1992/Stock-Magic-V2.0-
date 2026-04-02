@@ -96,8 +96,10 @@ def _event_to_record(event: SignalEvent) -> dict:
 
     # 持仓股数显示
     if direction == "sell":
-        if shares > 0:
+        if isinstance(shares, (int, float)) and shares > 0:
             shares_str = f"{int(shares)}股"
+        elif shares == "半仓":
+            shares_str = "半仓"
         else:
             shares_str = "（请填写持仓数）"
     else:

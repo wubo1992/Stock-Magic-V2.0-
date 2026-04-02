@@ -262,6 +262,26 @@ strategies:
     time_stop_days: 30           # 中长期策略，给更多时间
     time_stop_min_gain: 0.05     # 持有 30 天仍不到 5% 才离场
 
+  # ── 金叉死叉策略 ────────────────────────────────────────────
+  # 10EMA / 20EMA 经典均线交叉策略
+  v_golden_cross:
+    name: 金叉死叉策略V1
+    description: "10EMA上穿20EMA买入，下穿卖出。附加20%固定止盈、8%止损、追踪止盈20%、20天时间止损"
+
+    fast_ema: 10               # 快线EMA周期
+    slow_ema: 20               # 慢线EMA周期
+    volume_mult: 1.5           # 成交量确认倍数
+
+    stop_loss_pct: 0.08        # 固定止损8%
+    take_profit_pct: 0.20      # 固定止盈20%
+    trailing_stop_pct: 0.20    # 追踪止盈20%
+    time_stop_days: 20          # 时间止损天数
+    time_stop_min_gain: 0.03   # 时间止损最低盈利3%
+
+    pullback_tolerance: 0.03   # 回调容忍度（金叉后回落3%则买入）
+    pullback_max_days: 20      # 回调等待最大天数
+    immediate_buy_ema_distance: 0.07  # 直接买入阈值：价格距EMA20 7%以内则金叉当天直接买
+
 # ------------------------------------------------------------
 # 输出设置
 # ------------------------------------------------------------

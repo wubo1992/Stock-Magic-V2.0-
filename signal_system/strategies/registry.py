@@ -13,37 +13,49 @@ strategies/registry.py — 策略注册表
 
 from strategies.v1_wizard.sepa_minervini import SEPAStrategy
 from strategies.v1_plus.sepa_plus import SEPAPlusStrategy
-from strategies.v_oneil.sepa_oneil import ONeilStrategy
-from strategies.v_ryan.sepa_ryan import RyanStrategy
-from strategies.v_kell.sepa_kell import KellStrategy
-from strategies.v_kullamaggi.sepa_kullamaggi import KullamaggiStrategy
 from strategies.v_zanger.zanger_strategy import ZangerStrategy
-from strategies.v_stine.sepa_stine import StineStrategy
 from strategies.v_weinstein.weinstein_strategy import WeinsteinStrategy
 from strategies.v_weinstein_adx.weinstein_adx_strategy import WeinsteinADXStrategy
+from strategies.v_weinstein_adx.weinstein_adx_bullbear import WeinsteinADXBullBearStrategy
 from strategies.v_eps.eps_strategy import EPSStrategy
 from strategies.v_eps_v2.eps_v2_strategy import EPSV2Strategy
 from strategies.v_eps_v1_plus.eps_v1_plus_strategy import EPSV1PlusStrategy
 from strategies.v_adx50.adx50_strategy import ADX50Strategy
+from strategies.v_weinstein_market_filter_strict.weinstein_mf_strict_strategy import WeinsteinMFStrictStrategy
 
 # key   = --strategy 参数的值（如 --strategy v1）
 # value = 策略类（继承 StrategyBase）
 STRATEGY_REGISTRY: dict[str, type] = {
     "v1": SEPAStrategy,
     "v1_plus": SEPAPlusStrategy,
-    "v_oneil": ONeilStrategy,
-    "v_ryan": RyanStrategy,
-    "v_kell": KellStrategy,
-    "v_kullamaggi": KullamaggiStrategy,
     "v_zanger": ZangerStrategy,
-    "v_stine": StineStrategy,
     "v_weinstein": WeinsteinStrategy,
     "v_weinstein_adx": WeinsteinADXStrategy,
+    "v_weinstein_bullbear": WeinsteinADXBullBearStrategy,
     "v_eps": EPSStrategy,
     "v_eps_v2": EPSV2Strategy,
     "v_eps_v1_plus": EPSV1PlusStrategy,
     "v_adx50": ADX50Strategy,
+    "v_weinstein_mf_strict": WeinsteinMFStrictStrategy,
+}
 
+# 策略分类映射：CLI key -> 类别
+STRATEGY_CATEGORIES: dict[str, str] = {
+    # 大师趋势
+    "v1": "大师趋势",
+    "v1_plus": "大师趋势",
+    "v_zanger": "大师趋势",
+    "v_weinstein": "大师趋势",
+    "v_weinstein_adx": "大师趋势",
+    "v_weinstein_bullbear": "大师趋势",
+    # 结合EPS
+    "v_eps": "结合EPS",
+    "v_eps_v2": "结合EPS",
+    "v_eps_v1_plus": "结合EPS",
+    # 动量类
+    "v_adx50": "动量类",
+    # Weinstein 分支
+    "v_weinstein_mf_strict": "大师改良",
 }
 
 
@@ -78,5 +90,6 @@ def list_strategies() -> list[dict]:
             "id": sid,
             "strategy_id": cls.strategy_id,
             "name": cls.strategy_name,
+            "category": STRATEGY_CATEGORIES.get(sid, "未分类"),
         })
     return result

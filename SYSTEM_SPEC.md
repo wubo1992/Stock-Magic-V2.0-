@@ -72,15 +72,23 @@ python main.py --mode live
 
 ## 数据来源
 
-使用 `yfinance`（Yahoo Finance 的 Python 接口），完全免费，无需注册账号。
-可以获取：日线、周线、分钟线历史数据，以及基本面数据。
+### 价格数据（OHLCV）
 
-局限性：
-- 分钟级数据只有最近 60 天
-- 数据质量不如付费数据源，但对日线策略完全够用
-- 不支持盘前盘后数据
+三层优先，永不重复下载：
 
-**未来可升级为：** Alpaca（免费账户支持实时数据）或 Polygon.io（付费）
+1. **本地持久化缓存**（`data/cache/*.pkl`）— Alpaca 每次下载成功后自动落盘，永久保存
+2. **Alpaca Market Data API**（主要来源）— 免费 IEX 数据源，无限流，速度快
+3. **Yahoo Finance v8 API**（备用来源）— Alpaca 不支持时走这里，受严格限流
+
+### EPS 数据（基本面）
+
+三层优先，与价格数据独立管理：
+
+1. **本地持久化缓存**（`data/cache/eps_*.pkl`）— 永久缓存，无过期检查
+2. **Finnhub API**（主要来源）— 免费 60次/分钟，速度快
+3. **Alpha Vantage**（备用来源）— 免费 5次/分钟，较慢
+
+`.env` 文件位于 `signal_system/.env`，启动时自动加载（基于脚本自身路径定位）。
 
 ---
 

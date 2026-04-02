@@ -40,10 +40,17 @@ class ADX50Strategy(StrategyBase):
         super().__init__(strategy_config, market_data)
         self.live_mode = live_mode
         self.positions: dict[str, Position] = {}
-        # RS 计算缓存：{date_key: np.array(all_returns)}
-        self._rs_cache: dict[str, np.ndarray | None] = {}
+        # RS 计算缓存：{date_key: {market: {"scores": np.array, "symbols": list}}}
+        self._rs_cache: dict[str, dict[str, dict] | None] = {}
         # ADX 缓存：{date_key: {symbol: adx_value}}
         self._adx_cache: dict[str, dict[str, float | None]] = {}
+
+        # 固定 RS 股票池：只用 UNIVERSE.md 中的股票，避免每日浮动影响百分位
+        try:
+            from universe.manager import _read_universe_md
+            self._universe_symbols: set[str] = set(_read_universe_md())
+        except Exception:
+            self._universe_symbols: set[str] = set()
 
         self.high_lookback = self.cfg.get("high_lookback", 50)
         self.adx_period = self.cfg.get("adx_period", 14)
@@ -180,37 +187,120 @@ class ADX50Strategy(StrategyBase):
         mask = df.index <= date
         return df[mask]
 
+    def _get_market(self, symbol: str) -> str:
+        """根据股票代码判断所在市场。"""
+        if symbol.endswith(".HK"):
+            return "HK"
+        elif symbol.endswith(".TW"):
+            return "TW"
+        else:
+            return "US"
+
     def _check_rs(self, symbol: str, df: pd.DataFrame, date: datetime):
         """
-        相对强度过滤：计算该股票过去一年的收益在全体股票中的排名百分位。
-        每天只计算一次所有股票的收益（缓存），之后直接查表。
-        返回 (是否通过, 百分位排名)
+        分市场RS评分 + 分市场各自排名。
+
+        每个市场各自用基准ETF计算RS分数，然后在该市场内部排名百分位。
+        美股基准：SPY；港股基准：ASHR；台股基准：EWT。
         """
+        BENCHMARK_FOR_MARKET = {"US": "SPY", "HK": "ASHR", "TW": "EWT"}
+        date_key = date.date()
+
+        market = self._get_market(symbol)
+
+        # 初始化每天的缓存结构
+        if date_key not in self._rs_cache:
+            self._rs_cache[date_key] = {}
+
+        market_cache = self._rs_cache[date_key]
+
+        def period_return(sliced_df, periods):
+            if sliced_df is None or len(sliced_df) < periods:
+                return np.nan
+            return float(sliced_df["close"].iloc[-1] / sliced_df["close"].iloc[-periods] - 1)
+
+        # 该市场尚未缓存 → 一次性计算整个市场的RS分数
+        if market not in market_cache:
+            bench_sym = BENCHMARK_FOR_MARKET[market]
+            bench_df = self.market_data.get(bench_sym)
+            if bench_df is None:
+                # 无基准ETF → fallback到池内排名
+                return self._check_rs_legacy(symbol, df, date)
+
+            bench_sliced = self._slice_to_date(bench_df, date)
+            b252 = period_return(bench_sliced, 252)
+            b126 = period_return(bench_sliced, 126)
+            b60  = period_return(bench_sliced, 60)
+
+            if any(np.isnan(x) or x == 0 for x in [b252, b126, b60]):
+                return self._check_rs_legacy(symbol, df, date)
+
+            scores = {}  # {symbol: rs_score}
+            for sym, other_df in self.market_data.items():
+                if self._get_market(sym) != market:
+                    continue
+                s = self._slice_to_date(other_df, date)
+                s252 = period_return(s, 252)
+                s126 = period_return(s, 126)
+                s60  = period_return(s, 60)
+                if any(np.isnan(x) for x in [s252, s126, s60]):
+                    continue
+                scores[sym] = (0.4 * (s252 / b252 - 1) +
+                               0.3 * (s126 / b126 - 1) +
+                               0.3 * (s60  / b60  - 1))
+
+            if len(scores) < 2:
+                market_cache[market] = {}
+                return True, 50.0
+
+            market_cache[market] = scores
+
+        scores = market_cache[market]
+
+        # 当前股票不在该市场 → 跳过
+        if symbol not in scores:
+            return False, 0.0
+
+        rs_score = scores[symbol]
+        # 只用 UNIVERSE.md 固定池计算百分位，避免每日股票数量波动影响排名
+        universe_scores = [v for k, v in scores.items() if k in self._universe_symbols]
+        if not universe_scores:
+            universe_scores = list(scores.values())
+        rs_percentile = float(np.mean([s <= rs_score for s in universe_scores]) * 100)
+        # 美股 top 30%，港股台股放宽到 top 50%
+        threshold = 70 if market == "US" else 50
+        return rs_percentile >= threshold, rs_percentile
+
+    def _check_rs_legacy(self, symbol: str, df: pd.DataFrame, date: datetime):
+        """原来的RS计算方式（池内排名），仅作 fallback。"""
         lookback = min(252, len(df))
         if lookback < 20:
             return False, 0.0
-        # 取出该股今日收益率
         this_return = float(df["close"].iloc[-1] / df["close"].iloc[-lookback] - 1)
-        # 用 date.date() 做缓存 key，同一天不重复计算
         date_key = date.date()
         if date_key not in self._rs_cache:
-            # 每天首次调用：一次性向量化计算所有股票的收益率
+            self._rs_cache[date_key] = {}
+        if "legacy" not in self._rs_cache[date_key]:
             all_returns = []
             for sym, other_df in self.market_data.items():
+                if sym in ("SPY", "ASHR", "EWT"):
+                    continue
                 sliced = self._slice_to_date(other_df, date)
                 if len(sliced) < lookback:
                     continue
                 ret = float(sliced["close"].iloc[-1] / sliced["close"].iloc[-lookback] - 1)
                 all_returns.append(ret)
             if len(all_returns) < 2:
-                self._rs_cache[date_key] = None
+                self._rs_cache[date_key]["legacy"] = None
             else:
-                self._rs_cache[date_key] = np.array(all_returns)
-        cached = self._rs_cache.get(date_key)
+                self._rs_cache[date_key]["legacy"] = np.array(all_returns)
+        cached = self._rs_cache[date_key].get("legacy")
         if cached is None or len(cached) < 2:
             return True, 50.0
         rs_percentile = float(np.mean(cached <= this_return) * 100)
-        return rs_percentile >= self.rs_min_percentile, rs_percentile
+        market = self._get_market(symbol)
+        threshold = 70 if market == "US" else 50
+        return rs_percentile >= threshold, rs_percentile
 
     def _compute_adx(self, df: pd.DataFrame, period: int = 14) -> float | None:
         """

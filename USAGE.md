@@ -105,13 +105,13 @@ cd /Users/wubo/Desktop/信号系统克劳德V2.0/signal_system
 uv sync
 ```
 
-**API Key 配置（`.env` 文件已存在，无需重新配置）：**
+**API Key 配置（`signal_system/.env` 文件已存在，无需重新配置）：**
 ```
 ALPACA_API_KEY=<已配置>
 ALPACA_SECRET_KEY=<已配置>
 ALPACA_BASE_URL=<已配置>
 ```
-`.env` 文件位于项目根目录，`main.py` 启动时自动加载。
+`.env` 文件位于 `signal_system/.env`，`main.py` 启动时通过 `load_dotenv(dotenv_path="signal_system/.env")` 自动加载。无论从哪个目录运行都能正确找到。
 
 ---
 
@@ -447,17 +447,18 @@ uv run python main.py --mode live
 
 ## 12. 注意事项
 
-1. **数据来源**：Alpaca IEX（免费），成交量只覆盖真实市场约 20%，成交量信号可能偏低
+1. **价格数据来源**（OHLCV）：三层优先——①本地缓存（永久）→ ②Alpaca IEX（主要网络来源，无限流）→ ③Yahoo Finance（备用，受严格限流）。Alpaca 每次下载成功后自动落盘到 `data/cache/*.pkl`，下次优先从本地读取。
+2. **EPS 数据来源**：三层优先——①本地缓存（永久，`data/cache/eps_*.pkl`，无过期检查）→ ②Finnhub（主要网络来源，60次/分钟）→ ③Alpha Vantage（备用，5次/分钟，较慢）。EPS 数据由 `fundamentals.py` 独立管理，与价格数据分开。
 2. **信号日期 ≠ 执行日期**：信号日期是收盘后检测，**次日开盘执行**
 3. **止损必须手动挂单**：系统只发信号，不会自动止损
 4. **回测不等于实盘**：回测假设以收盘价成交，忽略滑点和冲击成本
-5. **本地数据永久保存**：历史数据存在 `data/cache/`，不过期。实盘模式每次自动增量更新（只下载最新几天），回测模式超 3 天才补充
+5. **本地数据永久保存**：历史数据存在 `data/cache/`，不过期。实盘模式（`max_age=0`）要求当天或昨天数据才直接用，否则增量下载；回测模式（`max_age=3`）允许 3 天缓存宽容。Alpaca 下载成功后自动落盘，下次优先从本地读取，不会重复下载。
 6. **港股不支持**：系统只支持美股，港股需用户手动管理
 7. **SA Quant 403**：SA API 有时被 Cloudflare 拦截，用户可手动截图告知 Claude
 
 ---
 
-*文档版本：2026-03-06*
+*文档版本：2026-03-30（更新数据来源三层架构 + Alpaca .env 定位修复）*
 *架构版本：Phase 8 — 数据持久化增量更新架构*
 *当前策略：魔法师调整参数版V1+（v1_plus）*
-*股票池：~297 只*
+*股票池：~670 只*

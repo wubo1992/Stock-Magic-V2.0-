@@ -276,5 +276,68 @@ SignalEvent.create(
 
 ---
 
-*文档版本：2026-03-05*
+---
+
+## 8. RS（相对强度）计算说明
+
+RS 是多个策略共用的选股过滤机制，目前在以下策略中使用：
+
+- `v1_wizard/sepa_minervini.py`（SEPAStrategy）
+- `v_adx50/adx50_strategy.py`
+
+### 计算方法
+
+**Step 1 — 分市场基准对比**
+
+| 市场 | 基准 ETF |
+|------|---------|
+| US（美股） | SPY |
+| HK（港股） | ASHR |
+| TW（台股） | EWT |
+
+对每只股票计算三个周期的收益率，再与基准同期收益率对比：
+
+```
+RS分数 = (stock_252d - bench_252d) × 0.4
+       + (stock_126d - bench_126d) × 0.3
+       + (stock_60d  - bench_60d)  × 0.3
+```
+
+**Step 2 — 百分位排名**
+
+在 `UNIVERSE.md` 固定股票池内排名：
+
+```
+百分位 = 超过池内 % 的股票
+门槛 = 美股 top 30%（即 ≥70 百分位）
+```
+
+**关键特性**：
+- 固定池：分母 = `UNIVERSE.md` 的股票数量（启动时加载，不受每日新闻股影响）
+- 三个周期：252d（约1年）、126d（约半年）、60d（约3个月）
+- 权重：年周期 40%，半年 30%，季 30%
+
+**数据不足时的 Fallback**：
+
+若基准 ETF 数据不足 252d，或某只股票缺少某个周期数据，自动降级为 legacy 模式——在池内所有股票中直接排名（不看基准）。
+
+### 在策略中使用 RS
+
+若新策略需要使用 RS，直接继承 `SEPAStrategy`，然后在 `_check_entry` 中调用：
+
+```python
+rs_ok, rs_value = self._check_rs(symbol, df, date)
+if not rs_ok:
+    return None  # RS 未通过，直接过滤
+```
+
+若需要自定义门槛，可在 `config.yaml` 中覆盖：
+
+```yaml
+strategies:
+  v_your_strategy:
+    rs_min_percentile: 70   # 默认 70，可调
+```
+
+*文档版本：2026-03-30（RS 固定池更新）*
 *适用架构：Phase 4 多策略可扩展架构*

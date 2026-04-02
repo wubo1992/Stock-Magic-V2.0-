@@ -5,12 +5,13 @@ strategies/v_eps/eps_strategy.py — EPS 基本面因子策略
 在 _check_entry 中添加 EPS 增长筛选条件：
 
 筛选顺序：
-  1. EPS 增长检查（新增基本面过滤）
-  2. 趋势模板检查（8条件）
-  3. 相对强度 RS 排名
-  4. VCP 形态识别
-  5. 枢轴点突破
-  6. 量能确认
+  1. 趋势模板检查（8条件）
+  2. 相对强度 RS 排名
+  3. VCP 形态识别
+  4. 枢轴点突破
+  5. 量能确认
+  6. EPS 增长检查（基本面过滤）
+     - 无 EPS 数据 → 跳过，不出信号
 
 EPS 条件：
   - 过去 N 个季度 EPS 数据
@@ -29,11 +30,10 @@ class EPSStrategy(SEPAStrategy):
     """EPS 基本面因子策略"""
 
     strategy_id = "v_eps"
-    strategy_name = "EPS 基本面策略"
+    strategy_name = "v1+EPS"
 
     def _check_entry(self, symbol, df, date):
         # 1. 首先执行技术分析（SEPA 条件）
-        # 先做技术筛选，可以过滤掉大部分股票，减少 EPS API 调用
         template_ok, template_msg = self._check_trend_template(df)
         if not template_ok:
             return None
@@ -50,7 +50,7 @@ class EPSStrategy(SEPAStrategy):
         if not vol_ok:
             return None
 
-        # 2. 技术条件全部通过后，检查 EPS 增长（基本面过滤）
+        # 2. 技术条件通过后，检查 EPS 增长
         eps_quarters = self.cfg.get("eps_quarters_required", 3)
         eps_yoy = self.cfg.get("eps_yoy_required", True)
         eps_qoq = self.cfg.get("eps_qoq_required", True)
@@ -63,7 +63,7 @@ class EPSStrategy(SEPAStrategy):
         )
 
         if not eps_passed:
-            # EPS 筛选未通过，返回 None（不产生信号）
+            # EPS 抓不到或筛选未通过，跳过
             return None
 
         # 3. 全部通过，计算信号强度
@@ -71,7 +71,6 @@ class EPSStrategy(SEPAStrategy):
         close = float(df["close"].iloc[-1])
         stop_loss = round(close * (1 - self.stop_loss_pct), 2)
 
-        # 组装触发原因（包含 EPS 信息）
         reason = (
             f"[EPS] {eps_reason} | "
             f"[趋势] {template_msg} | "

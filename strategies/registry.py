@@ -20,6 +20,7 @@ from strategies.v_kullamaggi.sepa_kullamaggi import KullamaggiStrategy
 from strategies.v_zanger.zanger_strategy import ZangerStrategy
 from strategies.v_stine.sepa_stine import StineStrategy
 from strategies.v_weinstein.weinstein_strategy import WeinsteinStrategy
+from strategies.v_golden_cross.golden_cross_strategy import GoldenCrossStrategy
 
 # key   = --strategy 参数的值（如 --strategy v1）
 # value = 策略类（继承 StrategyBase）
@@ -33,6 +34,7 @@ STRATEGY_REGISTRY: dict[str, type] = {
     "v_zanger": ZangerStrategy,
     "v_stine": StineStrategy,
     "v_weinstein": WeinsteinStrategy,
+    "v_golden_cross": GoldenCrossStrategy,
 }
 
 

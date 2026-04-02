@@ -103,7 +103,7 @@
       "XEL",
       "ZS"
     ],
-    "updated_at": "2026-03-06"
+    "updated_at": "2026-03-30"
   },
   "sp500": {
     "symbols": [
@@ -211,6 +211,7 @@
       "CNC",
       "CNP",
       "COF",
+      "COHR",
       "COIN",
       "COO",
       "COP",
@@ -389,6 +390,7 @@
       "LHX",
       "LII",
       "LIN",
+      "LITE",
       "LLY",
       "LMT",
       "LNT",
@@ -397,7 +399,6 @@
       "LULU",
       "LUV",
       "LVS",
-      "LW",
       "LYB",
       "LYV",
       "MA",
@@ -418,7 +419,6 @@
       "MMM",
       "MNST",
       "MO",
-      "MOH",
       "MOS",
       "MPC",
       "MPWR",
@@ -430,7 +430,6 @@
       "MSFT",
       "MSI",
       "MTB",
-      "MTCH",
       "MTD",
       "MU",
       "NCLH",
@@ -463,7 +462,6 @@
       "OTIS",
       "OXY",
       "PANW",
-      "PAYC",
       "PAYX",
       "PCAR",
       "PCG",
@@ -509,6 +507,7 @@
       "RSG",
       "RTX",
       "RVTY",
+      "SATS",
       "SBAC",
       "SBUX",
       "SCHW",
@@ -580,6 +579,7 @@
       "VMC",
       "VRSK",
       "VRSN",
+      "VRT",
       "VRTX",
       "VST",
       "VTR",
@@ -611,6 +611,6 @@
       "ZBRA",
       "ZTS"
     ],
-    "updated_at": "2026-03-06"
+    "updated_at": "2026-03-30"
   }
 }
