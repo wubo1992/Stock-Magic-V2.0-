@@ -84,14 +84,14 @@ def _build_report(today_str: str, today_records: list[dict], history: list[dict]
         f"> 策略：{strategy_name}  ",
         "> 提示：信号日期为策略检测到条件的当天，**建议次日开盘执行**",
         f"> RS 两列口径（务必分清，两个数不是一回事）：  ",
-        f"> 1. **{RS_RELATIVE_LABEL}** —— 策略内部口径。  "
-        "0.4×(个股 252 日涨幅÷基准 252 日涨幅−1) + 0.3×(126 日) + 0.3×(60 日)，"
-        "在 UNIVERSE.md 固定股票池内换算成 0-100 的百分位；本表的数值直接取自触发原因里策略自算的结果。"
-        "基准 ETF：美股 SPY、港股 ASHR、台股 EWT。**回答「它比大盘强多少」**。",
-        f"> 2. **{RS_RATING_LABEL}** —— O'Neil CAN SLIM 口径。  "
+        f"> 1. **{RS_RATING_LABEL}** —— O'Neil CAN SLIM 口径。  "
         "过去 12 个月按 63 个交易日切成 4 个季度，近 3 个月 ×0.4、4-6 月 ×0.2、7-9 月 ×0.2、"
         "10-12 月 ×0.2，加权得 RS Score，在美股全市场普通股（约 6300 只）内换算成 1-99 的百分位。"
         "**不参照基准指数，只看绝对涨幅**；99 = 全市场最强，≥80 视为强势股。",
+        f"> 2. **{RS_RELATIVE_LABEL}** —— 策略内部口径。  "
+        "0.4×(个股 252 日涨幅÷基准 252 日涨幅−1) + 0.3×(126 日) + 0.3×(60 日)，"
+        "在 UNIVERSE.md 固定股票池内换算成 0-100 的百分位；本表的数值直接取自触发原因里策略自算的结果。"
+        "基准 ETF：美股 SPY、港股 ASHR、台股 EWT。**回答「它比大盘强多少」**。",
         "",
         "---",
         "",
@@ -240,8 +240,8 @@ def _format_signal_detail(r: dict, is_today: bool, rs_ratings: dict[str, int] | 
         f"| 信号日期 | {date_str} |",
         f"| 信号方向 | 买入 |",
         f"| 所属行业 | {get_sector(symbol)} |",
-        f"| {RS_RELATIVE_LABEL} | {rs_pct if rs_pct is not None else '—'} |",
         f"| {RS_RATING_LABEL} | {rs_rating if rs_rating is not None else '—'} |",
+        f"| {RS_RELATIVE_LABEL} | {rs_pct if rs_pct is not None else '—'} |",
         f"| 信号强度 | {stars}（{strength}/5） |",
         f"| 参考止损 | {stop} |",
         f"| 建议操作 | {'明日开盘买入' if is_today else date_str + ' 次日已可执行'} |",
