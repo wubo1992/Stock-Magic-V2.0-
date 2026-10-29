@@ -1,0 +1,6242 @@
+{
+  "MMM": {
+    "sector": "Industrials",
+    "sub_industry": "Industrial Conglomerates",
+    "source": "sp500_wiki"
+  },
+  "AOS": {
+    "sector": "Industrials",
+    "sub_industry": "Building Products",
+    "source": "sp500_wiki"
+  },
+  "ABT": {
+    "sector": "Health Care",
+    "sub_industry": "Health Care Equipment",
+    "source": "sp500_wiki"
+  },
+  "ABBV": {
+    "sector": "Health Care",
+    "sub_industry": "Biotechnology",
+    "source": "sp500_wiki"
+  },
+  "ACN": {
+    "sector": "Information Technology",
+    "sub_industry": "IT Consulting &amp; Other Services",
+    "source": "sp500_wiki"
+  },
+  "ADBE": {
+    "sector": "Information Technology",
+    "sub_industry": "Application Software",
+    "source": "sp500_wiki"
+  },
+  "AMD": {
+    "sector": "Information Technology",
+    "sub_industry": "Semiconductors",
+    "source": "sp500_wiki"
+  },
+  "AES": {
+    "sector": "Utilities",
+    "sub_industry": "Independent Power Producers &amp; Energy Traders",
+    "source": "sp500_wiki"
+  },
+  "AFL": {
+    "sector": "Financials",
+    "sub_industry": "Life &amp; Health Insurance",
+    "source": "sp500_wiki"
+  },
+  "A": {
+    "sector": "Health Care",
+    "sub_industry": "Life Sciences Tools &amp; Services",
+    "source": "sp500_wiki"
+  },
+  "APD": {
+    "sector": "Materials",
+    "sub_industry": "Industrial Gases",
+    "source": "sp500_wiki"
+  },
+  "ABNB": {
+    "sector": "Consumer Discretionary",
+    "sub_industry": "Hotels, Resorts &amp; Cruise Lines",
+    "source": "sp500_wiki"
+  },
+  "AKAM": {
+    "sector": "Information Technology",
+    "sub_industry": "Internet Services &amp; Infrastructure",
+    "source": "sp500_wiki"
+  },
+  "ALB": {
+    "sector": "Materials",
+    "sub_industry": "Specialty Chemicals",
+    "source": "sp500_wiki"
+  },
+  "ARE": {
+    "sector": "Real Estate",
+    "sub_industry": "Office REITs",
+    "source": "sp500_wiki"
+  },
+  "ALGN": {
+    "sector": "Health Care",
+    "sub_industry": "Health Care Supplies",
+    "source": "sp500_wiki"
+  },
+  "ALLE": {
+    "sector": "Industrials",
+    "sub_industry": "Building Products",
+    "source": "sp500_wiki"
+  },
+  "LNT": {
+    "sector": "Utilities",
+    "sub_industry": "Electric Utilities",
+    "source": "sp500_wiki"
+  },
+  "ALL": {
+    "sector": "Financials",
+    "sub_industry": "Property &amp; Casualty Insurance",
+    "source": "sp500_wiki"
+  },
+  "GOOGL": {
+    "sector": "Communication Services",
+    "sub_industry": "Interactive Media &amp; Services",
+    "source": "sp500_wiki"
+  },
+  "GOOG": {
+    "sector": "Communication Services",
+    "sub_industry": "Interactive Media &amp; Services",
+    "source": "sp500_wiki"
+  },
+  "MO": {
+    "sector": "Consumer Staples",
+    "sub_industry": "Tobacco",
+    "source": "sp500_wiki"
+  },
+  "AMZN": {
+    "sector": "Consumer Discretionary",
+    "sub_industry": "Broadline Retail",
+    "source": "sp500_wiki"
+  },
+  "AMCR": {
+    "sector": "Materials",
+    "sub_industry": "Paper &amp; Plastic Packaging Products &amp; Materials",
+    "source": "sp500_wiki"
+  },
+  "AEE": {
+    "sector": "Utilities",
+    "sub_industry": "Multi-Utilities",
+    "source": "sp500_wiki"
+  },
+  "AEP": {
+    "sector": "Utilities",
+    "sub_industry": "Electric Utilities",
+    "source": "sp500_wiki"
+  },
+  "AXP": {
+    "sector": "Financials",
+    "sub_industry": "Consumer Finance",
+    "source": "sp500_wiki"
+  },
+  "AIG": {
+    "sector": "Financials",
+    "sub_industry": "Multi-line Insurance",
+    "source": "sp500_wiki"
+  },
+  "AMT": {
+    "sector": "Real Estate",
+    "sub_industry": "Telecom Tower REITs",
+    "source": "sp500_wiki"
+  },
+  "AWK": {
+    "sector": "Utilities",
+    "sub_industry": "Water Utilities",
+    "source": "sp500_wiki"
+  },
+  "AMP": {
+    "sector": "Financials",
+    "sub_industry": "Asset Management &amp; Custody Banks",
+    "source": "sp500_wiki"
+  },
+  "AME": {
+    "sector": "Industrials",
+    "sub_industry": "Electrical Components &amp; Equipment",
+    "source": "sp500_wiki"
+  },
+  "AMGN": {
+    "sector": "Health Care",
+    "sub_industry": "Biotechnology",
+    "source": "sp500_wiki"
+  },
+  "APH": {
+    "sector": "Information Technology",
+    "sub_industry": "Electronic Components",
+    "source": "sp500_wiki"
+  },
+  "ADI": {
+    "sector": "Information Technology",
+    "sub_industry": "Semiconductors",
+    "source": "sp500_wiki"
+  },
+  "AON": {
+    "sector": "Financials",
+    "sub_industry": "Insurance Brokers",
+    "source": "sp500_wiki"
+  },
+  "APA": {
+    "sector": "Energy",
+    "sub_industry": "Oil &amp; Gas Exploration &amp; Production",
+    "source": "sp500_wiki"
+  },
+  "APO": {
+    "sector": "Financials",
+    "sub_industry": "Asset Management &amp; Custody Banks",
+    "source": "sp500_wiki"
+  },
+  "AAPL": {
+    "sector": "Information Technology",
+    "sub_industry": "Technology Hardware, Storage &amp; Peripherals",
+    "source": "sp500_wiki"
+  },
+  "AMAT": {
+    "sector": "Information Technology",
+    "sub_industry": "Semiconductor Materials &amp; Equipment",
+    "source": "sp500_wiki"
+  },
+  "APP": {
+    "sector": "Information Technology",
+    "sub_industry": "Application Software",
+    "source": "sp500_wiki"
+  },
+  "APTV": {
+    "sector": "Consumer Discretionary",
+    "sub_industry": "Automotive Parts &amp; Equipment",
+    "source": "sp500_wiki"
+  },
+  "ACGL": {
+    "sector": "Financials",
+    "sub_industry": "Property &amp; Casualty Insurance",
+    "source": "sp500_wiki"
+  },
+  "ADM": {
+    "sector": "Consumer Staples",
+    "sub_industry": "Agricultural Products &amp; Services",
+    "source": "sp500_wiki"
+  },
+  "ARES": {
+    "sector": "Financials",
+    "sub_industry": "Asset Management &amp; Custody Banks",
+    "source": "sp500_wiki"
+  },
+  "ANET": {
+    "sector": "Information Technology",
+    "sub_industry": "Communications Equipment",
+    "source": "sp500_wiki"
+  },
+  "AJG": {
+    "sector": "Financials",
+    "sub_industry": "Insurance Brokers",
+    "source": "sp500_wiki"
+  },
+  "AIZ": {
+    "sector": "Financials",
+    "sub_industry": "Multi-line Insurance",
+    "source": "sp500_wiki"
+  },
+  "T": {
+    "sector": "Communication Services",
+    "sub_industry": "Integrated Telecommunication Services",
+    "source": "sp500_wiki"
+  },
+  "ATO": {
+    "sector": "Utilities",
+    "sub_industry": "Gas Utilities",
+    "source": "sp500_wiki"
+  },
+  "ADSK": {
+    "sector": "Information Technology",
+    "sub_industry": "Application Software",
+    "source": "sp500_wiki"
+  },
+  "ADP": {
+    "sector": "Industrials",
+    "sub_industry": "Human Resource &amp; Employment Services",
+    "source": "sp500_wiki"
+  },
+  "AZO": {
+    "sector": "Consumer Discretionary",
+    "sub_industry": "Automotive Retail",
+    "source": "sp500_wiki"
+  },
+  "AVB": {
+    "sector": "Real Estate",
+    "sub_industry": "Multi-Family Residential REITs",
+    "source": "sp500_wiki"
+  },
+  "AVY": {
+    "sector": "Materials",
+    "sub_industry": "Paper &amp; Plastic Packaging Products &amp; Materials",
+    "source": "sp500_wiki"
+  },
+  "AXON": {
+    "sector": "Industrials",
+    "sub_industry": "Aerospace &amp; Defense",
+    "source": "sp500_wiki"
+  },
+  "BKR": {
+    "sector": "Energy",
+    "sub_industry": "Oil &amp; Gas Equipment &amp; Services",
+    "source": "sp500_wiki"
+  },
+  "BALL": {
+    "sector": "Materials",
+    "sub_industry": "Metal, Glass &amp; Plastic Containers",
+    "source": "sp500_wiki"
+  },
+  "BAC": {
+    "sector": "Financials",
+    "sub_industry": "Diversified Banks",
+    "source": "sp500_wiki"
+  },
+  "BAX": {
+    "sector": "Health Care",
+    "sub_industry": "Health Care Equipment",
+    "source": "sp500_wiki"
+  },
+  "BDX": {
+    "sector": "Health Care",
+    "sub_industry": "Health Care Equipment",
+    "source": "sp500_wiki"
+  },
+  "BRK.B": {
+    "sector": "Financials",
+    "sub_industry": "Multi-Sector Holdings",
+    "source": "sp500_wiki"
+  },
+  "BBY": {
+    "sector": "Consumer Discretionary",
+    "sub_industry": "Computer &amp; Electronics Retail",
+    "source": "sp500_wiki"
+  },
+  "TECH": {
+    "sector": "Health Care",
+    "sub_industry": "Life Sciences Tools &amp; Services",
+    "source": "sp500_wiki"
+  },
+  "BIIB": {
+    "sector": "Health Care",
+    "sub_industry": "Biotechnology",
+    "source": "sp500_wiki"
+  },
+  "BLK": {
+    "sector": "Financials",
+    "sub_industry": "Asset Management &amp; Custody Banks",
+    "source": "sp500_wiki"
+  },
+  "BX": {
+    "sector": "Financials",
+    "sub_industry": "Asset Management &amp; Custody Banks",
+    "source": "sp500_wiki"
+  },
+  "XYZ": {
+    "sector": "Financials",
+    "sub_industry": "Transaction &amp; Payment Processing Services",
+    "source": "sp500_wiki"
+  },
+  "BNY": {
+    "sector": "Financials",
+    "sub_industry": "Asset Management &amp; Custody Banks",
+    "source": "sp500_wiki"
+  },
+  "BA": {
+    "sector": "Industrials",
+    "sub_industry": "Aerospace &amp; Defense",
+    "source": "sp500_wiki"
+  },
+  "BKNG": {
+    "sector": "Consumer Discretionary",
+    "sub_industry": "Hotels, Resorts &amp; Cruise Lines",
+    "source": "sp500_wiki"
+  },
+  "BSX": {
+    "sector": "Health Care",
+    "sub_industry": "Health Care Equipment",
+    "source": "sp500_wiki"
+  },
+  "BMY": {
+    "sector": "Health Care",
+    "sub_industry": "Pharmaceuticals",
+    "source": "sp500_wiki"
+  },
+  "AVGO": {
+    "sector": "Information Technology",
+    "sub_industry": "Semiconductors",
+    "source": "sp500_wiki"
+  },
+  "BR": {
+    "sector": "Industrials",
+    "sub_industry": "Data Processing &amp; Outsourced Services",
+    "source": "sp500_wiki"
+  },
+  "BRO": {
+    "sector": "Financials",
+    "sub_industry": "Insurance Brokers",
+    "source": "sp500_wiki"
+  },
+  "BF.B": {
+    "sector": "Consumer Staples",
+    "sub_industry": "Distillers &amp; Vintners",
+    "source": "sp500_wiki"
+  },
+  "BLDR": {
+    "sector": "Industrials",
+    "sub_industry": "Building Products",
+    "source": "sp500_wiki"
+  },
+  "BG": {
+    "sector": "Consumer Staples",
+    "sub_industry": "Agricultural Products &amp; Services",
+    "source": "sp500_wiki"
+  },
+  "BXP": {
+    "sector": "Real Estate",
+    "sub_industry": "Office REITs",
+    "source": "sp500_wiki"
+  },
+  "CHRW": {
+    "sector": "Industrials",
+    "sub_industry": "Air Freight &amp; Logistics",
+    "source": "sp500_wiki"
+  },
+  "CDNS": {
+    "sector": "Information Technology",
+    "sub_industry": "Application Software",
+    "source": "sp500_wiki"
+  },
+  "CPT": {
+    "sector": "Real Estate",
+    "sub_industry": "Multi-Family Residential REITs",
+    "source": "sp500_wiki"
+  },
+  "COF": {
+    "sector": "Financials",
+    "sub_industry": "Consumer Finance",
+    "source": "sp500_wiki"
+  },
+  "CAH": {
+    "sector": "Health Care",
+    "sub_industry": "Health Care Distributors",
+    "source": "sp500_wiki"
+  },
+  "CCL": {
+    "sector": "Consumer Discretionary",
+    "sub_industry": "Hotels, Resorts &amp; Cruise Lines",
+    "source": "sp500_wiki"
+  },
+  "CARR": {
+    "sector": "Industrials",
+    "sub_industry": "Building Products",
+    "source": "sp500_wiki"
+  },
+  "CVNA": {
+    "sector": "Consumer Discretionary",
+    "sub_industry": "Automotive Retail",
+    "source": "sp500_wiki"
+  },
+  "CASY": {
+    "sector": "Consumer Staples",
+    "sub_industry": "Food Retail",
+    "source": "sp500_wiki"
+  },
+  "CAT": {
+    "sector": "Industrials",
+    "sub_industry": "Construction Machinery &amp; Heavy Transportation Equipment",
+    "source": "sp500_wiki"
+  },
+  "CBOE": {
+    "sector": "Financials",
+    "sub_industry": "Financial Exchanges &amp; Data",
+    "source": "sp500_wiki"
+  },
+  "CBRE": {
+    "sector": "Real Estate",
+    "sub_industry": "Real Estate Services",
+    "source": "sp500_wiki"
+  },
+  "CDW": {
+    "sector": "Information Technology",
+    "sub_industry": "Technology Distributors",
+    "source": "sp500_wiki"
+  },
+  "COR": {
+    "sector": "Health Care",
+    "sub_industry": "Health Care Distributors",
+    "source": "sp500_wiki"
+  },
+  "CNC": {
+    "sector": "Health Care",
+    "sub_industry": "Managed Health Care",
+    "source": "sp500_wiki"
+  },
+  "CNP": {
+    "sector": "Utilities",
+    "sub_industry": "Multi-Utilities",
+    "source": "sp500_wiki"
+  },
+  "CF": {
+    "sector": "Materials",
+    "sub_industry": "Fertilizers &amp; Agricultural Chemicals",
+    "source": "sp500_wiki"
+  },
+  "CRL": {
+    "sector": "Health Care",
+    "sub_industry": "Life Sciences Tools &amp; Services",
+    "source": "sp500_wiki"
+  },
+  "SCHW": {
+    "sector": "Financials",
+    "sub_industry": "Investment Banking &amp; Brokerage",
+    "source": "sp500_wiki"
+  },
+  "CHTR": {
+    "sector": "Communication Services",
+    "sub_industry": "Cable &amp; Satellite",
+    "source": "sp500_wiki"
+  },
+  "CVX": {
+    "sector": "Energy",
+    "sub_industry": "Integrated Oil &amp; Gas",
+    "source": "sp500_wiki"
+  },
+  "CMG": {
+    "sector": "Consumer Discretionary",
+    "sub_industry": "Restaurants",
+    "source": "sp500_wiki"
+  },
+  "CB": {
+    "sector": "Financials",
+    "sub_industry": "Property &amp; Casualty Insurance",
+    "source": "sp500_wiki"
+  },
+  "CHD": {
+    "sector": "Consumer Staples",
+    "sub_industry": "Household Products",
+    "source": "sp500_wiki"
+  },
+  "CIEN": {
+    "sector": "Information Technology",
+    "sub_industry": "Communications Equipment",
+    "source": "sp500_wiki"
+  },
+  "CI": {
+    "sector": "Health Care",
+    "sub_industry": "Health Care Services",
+    "source": "sp500_wiki"
+  },
+  "CINF": {
+    "sector": "Financials",
+    "sub_industry": "Property &amp; Casualty Insurance",
+    "source": "sp500_wiki"
+  },
+  "CTAS": {
+    "sector": "Industrials",
+    "sub_industry": "Diversified Support Services",
+    "source": "sp500_wiki"
+  },
+  "CSCO": {
+    "sector": "Information Technology",
+    "sub_industry": "Communications Equipment",
+    "source": "sp500_wiki"
+  },
+  "C": {
+    "sector": "Financials",
+    "sub_industry": "Diversified Banks",
+    "source": "sp500_wiki"
+  },
+  "CFG": {
+    "sector": "Financials",
+    "sub_industry": "Regional Banks",
+    "source": "sp500_wiki"
+  },
+  "CLX": {
+    "sector": "Consumer Staples",
+    "sub_industry": "Household Products",
+    "source": "sp500_wiki"
+  },
+  "CME": {
+    "sector": "Financials",
+    "sub_industry": "Financial Exchanges &amp; Data",
+    "source": "sp500_wiki"
+  },
+  "CMS": {
+    "sector": "Utilities",
+    "sub_industry": "Multi-Utilities",
+    "source": "sp500_wiki"
+  },
+  "KO": {
+    "sector": "Consumer Staples",
+    "sub_industry": "Soft Drinks &amp; Non-alcoholic Beverages",
+    "source": "sp500_wiki"
+  },
+  "CTSH": {
+    "sector": "Information Technology",
+    "sub_industry": "IT Consulting &amp; Other Services",
+    "source": "sp500_wiki"
+  },
+  "COHR": {
+    "sector": "Information Technology",
+    "sub_industry": "Electronic Components",
+    "source": "sp500_wiki"
+  },
+  "COIN": {
+    "sector": "Financials",
+    "sub_industry": "Financial Exchanges &amp; Data",
+    "source": "sp500_wiki"
+  },
+  "CL": {
+    "sector": "Consumer Staples",
+    "sub_industry": "Household Products",
+    "source": "sp500_wiki"
+  },
+  "CMCSA": {
+    "sector": "Communication Services",
+    "sub_industry": "Cable &amp; Satellite",
+    "source": "sp500_wiki"
+  },
+  "FIX": {
+    "sector": "Industrials",
+    "sub_industry": "Construction &amp; Engineering",
+    "source": "sp500_wiki"
+  },
+  "COP": {
+    "sector": "Energy",
+    "sub_industry": "Oil &amp; Gas Exploration &amp; Production",
+    "source": "sp500_wiki"
+  },
+  "ED": {
+    "sector": "Utilities",
+    "sub_industry": "Multi-Utilities",
+    "source": "sp500_wiki"
+  },
+  "STZ": {
+    "sector": "Consumer Staples",
+    "sub_industry": "Distillers &amp; Vintners",
+    "source": "sp500_wiki"
+  },
+  "CEG": {
+    "sector": "Utilities",
+    "sub_industry": "Electric Utilities",
+    "source": "sp500_wiki"
+  },
+  "COO": {
+    "sector": "Health Care",
+    "sub_industry": "Health Care Supplies",
+    "source": "sp500_wiki"
+  },
+  "CPRT": {
+    "sector": "Industrials",
+    "sub_industry": "Diversified Support Services",
+    "source": "sp500_wiki"
+  },
+  "GLW": {
+    "sector": "Information Technology",
+    "sub_industry": "Electronic Components",
+    "source": "sp500_wiki"
+  },
+  "CPAY": {
+    "sector": "Financials",
+    "sub_industry": "Transaction &amp; Payment Processing Services",
+    "source": "sp500_wiki"
+  },
+  "CTVA": {
+    "sector": "Materials",
+    "sub_industry": "Fertilizers &amp; Agricultural Chemicals",
+    "source": "sp500_wiki"
+  },
+  "CSGP": {
+    "sector": "Real Estate",
+    "sub_industry": "Real Estate Services",
+    "source": "sp500_wiki"
+  },
+  "COST": {
+    "sector": "Consumer Staples",
+    "sub_industry": "Consumer Staples Merchandise Retail",
+    "source": "sp500_wiki"
+  },
+  "CRH": {
+    "sector": "Materials",
+    "sub_industry": "Construction Materials",
+    "source": "sp500_wiki"
+  },
+  "CRWD": {
+    "sector": "Information Technology",
+    "sub_industry": "Systems Software",
+    "source": "sp500_wiki"
+  },
+  "CCI": {
+    "sector": "Real Estate",
+    "sub_industry": "Telecom Tower REITs",
+    "source": "sp500_wiki"
+  },
+  "CSX": {
+    "sector": "Industrials",
+    "sub_industry": "Rail Transportation",
+    "source": "sp500_wiki"
+  },
+  "CMI": {
+    "sector": "Industrials",
+    "sub_industry": "Construction Machinery &amp; Heavy Transportation Equipment",
+    "source": "sp500_wiki"
+  },
+  "CVS": {
+    "sector": "Health Care",
+    "sub_industry": "Health Care Services",
+    "source": "sp500_wiki"
+  },
+  "DHR": {
+    "sector": "Health Care",
+    "sub_industry": "Life Sciences Tools &amp; Services",
+    "source": "sp500_wiki"
+  },
+  "DRI": {
+    "sector": "Consumer Discretionary",
+    "sub_industry": "Restaurants",
+    "source": "sp500_wiki"
+  },
+  "DDOG": {
+    "sector": "Information Technology",
+    "sub_industry": "Application Software",
+    "source": "sp500_wiki"
+  },
+  "DVA": {
+    "sector": "Health Care",
+    "sub_industry": "Health Care Services",
+    "source": "sp500_wiki"
+  },
+  "DECK": {
+    "sector": "Consumer Discretionary",
+    "sub_industry": "Footwear",
+    "source": "sp500_wiki"
+  },
+  "DE": {
+    "sector": "Industrials",
+    "sub_industry": "Agricultural &amp; Farm Machinery",
+    "source": "sp500_wiki"
+  },
+  "DELL": {
+    "sector": "Information Technology",
+    "sub_industry": "Technology Hardware, Storage &amp; Peripherals",
+    "source": "sp500_wiki"
+  },
+  "DAL": {
+    "sector": "Industrials",
+    "sub_industry": "Passenger Airlines",
+    "source": "sp500_wiki"
+  },
+  "DVN": {
+    "sector": "Energy",
+    "sub_industry": "Oil &amp; Gas Exploration &amp; Production",
+    "source": "sp500_wiki"
+  },
+  "DXCM": {
+    "sector": "Health Care",
+    "sub_industry": "Health Care Equipment",
+    "source": "sp500_wiki"
+  },
+  "FANG": {
+    "sector": "Energy",
+    "sub_industry": "Oil &amp; Gas Exploration &amp; Production",
+    "source": "sp500_wiki"
+  },
+  "DLR": {
+    "sector": "Real Estate",
+    "sub_industry": "Data Center REITs",
+    "source": "sp500_wiki"
+  },
+  "DG": {
+    "sector": "Consumer Staples",
+    "sub_industry": "Consumer Staples Merchandise Retail",
+    "source": "sp500_wiki"
+  },
+  "DLTR": {
+    "sector": "Consumer Staples",
+    "sub_industry": "Consumer Staples Merchandise Retail",
+    "source": "sp500_wiki"
+  },
+  "D": {
+    "sector": "Utilities",
+    "sub_industry": "Multi-Utilities",
+    "source": "sp500_wiki"
+  },
+  "DPZ": {
+    "sector": "Consumer Discretionary",
+    "sub_industry": "Restaurants",
+    "source": "sp500_wiki"
+  },
+  "DASH": {
+    "sector": "Consumer Discretionary",
+    "sub_industry": "Specialized Consumer Services",
+    "source": "sp500_wiki"
+  },
+  "DOV": {
+    "sector": "Industrials",
+    "sub_industry": "Industrial Machinery &amp; Supplies &amp; Components",
+    "source": "sp500_wiki"
+  },
+  "DOW": {
+    "sector": "Materials",
+    "sub_industry": "Commodity Chemicals",
+    "source": "sp500_wiki"
+  },
+  "DHI": {
+    "sector": "Consumer Discretionary",
+    "sub_industry": "Homebuilding",
+    "source": "sp500_wiki"
+  },
+  "DTE": {
+    "sector": "Utilities",
+    "sub_industry": "Multi-Utilities",
+    "source": "sp500_wiki"
+  },
+  "DUK": {
+    "sector": "Utilities",
+    "sub_industry": "Electric Utilities",
+    "source": "sp500_wiki"
+  },
+  "DD": {
+    "sector": "Materials",
+    "sub_industry": "Specialty Chemicals",
+    "source": "sp500_wiki"
+  },
+  "ETN": {
+    "sector": "Industrials",
+    "sub_industry": "Electrical Components &amp; Equipment",
+    "source": "sp500_wiki"
+  },
+  "EBAY": {
+    "sector": "Consumer Discretionary",
+    "sub_industry": "Broadline Retail",
+    "source": "sp500_wiki"
+  },
+  "ECHO": {
+    "sector": "Communication Services",
+    "sub_industry": "Wireless Telecommunication Services",
+    "source": "sp500_wiki"
+  },
+  "ECL": {
+    "sector": "Materials",
+    "sub_industry": "Specialty Chemicals",
+    "source": "sp500_wiki"
+  },
+  "EIX": {
+    "sector": "Utilities",
+    "sub_industry": "Electric Utilities",
+    "source": "sp500_wiki"
+  },
+  "EW": {
+    "sector": "Health Care",
+    "sub_industry": "Health Care Equipment",
+    "source": "sp500_wiki"
+  },
+  "EA": {
+    "sector": "Communication Services",
+    "sub_industry": "Interactive Home Entertainment",
+    "source": "sp500_wiki"
+  },
+  "ELV": {
+    "sector": "Health Care",
+    "sub_industry": "Managed Health Care",
+    "source": "sp500_wiki"
+  },
+  "EME": {
+    "sector": "Industrials",
+    "sub_industry": "Construction &amp; Engineering",
+    "source": "sp500_wiki"
+  },
+  "EMR": {
+    "sector": "Industrials",
+    "sub_industry": "Electrical Components &amp; Equipment",
+    "source": "sp500_wiki"
+  },
+  "ETR": {
+    "sector": "Utilities",
+    "sub_industry": "Electric Utilities",
+    "source": "sp500_wiki"
+  },
+  "EOG": {
+    "sector": "Energy",
+    "sub_industry": "Oil &amp; Gas Exploration &amp; Production",
+    "source": "sp500_wiki"
+  },
+  "EQT": {
+    "sector": "Energy",
+    "sub_industry": "Oil &amp; Gas Exploration &amp; Production",
+    "source": "sp500_wiki"
+  },
+  "EFX": {
+    "sector": "Industrials",
+    "sub_industry": "Research &amp; Consulting Services",
+    "source": "sp500_wiki"
+  },
+  "EQIX": {
+    "sector": "Real Estate",
+    "sub_industry": "Data Center REITs",
+    "source": "sp500_wiki"
+  },
+  "EQR": {
+    "sector": "Real Estate",
+    "sub_industry": "Multi-Family Residential REITs",
+    "source": "sp500_wiki"
+  },
+  "ERIE": {
+    "sector": "Financials",
+    "sub_industry": "Insurance Brokers",
+    "source": "sp500_wiki"
+  },
+  "ESS": {
+    "sector": "Real Estate",
+    "sub_industry": "Multi-Family Residential REITs",
+    "source": "sp500_wiki"
+  },
+  "EL": {
+    "sector": "Consumer Staples",
+    "sub_industry": "Personal Care Products",
+    "source": "sp500_wiki"
+  },
+  "EG": {
+    "sector": "Financials",
+    "sub_industry": "Reinsurance",
+    "source": "sp500_wiki"
+  },
+  "EVRG": {
+    "sector": "Utilities",
+    "sub_industry": "Electric Utilities",
+    "source": "sp500_wiki"
+  },
+  "ES": {
+    "sector": "Utilities",
+    "sub_industry": "Electric Utilities",
+    "source": "sp500_wiki"
+  },
+  "EXC": {
+    "sector": "Utilities",
+    "sub_industry": "Electric Utilities",
+    "source": "sp500_wiki"
+  },
+  "EXE": {
+    "sector": "Energy",
+    "sub_industry": "Oil &amp; Gas Exploration &amp; Production",
+    "source": "sp500_wiki"
+  },
+  "EXPE": {
+    "sector": "Consumer Discretionary",
+    "sub_industry": "Hotels, Resorts &amp; Cruise Lines",
+    "source": "sp500_wiki"
+  },
+  "EXPD": {
+    "sector": "Industrials",
+    "sub_industry": "Air Freight &amp; Logistics",
+    "source": "sp500_wiki"
+  },
+  "EXR": {
+    "sector": "Real Estate",
+    "sub_industry": "Self-Storage REITs",
+    "source": "sp500_wiki"
+  },
+  "XOM": {
+    "sector": "Energy",
+    "sub_industry": "Integrated Oil &amp; Gas",
+    "source": "sp500_wiki"
+  },
+  "FFIV": {
+    "sector": "Information Technology",
+    "sub_industry": "Communications Equipment",
+    "source": "sp500_wiki"
+  },
+  "FDS": {
+    "sector": "Financials",
+    "sub_industry": "Financial Exchanges &amp; Data",
+    "source": "sp500_wiki"
+  },
+  "FICO": {
+    "sector": "Information Technology",
+    "sub_industry": "Application Software",
+    "source": "sp500_wiki"
+  },
+  "FAST": {
+    "sector": "Industrials",
+    "sub_industry": "Trading Companies &amp; Distributors",
+    "source": "sp500_wiki"
+  },
+  "FRT": {
+    "sector": "Real Estate",
+    "sub_industry": "Retail REITs",
+    "source": "sp500_wiki"
+  },
+  "FDX": {
+    "sector": "Industrials",
+    "sub_industry": "Air Freight &amp; Logistics",
+    "source": "sp500_wiki"
+  },
+  "FDXF": {
+    "sector": "Industrials",
+    "sub_industry": "Cargo Ground Transportation",
+    "source": "sp500_wiki"
+  },
+  "FIS": {
+    "sector": "Financials",
+    "sub_industry": "Transaction &amp; Payment Processing Services",
+    "source": "sp500_wiki"
+  },
+  "FITB": {
+    "sector": "Financials",
+    "sub_industry": "Regional Banks",
+    "source": "sp500_wiki"
+  },
+  "FSLR": {
+    "sector": "Information Technology",
+    "sub_industry": "Semiconductors",
+    "source": "sp500_wiki"
+  },
+  "FE": {
+    "sector": "Utilities",
+    "sub_industry": "Electric Utilities",
+    "source": "sp500_wiki"
+  },
+  "FISV": {
+    "sector": "Financials",
+    "sub_industry": "Transaction &amp; Payment Processing Services",
+    "source": "sp500_wiki"
+  },
+  "FLEX": {
+    "sector": "Information Technology",
+    "sub_industry": "Electronic Manufacturing Services",
+    "source": "sp500_wiki"
+  },
+  "F": {
+    "sector": "Consumer Discretionary",
+    "sub_industry": "Automobile Manufacturers",
+    "source": "sp500_wiki"
+  },
+  "FTNT": {
+    "sector": "Information Technology",
+    "sub_industry": "Systems Software",
+    "source": "sp500_wiki"
+  },
+  "FTV": {
+    "sector": "Industrials",
+    "sub_industry": "Industrial Machinery &amp; Supplies &amp; Components",
+    "source": "sp500_wiki"
+  },
+  "FOXA": {
+    "sector": "Communication Services",
+    "sub_industry": "Broadcasting",
+    "source": "sp500_wiki"
+  },
+  "FOX": {
+    "sector": "Communication Services",
+    "sub_industry": "Broadcasting",
+    "source": "sp500_wiki"
+  },
+  "BEN": {
+    "sector": "Financials",
+    "sub_industry": "Asset Management &amp; Custody Banks",
+    "source": "sp500_wiki"
+  },
+  "FCX": {
+    "sector": "Materials",
+    "sub_industry": "Copper",
+    "source": "sp500_wiki"
+  },
+  "GRMN": {
+    "sector": "Consumer Discretionary",
+    "sub_industry": "Consumer Electronics",
+    "source": "sp500_wiki"
+  },
+  "IT": {
+    "sector": "Information Technology",
+    "sub_industry": "IT Consulting &amp; Other Services",
+    "source": "sp500_wiki"
+  },
+  "GE": {
+    "sector": "Industrials",
+    "sub_industry": "Aerospace &amp; Defense",
+    "source": "sp500_wiki"
+  },
+  "GEHC": {
+    "sector": "Health Care",
+    "sub_industry": "Health Care Equipment",
+    "source": "sp500_wiki"
+  },
+  "GEV": {
+    "sector": "Industrials",
+    "sub_industry": "Heavy Electrical Equipment",
+    "source": "sp500_wiki"
+  },
+  "GEN": {
+    "sector": "Information Technology",
+    "sub_industry": "Systems Software",
+    "source": "sp500_wiki"
+  },
+  "GNRC": {
+    "sector": "Industrials",
+    "sub_industry": "Heavy Electrical Equipment",
+    "source": "sp500_wiki"
+  },
+  "GD": {
+    "sector": "Industrials",
+    "sub_industry": "Aerospace &amp; Defense",
+    "source": "sp500_wiki"
+  },
+  "GIS": {
+    "sector": "Consumer Staples",
+    "sub_industry": "Packaged Foods &amp; Meats",
+    "source": "sp500_wiki"
+  },
+  "GM": {
+    "sector": "Consumer Discretionary",
+    "sub_industry": "Automobile Manufacturers",
+    "source": "sp500_wiki"
+  },
+  "GPC": {
+    "sector": "Consumer Discretionary",
+    "sub_industry": "Distributors",
+    "source": "sp500_wiki"
+  },
+  "GILD": {
+    "sector": "Health Care",
+    "sub_industry": "Biotechnology",
+    "source": "sp500_wiki"
+  },
+  "GPN": {
+    "sector": "Financials",
+    "sub_industry": "Transaction &amp; Payment Processing Services",
+    "source": "sp500_wiki"
+  },
+  "GL": {
+    "sector": "Financials",
+    "sub_industry": "Life &amp; Health Insurance",
+    "source": "sp500_wiki"
+  },
+  "GDDY": {
+    "sector": "Information Technology",
+    "sub_industry": "Internet Services &amp; Infrastructure",
+    "source": "sp500_wiki"
+  },
+  "GS": {
+    "sector": "Financials",
+    "sub_industry": "Investment Banking &amp; Brokerage",
+    "source": "sp500_wiki"
+  },
+  "HAL": {
+    "sector": "Energy",
+    "sub_industry": "Oil &amp; Gas Equipment &amp; Services",
+    "source": "sp500_wiki"
+  },
+  "HIG": {
+    "sector": "Financials",
+    "sub_industry": "Property &amp; Casualty Insurance",
+    "source": "sp500_wiki"
+  },
+  "HAS": {
+    "sector": "Consumer Discretionary",
+    "sub_industry": "Leisure Products",
+    "source": "sp500_wiki"
+  },
+  "HCA": {
+    "sector": "Health Care",
+    "sub_industry": "Health Care Facilities",
+    "source": "sp500_wiki"
+  },
+  "DOC": {
+    "sector": "Real Estate",
+    "sub_industry": "Health Care REITs",
+    "source": "sp500_wiki"
+  },
+  "HSIC": {
+    "sector": "Health Care",
+    "sub_industry": "Health Care Distributors",
+    "source": "sp500_wiki"
+  },
+  "HSY": {
+    "sector": "Consumer Staples",
+    "sub_industry": "Packaged Foods &amp; Meats",
+    "source": "sp500_wiki"
+  },
+  "HPE": {
+    "sector": "Information Technology",
+    "sub_industry": "Technology Hardware, Storage &amp; Peripherals",
+    "source": "sp500_wiki"
+  },
+  "HLT": {
+    "sector": "Consumer Discretionary",
+    "sub_industry": "Hotels, Resorts &amp; Cruise Lines",
+    "source": "sp500_wiki"
+  },
+  "HD": {
+    "sector": "Consumer Discretionary",
+    "sub_industry": "Home Improvement Retail",
+    "source": "sp500_wiki"
+  },
+  "HONA": {
+    "sector": "Industrials",
+    "sub_industry": "Aerospace &amp; Defense",
+    "source": "sp500_wiki"
+  },
+  "HON": {
+    "sector": "Industrials",
+    "sub_industry": "Industrial Conglomerates",
+    "source": "sp500_wiki"
+  },
+  "HRL": {
+    "sector": "Consumer Staples",
+    "sub_industry": "Packaged Foods &amp; Meats",
+    "source": "sp500_wiki"
+  },
+  "HST": {
+    "sector": "Real Estate",
+    "sub_industry": "Hotel &amp; Resort REITs",
+    "source": "sp500_wiki"
+  },
+  "HWM": {
+    "sector": "Industrials",
+    "sub_industry": "Aerospace &amp; Defense",
+    "source": "sp500_wiki"
+  },
+  "HPQ": {
+    "sector": "Information Technology",
+    "sub_industry": "Technology Hardware, Storage &amp; Peripherals",
+    "source": "sp500_wiki"
+  },
+  "HUBB": {
+    "sector": "Industrials",
+    "sub_industry": "Industrial Machinery &amp; Supplies &amp; Components",
+    "source": "sp500_wiki"
+  },
+  "HUM": {
+    "sector": "Health Care",
+    "sub_industry": "Managed Health Care",
+    "source": "sp500_wiki"
+  },
+  "HBAN": {
+    "sector": "Financials",
+    "sub_industry": "Regional Banks",
+    "source": "sp500_wiki"
+  },
+  "HII": {
+    "sector": "Industrials",
+    "sub_industry": "Aerospace &amp; Defense",
+    "source": "sp500_wiki"
+  },
+  "IBM": {
+    "sector": "Information Technology",
+    "sub_industry": "IT Consulting &amp; Other Services",
+    "source": "sp500_wiki"
+  },
+  "IEX": {
+    "sector": "Industrials",
+    "sub_industry": "Industrial Machinery &amp; Supplies &amp; Components",
+    "source": "sp500_wiki"
+  },
+  "IDXX": {
+    "sector": "Health Care",
+    "sub_industry": "Health Care Equipment",
+    "source": "sp500_wiki"
+  },
+  "ITW": {
+    "sector": "Industrials",
+    "sub_industry": "Industrial Machinery &amp; Supplies &amp; Components",
+    "source": "sp500_wiki"
+  },
+  "INCY": {
+    "sector": "Health Care",
+    "sub_industry": "Biotechnology",
+    "source": "sp500_wiki"
+  },
+  "IR": {
+    "sector": "Industrials",
+    "sub_industry": "Industrial Machinery &amp; Supplies &amp; Components",
+    "source": "sp500_wiki"
+  },
+  "PODD": {
+    "sector": "Health Care",
+    "sub_industry": "Health Care Equipment",
+    "source": "sp500_wiki"
+  },
+  "INTC": {
+    "sector": "Information Technology",
+    "sub_industry": "Semiconductors",
+    "source": "sp500_wiki"
+  },
+  "IBKR": {
+    "sector": "Financials",
+    "sub_industry": "Investment Banking &amp; Brokerage",
+    "source": "sp500_wiki"
+  },
+  "ICE": {
+    "sector": "Financials",
+    "sub_industry": "Financial Exchanges &amp; Data",
+    "source": "sp500_wiki"
+  },
+  "IFF": {
+    "sector": "Materials",
+    "sub_industry": "Specialty Chemicals",
+    "source": "sp500_wiki"
+  },
+  "IP": {
+    "sector": "Materials",
+    "sub_industry": "Paper &amp; Plastic Packaging Products &amp; Materials",
+    "source": "sp500_wiki"
+  },
+  "INTU": {
+    "sector": "Information Technology",
+    "sub_industry": "Application Software",
+    "source": "sp500_wiki"
+  },
+  "ISRG": {
+    "sector": "Health Care",
+    "sub_industry": "Health Care Equipment",
+    "source": "sp500_wiki"
+  },
+  "IVZ": {
+    "sector": "Financials",
+    "sub_industry": "Asset Management &amp; Custody Banks",
+    "source": "sp500_wiki"
+  },
+  "INVH": {
+    "sector": "Real Estate",
+    "sub_industry": "Single-Family Residential REITs",
+    "source": "sp500_wiki"
+  },
+  "IQV": {
+    "sector": "Health Care",
+    "sub_industry": "Life Sciences Tools &amp; Services",
+    "source": "sp500_wiki"
+  },
+  "IRM": {
+    "sector": "Real Estate",
+    "sub_industry": "Other Specialized REITs",
+    "source": "sp500_wiki"
+  },
+  "JBHT": {
+    "sector": "Industrials",
+    "sub_industry": "Cargo Ground Transportation",
+    "source": "sp500_wiki"
+  },
+  "JBL": {
+    "sector": "Information Technology",
+    "sub_industry": "Electronic Manufacturing Services",
+    "source": "sp500_wiki"
+  },
+  "JKHY": {
+    "sector": "Financials",
+    "sub_industry": "Transaction &amp; Payment Processing Services",
+    "source": "sp500_wiki"
+  },
+  "J": {
+    "sector": "Industrials",
+    "sub_industry": "Construction &amp; Engineering",
+    "source": "sp500_wiki"
+  },
+  "JNJ": {
+    "sector": "Health Care",
+    "sub_industry": "Pharmaceuticals",
+    "source": "sp500_wiki"
+  },
+  "JCI": {
+    "sector": "Industrials",
+    "sub_industry": "Building Products",
+    "source": "sp500_wiki"
+  },
+  "JPM": {
+    "sector": "Financials",
+    "sub_industry": "Diversified Banks",
+    "source": "sp500_wiki"
+  },
+  "KVUE": {
+    "sector": "Consumer Staples",
+    "sub_industry": "Personal Care Products",
+    "source": "sp500_wiki"
+  },
+  "KDP": {
+    "sector": "Consumer Staples",
+    "sub_industry": "Soft Drinks &amp; Non-alcoholic Beverages",
+    "source": "sp500_wiki"
+  },
+  "KEY": {
+    "sector": "Financials",
+    "sub_industry": "Regional Banks",
+    "source": "sp500_wiki"
+  },
+  "KEYS": {
+    "sector": "Information Technology",
+    "sub_industry": "Electronic Equipment &amp; Instruments",
+    "source": "sp500_wiki"
+  },
+  "KMB": {
+    "sector": "Consumer Staples",
+    "sub_industry": "Household Products",
+    "source": "sp500_wiki"
+  },
+  "KIM": {
+    "sector": "Real Estate",
+    "sub_industry": "Retail REITs",
+    "source": "sp500_wiki"
+  },
+  "KMI": {
+    "sector": "Energy",
+    "sub_industry": "Oil &amp; Gas Storage &amp; Transportation",
+    "source": "sp500_wiki"
+  },
+  "KKR": {
+    "sector": "Financials",
+    "sub_industry": "Asset Management &amp; Custody Banks",
+    "source": "sp500_wiki"
+  },
+  "KLAC": {
+    "sector": "Information Technology",
+    "sub_industry": "Semiconductor Materials &amp; Equipment",
+    "source": "sp500_wiki"
+  },
+  "KHC": {
+    "sector": "Consumer Staples",
+    "sub_industry": "Packaged Foods &amp; Meats",
+    "source": "sp500_wiki"
+  },
+  "KR": {
+    "sector": "Consumer Staples",
+    "sub_industry": "Food Retail",
+    "source": "sp500_wiki"
+  },
+  "LHX": {
+    "sector": "Industrials",
+    "sub_industry": "Aerospace &amp; Defense",
+    "source": "sp500_wiki"
+  },
+  "LH": {
+    "sector": "Health Care",
+    "sub_industry": "Health Care Services",
+    "source": "sp500_wiki"
+  },
+  "LRCX": {
+    "sector": "Information Technology",
+    "sub_industry": "Semiconductor Materials &amp; Equipment",
+    "source": "sp500_wiki"
+  },
+  "LVS": {
+    "sector": "Consumer Discretionary",
+    "sub_industry": "Casinos &amp; Gaming",
+    "source": "sp500_wiki"
+  },
+  "LDOS": {
+    "sector": "Industrials",
+    "sub_industry": "Diversified Support Services",
+    "source": "sp500_wiki"
+  },
+  "LEN": {
+    "sector": "Consumer Discretionary",
+    "sub_industry": "Homebuilding",
+    "source": "sp500_wiki"
+  },
+  "LII": {
+    "sector": "Industrials",
+    "sub_industry": "Building Products",
+    "source": "sp500_wiki"
+  },
+  "LLY": {
+    "sector": "Health Care",
+    "sub_industry": "Pharmaceuticals",
+    "source": "sp500_wiki"
+  },
+  "LIN": {
+    "sector": "Materials",
+    "sub_industry": "Industrial Gases",
+    "source": "sp500_wiki"
+  },
+  "LYV": {
+    "sector": "Communication Services",
+    "sub_industry": "Movies &amp; Entertainment",
+    "source": "sp500_wiki"
+  },
+  "LMT": {
+    "sector": "Industrials",
+    "sub_industry": "Aerospace &amp; Defense",
+    "source": "sp500_wiki"
+  },
+  "L": {
+    "sector": "Financials",
+    "sub_industry": "Multi-line Insurance",
+    "source": "sp500_wiki"
+  },
+  "LOW": {
+    "sector": "Consumer Discretionary",
+    "sub_industry": "Home Improvement Retail",
+    "source": "sp500_wiki"
+  },
+  "LULU": {
+    "sector": "Consumer Discretionary",
+    "sub_industry": "Apparel, Accessories &amp; Luxury Goods",
+    "source": "sp500_wiki"
+  },
+  "LITE": {
+    "sector": "Information Technology",
+    "sub_industry": "Communications Equipment",
+    "source": "sp500_wiki"
+  },
+  "LYB": {
+    "sector": "Materials",
+    "sub_industry": "Specialty Chemicals",
+    "source": "sp500_wiki"
+  },
+  "MTB": {
+    "sector": "Financials",
+    "sub_industry": "Regional Banks",
+    "source": "sp500_wiki"
+  },
+  "MPC": {
+    "sector": "Energy",
+    "sub_industry": "Oil &amp; Gas Refining &amp; Marketing",
+    "source": "sp500_wiki"
+  },
+  "MAR": {
+    "sector": "Consumer Discretionary",
+    "sub_industry": "Hotels, Resorts &amp; Cruise Lines",
+    "source": "sp500_wiki"
+  },
+  "MRSH": {
+    "sector": "Financials",
+    "sub_industry": "Insurance Brokers",
+    "source": "sp500_wiki"
+  },
+  "MLM": {
+    "sector": "Materials",
+    "sub_industry": "Construction Materials",
+    "source": "sp500_wiki"
+  },
+  "MRVL": {
+    "sector": "Information Technology",
+    "sub_industry": "Semiconductors",
+    "source": "sp500_wiki"
+  },
+  "MAS": {
+    "sector": "Industrials",
+    "sub_industry": "Building Products",
+    "source": "sp500_wiki"
+  },
+  "MA": {
+    "sector": "Financials",
+    "sub_industry": "Transaction &amp; Payment Processing Services",
+    "source": "sp500_wiki"
+  },
+  "MKC": {
+    "sector": "Consumer Staples",
+    "sub_industry": "Packaged Foods &amp; Meats",
+    "source": "sp500_wiki"
+  },
+  "MCD": {
+    "sector": "Consumer Discretionary",
+    "sub_industry": "Restaurants",
+    "source": "sp500_wiki"
+  },
+  "MCK": {
+    "sector": "Health Care",
+    "sub_industry": "Health Care Distributors",
+    "source": "sp500_wiki"
+  },
+  "MDT": {
+    "sector": "Health Care",
+    "sub_industry": "Health Care Equipment",
+    "source": "sp500_wiki"
+  },
+  "MRK": {
+    "sector": "Health Care",
+    "sub_industry": "Pharmaceuticals",
+    "source": "sp500_wiki"
+  },
+  "META": {
+    "sector": "Communication Services",
+    "sub_industry": "Interactive Media &amp; Services",
+    "source": "sp500_wiki"
+  },
+  "MET": {
+    "sector": "Financials",
+    "sub_industry": "Life &amp; Health Insurance",
+    "source": "sp500_wiki"
+  },
+  "MTD": {
+    "sector": "Health Care",
+    "sub_industry": "Life Sciences Tools &amp; Services",
+    "source": "sp500_wiki"
+  },
+  "MGM": {
+    "sector": "Consumer Discretionary",
+    "sub_industry": "Casinos &amp; Gaming",
+    "source": "sp500_wiki"
+  },
+  "MCHP": {
+    "sector": "Information Technology",
+    "sub_industry": "Semiconductors",
+    "source": "sp500_wiki"
+  },
+  "MU": {
+    "sector": "Information Technology",
+    "sub_industry": "Semiconductors",
+    "source": "sp500_wiki"
+  },
+  "MSFT": {
+    "sector": "Information Technology",
+    "sub_industry": "Systems Software",
+    "source": "sp500_wiki"
+  },
+  "MAA": {
+    "sector": "Real Estate",
+    "sub_industry": "Multi-Family Residential REITs",
+    "source": "sp500_wiki"
+  },
+  "MRNA": {
+    "sector": "Health Care",
+    "sub_industry": "Biotechnology",
+    "source": "sp500_wiki"
+  },
+  "TAP": {
+    "sector": "Consumer Staples",
+    "sub_industry": "Brewers",
+    "source": "sp500_wiki"
+  },
+  "MDLZ": {
+    "sector": "Consumer Staples",
+    "sub_industry": "Packaged Foods &amp; Meats",
+    "source": "sp500_wiki"
+  },
+  "MPWR": {
+    "sector": "Information Technology",
+    "sub_industry": "Semiconductors",
+    "source": "sp500_wiki"
+  },
+  "MNST": {
+    "sector": "Consumer Staples",
+    "sub_industry": "Soft Drinks &amp; Non-alcoholic Beverages",
+    "source": "sp500_wiki"
+  },
+  "MCO": {
+    "sector": "Financials",
+    "sub_industry": "Financial Exchanges &amp; Data",
+    "source": "sp500_wiki"
+  },
+  "MS": {
+    "sector": "Financials",
+    "sub_industry": "Investment Banking &amp; Brokerage",
+    "source": "sp500_wiki"
+  },
+  "MOS": {
+    "sector": "Materials",
+    "sub_industry": "Fertilizers &amp; Agricultural Chemicals",
+    "source": "sp500_wiki"
+  },
+  "MSI": {
+    "sector": "Information Technology",
+    "sub_industry": "Communications Equipment",
+    "source": "sp500_wiki"
+  },
+  "MSCI": {
+    "sector": "Financials",
+    "sub_industry": "Financial Exchanges &amp; Data",
+    "source": "sp500_wiki"
+  },
+  "NDAQ": {
+    "sector": "Financials",
+    "sub_industry": "Financial Exchanges &amp; Data",
+    "source": "sp500_wiki"
+  },
+  "NTAP": {
+    "sector": "Information Technology",
+    "sub_industry": "Technology Hardware, Storage &amp; Peripherals",
+    "source": "sp500_wiki"
+  },
+  "NFLX": {
+    "sector": "Communication Services",
+    "sub_industry": "Movies &amp; Entertainment",
+    "source": "sp500_wiki"
+  },
+  "NEM": {
+    "sector": "Materials",
+    "sub_industry": "Gold",
+    "source": "sp500_wiki"
+  },
+  "NWSA": {
+    "sector": "Communication Services",
+    "sub_industry": "Publishing",
+    "source": "sp500_wiki"
+  },
+  "NWS": {
+    "sector": "Communication Services",
+    "sub_industry": "Publishing",
+    "source": "sp500_wiki"
+  },
+  "NEE": {
+    "sector": "Utilities",
+    "sub_industry": "Multi-Utilities",
+    "source": "sp500_wiki"
+  },
+  "NKE": {
+    "sector": "Consumer Discretionary",
+    "sub_industry": "Apparel, Accessories &amp; Luxury Goods",
+    "source": "sp500_wiki"
+  },
+  "NI": {
+    "sector": "Utilities",
+    "sub_industry": "Multi-Utilities",
+    "source": "sp500_wiki"
+  },
+  "NDSN": {
+    "sector": "Industrials",
+    "sub_industry": "Industrial Machinery &amp; Supplies &amp; Components",
+    "source": "sp500_wiki"
+  },
+  "NSC": {
+    "sector": "Industrials",
+    "sub_industry": "Rail Transportation",
+    "source": "sp500_wiki"
+  },
+  "NTRS": {
+    "sector": "Financials",
+    "sub_industry": "Asset Management &amp; Custody Banks",
+    "source": "sp500_wiki"
+  },
+  "NOC": {
+    "sector": "Industrials",
+    "sub_industry": "Aerospace &amp; Defense",
+    "source": "sp500_wiki"
+  },
+  "NCLH": {
+    "sector": "Consumer Discretionary",
+    "sub_industry": "Hotels, Resorts &amp; Cruise Lines",
+    "source": "sp500_wiki"
+  },
+  "NRG": {
+    "sector": "Utilities",
+    "sub_industry": "Independent Power Producers &amp; Energy Traders",
+    "source": "sp500_wiki"
+  },
+  "NUE": {
+    "sector": "Materials",
+    "sub_industry": "Steel",
+    "source": "sp500_wiki"
+  },
+  "NVDA": {
+    "sector": "Information Technology",
+    "sub_industry": "Semiconductors",
+    "source": "sp500_wiki"
+  },
+  "NVR": {
+    "sector": "Consumer Discretionary",
+    "sub_industry": "Homebuilding",
+    "source": "sp500_wiki"
+  },
+  "NXPI": {
+    "sector": "Information Technology",
+    "sub_industry": "Semiconductors",
+    "source": "sp500_wiki"
+  },
+  "ORLY": {
+    "sector": "Consumer Discretionary",
+    "sub_industry": "Automotive Retail",
+    "source": "sp500_wiki"
+  },
+  "OXY": {
+    "sector": "Energy",
+    "sub_industry": "Oil &amp; Gas Exploration &amp; Production",
+    "source": "sp500_wiki"
+  },
+  "ODFL": {
+    "sector": "Industrials",
+    "sub_industry": "Cargo Ground Transportation",
+    "source": "sp500_wiki"
+  },
+  "OMC": {
+    "sector": "Communication Services",
+    "sub_industry": "Advertising",
+    "source": "sp500_wiki"
+  },
+  "ON": {
+    "sector": "Information Technology",
+    "sub_industry": "Semiconductors",
+    "source": "sp500_wiki"
+  },
+  "OKE": {
+    "sector": "Energy",
+    "sub_industry": "Oil &amp; Gas Storage &amp; Transportation",
+    "source": "sp500_wiki"
+  },
+  "ORCL": {
+    "sector": "Information Technology",
+    "sub_industry": "Application Software",
+    "source": "sp500_wiki"
+  },
+  "OTIS": {
+    "sector": "Industrials",
+    "sub_industry": "Industrial Machinery &amp; Supplies &amp; Components",
+    "source": "sp500_wiki"
+  },
+  "PCAR": {
+    "sector": "Industrials",
+    "sub_industry": "Construction Machinery &amp; Heavy Transportation Equipment",
+    "source": "sp500_wiki"
+  },
+  "PKG": {
+    "sector": "Materials",
+    "sub_industry": "Paper &amp; Plastic Packaging Products &amp; Materials",
+    "source": "sp500_wiki"
+  },
+  "PLTR": {
+    "sector": "Information Technology",
+    "sub_industry": "Application Software",
+    "source": "sp500_wiki"
+  },
+  "PANW": {
+    "sector": "Information Technology",
+    "sub_industry": "Systems Software",
+    "source": "sp500_wiki"
+  },
+  "PSKY": {
+    "sector": "Communication Services",
+    "sub_industry": "Movies &amp; Entertainment",
+    "source": "sp500_wiki"
+  },
+  "PH": {
+    "sector": "Industrials",
+    "sub_industry": "Industrial Machinery &amp; Supplies &amp; Components",
+    "source": "sp500_wiki"
+  },
+  "PAYX": {
+    "sector": "Industrials",
+    "sub_industry": "Human Resource &amp; Employment Services",
+    "source": "sp500_wiki"
+  },
+  "PYPL": {
+    "sector": "Financials",
+    "sub_industry": "Transaction &amp; Payment Processing Services",
+    "source": "sp500_wiki"
+  },
+  "PNR": {
+    "sector": "Industrials",
+    "sub_industry": "Industrial Machinery &amp; Supplies &amp; Components",
+    "source": "sp500_wiki"
+  },
+  "PEP": {
+    "sector": "Consumer Staples",
+    "sub_industry": "Soft Drinks &amp; Non-alcoholic Beverages",
+    "source": "sp500_wiki"
+  },
+  "PFE": {
+    "sector": "Health Care",
+    "sub_industry": "Pharmaceuticals",
+    "source": "sp500_wiki"
+  },
+  "PCG": {
+    "sector": "Utilities",
+    "sub_industry": "Multi-Utilities",
+    "source": "sp500_wiki"
+  },
+  "PM": {
+    "sector": "Consumer Staples",
+    "sub_industry": "Tobacco",
+    "source": "sp500_wiki"
+  },
+  "PSX": {
+    "sector": "Energy",
+    "sub_industry": "Oil &amp; Gas Refining &amp; Marketing",
+    "source": "sp500_wiki"
+  },
+  "PNW": {
+    "sector": "Utilities",
+    "sub_industry": "Multi-Utilities",
+    "source": "sp500_wiki"
+  },
+  "PNC": {
+    "sector": "Financials",
+    "sub_industry": "Diversified Banks",
+    "source": "sp500_wiki"
+  },
+  "PPG": {
+    "sector": "Materials",
+    "sub_industry": "Specialty Chemicals",
+    "source": "sp500_wiki"
+  },
+  "PPL": {
+    "sector": "Utilities",
+    "sub_industry": "Electric Utilities",
+    "source": "sp500_wiki"
+  },
+  "PFG": {
+    "sector": "Financials",
+    "sub_industry": "Life &amp; Health Insurance",
+    "source": "sp500_wiki"
+  },
+  "PG": {
+    "sector": "Consumer Staples",
+    "sub_industry": "Personal Care Products",
+    "source": "sp500_wiki"
+  },
+  "PGR": {
+    "sector": "Financials",
+    "sub_industry": "Property &amp; Casualty Insurance",
+    "source": "sp500_wiki"
+  },
+  "PLD": {
+    "sector": "Real Estate",
+    "sub_industry": "Industrial REITs",
+    "source": "sp500_wiki"
+  },
+  "PRU": {
+    "sector": "Financials",
+    "sub_industry": "Life &amp; Health Insurance",
+    "source": "sp500_wiki"
+  },
+  "PEG": {
+    "sector": "Utilities",
+    "sub_industry": "Electric Utilities",
+    "source": "sp500_wiki"
+  },
+  "PTC": {
+    "sector": "Information Technology",
+    "sub_industry": "Application Software",
+    "source": "sp500_wiki"
+  },
+  "PSA": {
+    "sector": "Real Estate",
+    "sub_industry": "Self-Storage REITs",
+    "source": "sp500_wiki"
+  },
+  "PHM": {
+    "sector": "Consumer Discretionary",
+    "sub_industry": "Homebuilding",
+    "source": "sp500_wiki"
+  },
+  "PWR": {
+    "sector": "Industrials",
+    "sub_industry": "Construction &amp; Engineering",
+    "source": "sp500_wiki"
+  },
+  "QCOM": {
+    "sector": "Information Technology",
+    "sub_industry": "Semiconductors",
+    "source": "sp500_wiki"
+  },
+  "DGX": {
+    "sector": "Health Care",
+    "sub_industry": "Health Care Services",
+    "source": "sp500_wiki"
+  },
+  "Q": {
+    "sector": "Information Technology",
+    "sub_industry": "Semiconductor Materials &amp; Equipment",
+    "source": "sp500_wiki"
+  },
+  "RL": {
+    "sector": "Consumer Discretionary",
+    "sub_industry": "Apparel, Accessories &amp; Luxury Goods",
+    "source": "sp500_wiki"
+  },
+  "RJF": {
+    "sector": "Financials",
+    "sub_industry": "Investment Banking &amp; Brokerage",
+    "source": "sp500_wiki"
+  },
+  "RTX": {
+    "sector": "Industrials",
+    "sub_industry": "Aerospace &amp; Defense",
+    "source": "sp500_wiki"
+  },
+  "O": {
+    "sector": "Real Estate",
+    "sub_industry": "Retail REITs",
+    "source": "sp500_wiki"
+  },
+  "REG": {
+    "sector": "Real Estate",
+    "sub_industry": "Retail REITs",
+    "source": "sp500_wiki"
+  },
+  "REGN": {
+    "sector": "Health Care",
+    "sub_industry": "Biotechnology",
+    "source": "sp500_wiki"
+  },
+  "RF": {
+    "sector": "Financials",
+    "sub_industry": "Regional Banks",
+    "source": "sp500_wiki"
+  },
+  "RSG": {
+    "sector": "Industrials",
+    "sub_industry": "Environmental &amp; Facilities Services",
+    "source": "sp500_wiki"
+  },
+  "RMD": {
+    "sector": "Health Care",
+    "sub_industry": "Health Care Equipment",
+    "source": "sp500_wiki"
+  },
+  "RVTY": {
+    "sector": "Health Care",
+    "sub_industry": "Health Care Equipment",
+    "source": "sp500_wiki"
+  },
+  "HOOD": {
+    "sector": "Financials",
+    "sub_industry": "Investment Banking &amp; Brokerage",
+    "source": "sp500_wiki"
+  },
+  "ROK": {
+    "sector": "Industrials",
+    "sub_industry": "Electrical Components &amp; Equipment",
+    "source": "sp500_wiki"
+  },
+  "ROL": {
+    "sector": "Industrials",
+    "sub_industry": "Environmental &amp; Facilities Services",
+    "source": "sp500_wiki"
+  },
+  "ROP": {
+    "sector": "Information Technology",
+    "sub_industry": "Electronic Equipment &amp; Instruments",
+    "source": "sp500_wiki"
+  },
+  "ROST": {
+    "sector": "Consumer Discretionary",
+    "sub_industry": "Apparel Retail",
+    "source": "sp500_wiki"
+  },
+  "RCL": {
+    "sector": "Consumer Discretionary",
+    "sub_industry": "Hotels, Resorts &amp; Cruise Lines",
+    "source": "sp500_wiki"
+  },
+  "SPGI": {
+    "sector": "Financials",
+    "sub_industry": "Financial Exchanges &amp; Data",
+    "source": "sp500_wiki"
+  },
+  "CRM": {
+    "sector": "Information Technology",
+    "sub_industry": "Application Software",
+    "source": "sp500_wiki"
+  },
+  "SNDK": {
+    "sector": "Information Technology",
+    "sub_industry": "Technology Hardware, Storage &amp; Peripherals",
+    "source": "sp500_wiki"
+  },
+  "SBAC": {
+    "sector": "Real Estate",
+    "sub_industry": "Telecom Tower REITs",
+    "source": "sp500_wiki"
+  },
+  "SLB": {
+    "sector": "Energy",
+    "sub_industry": "Oil &amp; Gas Equipment &amp; Services",
+    "source": "sp500_wiki"
+  },
+  "STX": {
+    "sector": "Information Technology",
+    "sub_industry": "Technology Hardware, Storage &amp; Peripherals",
+    "source": "sp500_wiki"
+  },
+  "SRE": {
+    "sector": "Utilities",
+    "sub_industry": "Multi-Utilities",
+    "source": "sp500_wiki"
+  },
+  "NOW": {
+    "sector": "Information Technology",
+    "sub_industry": "Systems Software",
+    "source": "sp500_wiki"
+  },
+  "SHW": {
+    "sector": "Materials",
+    "sub_industry": "Specialty Chemicals",
+    "source": "sp500_wiki"
+  },
+  "SPG": {
+    "sector": "Real Estate",
+    "sub_industry": "Retail REITs",
+    "source": "sp500_wiki"
+  },
+  "SWKS": {
+    "sector": "Information Technology",
+    "sub_industry": "Semiconductors",
+    "source": "sp500_wiki"
+  },
+  "SJM": {
+    "sector": "Consumer Staples",
+    "sub_industry": "Packaged Foods &amp; Meats",
+    "source": "sp500_wiki"
+  },
+  "SW": {
+    "sector": "Materials",
+    "sub_industry": "Paper &amp; Plastic Packaging Products &amp; Materials",
+    "source": "sp500_wiki"
+  },
+  "SNA": {
+    "sector": "Industrials",
+    "sub_industry": "Industrial Machinery &amp; Supplies &amp; Components",
+    "source": "sp500_wiki"
+  },
+  "SOLV": {
+    "sector": "Health Care",
+    "sub_industry": "Health Care Technology",
+    "source": "sp500_wiki"
+  },
+  "SO": {
+    "sector": "Utilities",
+    "sub_industry": "Electric Utilities",
+    "source": "sp500_wiki"
+  },
+  "LUV": {
+    "sector": "Industrials",
+    "sub_industry": "Passenger Airlines",
+    "source": "sp500_wiki"
+  },
+  "SWK": {
+    "sector": "Industrials",
+    "sub_industry": "Industrial Machinery &amp; Supplies &amp; Components",
+    "source": "sp500_wiki"
+  },
+  "SBUX": {
+    "sector": "Consumer Discretionary",
+    "sub_industry": "Restaurants",
+    "source": "sp500_wiki"
+  },
+  "STT": {
+    "sector": "Financials",
+    "sub_industry": "Asset Management &amp; Custody Banks",
+    "source": "sp500_wiki"
+  },
+  "STLD": {
+    "sector": "Materials",
+    "sub_industry": "Steel",
+    "source": "sp500_wiki"
+  },
+  "STE": {
+    "sector": "Health Care",
+    "sub_industry": "Health Care Equipment",
+    "source": "sp500_wiki"
+  },
+  "SYK": {
+    "sector": "Health Care",
+    "sub_industry": "Health Care Equipment",
+    "source": "sp500_wiki"
+  },
+  "SMCI": {
+    "sector": "Information Technology",
+    "sub_industry": "Technology Hardware, Storage &amp; Peripherals",
+    "source": "sp500_wiki"
+  },
+  "SYF": {
+    "sector": "Financials",
+    "sub_industry": "Consumer Finance",
+    "source": "sp500_wiki"
+  },
+  "SNPS": {
+    "sector": "Information Technology",
+    "sub_industry": "Application Software",
+    "source": "sp500_wiki"
+  },
+  "SYY": {
+    "sector": "Consumer Staples",
+    "sub_industry": "Food Distributors",
+    "source": "sp500_wiki"
+  },
+  "TMUS": {
+    "sector": "Communication Services",
+    "sub_industry": "Wireless Telecommunication Services",
+    "source": "sp500_wiki"
+  },
+  "TROW": {
+    "sector": "Financials",
+    "sub_industry": "Asset Management &amp; Custody Banks",
+    "source": "sp500_wiki"
+  },
+  "TTWO": {
+    "sector": "Communication Services",
+    "sub_industry": "Interactive Home Entertainment",
+    "source": "sp500_wiki"
+  },
+  "TPR": {
+    "sector": "Consumer Discretionary",
+    "sub_industry": "Apparel, Accessories &amp; Luxury Goods",
+    "source": "sp500_wiki"
+  },
+  "TRGP": {
+    "sector": "Energy",
+    "sub_industry": "Oil &amp; Gas Storage &amp; Transportation",
+    "source": "sp500_wiki"
+  },
+  "TGT": {
+    "sector": "Consumer Staples",
+    "sub_industry": "Consumer Staples Merchandise Retail",
+    "source": "sp500_wiki"
+  },
+  "TEL": {
+    "sector": "Information Technology",
+    "sub_industry": "Electronic Manufacturing Services",
+    "source": "sp500_wiki"
+  },
+  "TDY": {
+    "sector": "Information Technology",
+    "sub_industry": "Electronic Equipment &amp; Instruments",
+    "source": "sp500_wiki"
+  },
+  "TER": {
+    "sector": "Information Technology",
+    "sub_industry": "Semiconductor Materials &amp; Equipment",
+    "source": "sp500_wiki"
+  },
+  "TSLA": {
+    "sector": "Consumer Discretionary",
+    "sub_industry": "Automobile Manufacturers",
+    "source": "sp500_wiki"
+  },
+  "TXN": {
+    "sector": "Information Technology",
+    "sub_industry": "Semiconductors",
+    "source": "sp500_wiki"
+  },
+  "TPL": {
+    "sector": "Energy",
+    "sub_industry": "Oil &amp; Gas Exploration &amp; Production",
+    "source": "sp500_wiki"
+  },
+  "TXT": {
+    "sector": "Industrials",
+    "sub_industry": "Aerospace &amp; Defense",
+    "source": "sp500_wiki"
+  },
+  "TMO": {
+    "sector": "Health Care",
+    "sub_industry": "Life Sciences Tools &amp; Services",
+    "source": "sp500_wiki"
+  },
+  "TJX": {
+    "sector": "Consumer Discretionary",
+    "sub_industry": "Apparel Retail",
+    "source": "sp500_wiki"
+  },
+  "TKO": {
+    "sector": "Communication Services",
+    "sub_industry": "Movies &amp; Entertainment",
+    "source": "sp500_wiki"
+  },
+  "TTD": {
+    "sector": "Communication Services",
+    "sub_industry": "Advertising",
+    "source": "sp500_wiki"
+  },
+  "TSCO": {
+    "sector": "Consumer Discretionary",
+    "sub_industry": "Other Specialty Retail",
+    "source": "sp500_wiki"
+  },
+  "TT": {
+    "sector": "Industrials",
+    "sub_industry": "Building Products",
+    "source": "sp500_wiki"
+  },
+  "TDG": {
+    "sector": "Industrials",
+    "sub_industry": "Aerospace &amp; Defense",
+    "source": "sp500_wiki"
+  },
+  "TRV": {
+    "sector": "Financials",
+    "sub_industry": "Property &amp; Casualty Insurance",
+    "source": "sp500_wiki"
+  },
+  "TRMB": {
+    "sector": "Information Technology",
+    "sub_industry": "Application Software",
+    "source": "sp500_wiki"
+  },
+  "TFC": {
+    "sector": "Financials",
+    "sub_industry": "Diversified Banks",
+    "source": "sp500_wiki"
+  },
+  "TYL": {
+    "sector": "Information Technology",
+    "sub_industry": "Application Software",
+    "source": "sp500_wiki"
+  },
+  "TSN": {
+    "sector": "Consumer Staples",
+    "sub_industry": "Packaged Foods &amp; Meats",
+    "source": "sp500_wiki"
+  },
+  "USB": {
+    "sector": "Financials",
+    "sub_industry": "Diversified Banks",
+    "source": "sp500_wiki"
+  },
+  "UBER": {
+    "sector": "Industrials",
+    "sub_industry": "Passenger Ground Transportation",
+    "source": "sp500_wiki"
+  },
+  "UDR": {
+    "sector": "Real Estate",
+    "sub_industry": "Multi-Family Residential REITs",
+    "source": "sp500_wiki"
+  },
+  "ULTA": {
+    "sector": "Consumer Discretionary",
+    "sub_industry": "Other Specialty Retail",
+    "source": "sp500_wiki"
+  },
+  "UNP": {
+    "sector": "Industrials",
+    "sub_industry": "Rail Transportation",
+    "source": "sp500_wiki"
+  },
+  "UAL": {
+    "sector": "Industrials",
+    "sub_industry": "Passenger Airlines",
+    "source": "sp500_wiki"
+  },
+  "UPS": {
+    "sector": "Industrials",
+    "sub_industry": "Air Freight &amp; Logistics",
+    "source": "sp500_wiki"
+  },
+  "URI": {
+    "sector": "Industrials",
+    "sub_industry": "Trading Companies &amp; Distributors",
+    "source": "sp500_wiki"
+  },
+  "UNH": {
+    "sector": "Health Care",
+    "sub_industry": "Managed Health Care",
+    "source": "sp500_wiki"
+  },
+  "UHS": {
+    "sector": "Health Care",
+    "sub_industry": "Health Care Facilities",
+    "source": "sp500_wiki"
+  },
+  "VLO": {
+    "sector": "Energy",
+    "sub_industry": "Oil &amp; Gas Refining &amp; Marketing",
+    "source": "sp500_wiki"
+  },
+  "VEEV": {
+    "sector": "Health Care",
+    "sub_industry": "Health Care Technology",
+    "source": "sp500_wiki"
+  },
+  "VTR": {
+    "sector": "Real Estate",
+    "sub_industry": "Health Care REITs",
+    "source": "sp500_wiki"
+  },
+  "VLTO": {
+    "sector": "Industrials",
+    "sub_industry": "Environmental &amp; Facilities Services",
+    "source": "sp500_wiki"
+  },
+  "VRSN": {
+    "sector": "Information Technology",
+    "sub_industry": "Internet Services &amp; Infrastructure",
+    "source": "sp500_wiki"
+  },
+  "VRSK": {
+    "sector": "Industrials",
+    "sub_industry": "Research &amp; Consulting Services",
+    "source": "sp500_wiki"
+  },
+  "VZ": {
+    "sector": "Communication Services",
+    "sub_industry": "Integrated Telecommunication Services",
+    "source": "sp500_wiki"
+  },
+  "VRTX": {
+    "sector": "Health Care",
+    "sub_industry": "Biotechnology",
+    "source": "sp500_wiki"
+  },
+  "VRT": {
+    "sector": "Industrials",
+    "sub_industry": "Electrical Components &amp; Equipment",
+    "source": "sp500_wiki"
+  },
+  "VTRS": {
+    "sector": "Health Care",
+    "sub_industry": "Pharmaceuticals",
+    "source": "sp500_wiki"
+  },
+  "VICI": {
+    "sector": "Real Estate",
+    "sub_industry": "Hotel &amp; Resort REITs",
+    "source": "sp500_wiki"
+  },
+  "V": {
+    "sector": "Financials",
+    "sub_industry": "Transaction &amp; Payment Processing Services",
+    "source": "sp500_wiki"
+  },
+  "VST": {
+    "sector": "Utilities",
+    "sub_industry": "Electric Utilities",
+    "source": "sp500_wiki"
+  },
+  "VMC": {
+    "sector": "Materials",
+    "sub_industry": "Construction Materials",
+    "source": "sp500_wiki"
+  },
+  "WRB": {
+    "sector": "Financials",
+    "sub_industry": "Property &amp; Casualty Insurance",
+    "source": "sp500_wiki"
+  },
+  "GWW": {
+    "sector": "Industrials",
+    "sub_industry": "Industrial Machinery &amp; Supplies &amp; Components",
+    "source": "sp500_wiki"
+  },
+  "WAB": {
+    "sector": "Industrials",
+    "sub_industry": "Construction Machinery &amp; Heavy Transportation Equipment",
+    "source": "sp500_wiki"
+  },
+  "WMT": {
+    "sector": "Consumer Staples",
+    "sub_industry": "Consumer Staples Merchandise Retail",
+    "source": "sp500_wiki"
+  },
+  "DIS": {
+    "sector": "Communication Services",
+    "sub_industry": "Movies &amp; Entertainment",
+    "source": "sp500_wiki"
+  },
+  "WBD": {
+    "sector": "Communication Services",
+    "sub_industry": "Broadcasting",
+    "source": "sp500_wiki"
+  },
+  "WM": {
+    "sector": "Industrials",
+    "sub_industry": "Environmental &amp; Facilities Services",
+    "source": "sp500_wiki"
+  },
+  "WAT": {
+    "sector": "Health Care",
+    "sub_industry": "Life Sciences Tools &amp; Services",
+    "source": "sp500_wiki"
+  },
+  "WEC": {
+    "sector": "Utilities",
+    "sub_industry": "Electric Utilities",
+    "source": "sp500_wiki"
+  },
+  "WFC": {
+    "sector": "Financials",
+    "sub_industry": "Diversified Banks",
+    "source": "sp500_wiki"
+  },
+  "WELL": {
+    "sector": "Real Estate",
+    "sub_industry": "Health Care REITs",
+    "source": "sp500_wiki"
+  },
+  "WST": {
+    "sector": "Health Care",
+    "sub_industry": "Health Care Supplies",
+    "source": "sp500_wiki"
+  },
+  "WDC": {
+    "sector": "Information Technology",
+    "sub_industry": "Technology Hardware, Storage &amp; Peripherals",
+    "source": "sp500_wiki"
+  },
+  "WY": {
+    "sector": "Real Estate",
+    "sub_industry": "Timber REITs",
+    "source": "sp500_wiki"
+  },
+  "WSM": {
+    "sector": "Consumer Discretionary",
+    "sub_industry": "Homefurnishing Retail",
+    "source": "sp500_wiki"
+  },
+  "WMB": {
+    "sector": "Energy",
+    "sub_industry": "Oil &amp; Gas Storage &amp; Transportation",
+    "source": "sp500_wiki"
+  },
+  "WTW": {
+    "sector": "Financials",
+    "sub_industry": "Insurance Brokers",
+    "source": "sp500_wiki"
+  },
+  "WDAY": {
+    "sector": "Information Technology",
+    "sub_industry": "Application Software",
+    "source": "sp500_wiki"
+  },
+  "WYNN": {
+    "sector": "Consumer Discretionary",
+    "sub_industry": "Casinos &amp; Gaming",
+    "source": "sp500_wiki"
+  },
+  "XEL": {
+    "sector": "Utilities",
+    "sub_industry": "Multi-Utilities",
+    "source": "sp500_wiki"
+  },
+  "XYL": {
+    "sector": "Industrials",
+    "sub_industry": "Industrial Machinery &amp; Supplies &amp; Components",
+    "source": "sp500_wiki"
+  },
+  "YUM": {
+    "sector": "Consumer Discretionary",
+    "sub_industry": "Restaurants",
+    "source": "sp500_wiki"
+  },
+  "ZBRA": {
+    "sector": "Information Technology",
+    "sub_industry": "Electronic Equipment &amp; Instruments",
+    "source": "sp500_wiki"
+  },
+  "ZBH": {
+    "sector": "Health Care",
+    "sub_industry": "Health Care Equipment",
+    "source": "sp500_wiki"
+  },
+  "ZTS": {
+    "sector": "Health Care",
+    "sub_industry": "Pharmaceuticals",
+    "source": "sp500_wiki"
+  },
+  "AA": {
+    "sector": "Materials",
+    "sub_industry": "Metals & Mining",
+    "source": "finnhub"
+  },
+  "AAL": {
+    "sector": "Industrials",
+    "sub_industry": "Airlines",
+    "source": "finnhub"
+  },
+  "AAMI": {
+    "sector": "Financials",
+    "sub_industry": "Financial Services",
+    "source": "finnhub"
+  },
+  "AAOI": {
+    "sector": "Communication Services",
+    "sub_industry": "Communications",
+    "source": "finnhub"
+  },
+  "ABCL": {
+    "sector": "Health Care",
+    "sub_industry": "Life Sciences Tools & Services",
+    "source": "finnhub"
+  },
+  "ABSI": {
+    "sector": "Health Care",
+    "sub_industry": "Biotechnology",
+    "source": "finnhub"
+  },
+  "ACEL": {
+    "sector": "Consumer Discretionary",
+    "sub_industry": "Hotels, Restaurants & Leisure",
+    "source": "finnhub"
+  },
+  "ACHC": {
+    "sector": "Health Care",
+    "sub_industry": "Health Care",
+    "source": "finnhub"
+  },
+  "ACMR": {
+    "sector": "Information Technology",
+    "sub_industry": "Semiconductors",
+    "source": "finnhub"
+  },
+  "ACOG": {
+    "sector": "Health Care",
+    "sub_industry": "Biotechnology",
+    "source": "finnhub"
+  },
+  "ACVA": {
+    "sector": "Industrials",
+    "sub_industry": "Commercial Services & Supplies",
+    "source": "finnhub"
+  },
+  "ADAG": {
+    "sector": "Health Care",
+    "sub_industry": "Biotechnology",
+    "source": "finnhub"
+  },
+  "ADEA": {
+    "sector": "Information Technology",
+    "sub_industry": "Technology",
+    "source": "finnhub"
+  },
+  "ADGM": {
+    "sector": "Health Care",
+    "sub_industry": "Health Care",
+    "source": "finnhub"
+  },
+  "ADPT": {
+    "sector": "Health Care",
+    "sub_industry": "Life Sciences Tools & Services",
+    "source": "finnhub"
+  },
+  "ADV": {
+    "sector": "Communication Services",
+    "sub_industry": "Media",
+    "source": "finnhub"
+  },
+  "AEHR": {
+    "sector": "Information Technology",
+    "sub_industry": "Semiconductors",
+    "source": "finnhub"
+  },
+  "AERT": {
+    "sector": "Industrials",
+    "sub_industry": "Professional Services",
+    "source": "finnhub"
+  },
+  "AEVA": {
+    "sector": "Industrials",
+    "sub_industry": "Electrical Equipment",
+    "source": "finnhub"
+  },
+  "AGIO": {
+    "sector": "Health Care",
+    "sub_industry": "Biotechnology",
+    "source": "finnhub"
+  },
+  "AGL": {
+    "sector": "Health Care",
+    "sub_industry": "Health Care",
+    "source": "finnhub"
+  },
+  "AGX": {
+    "sector": "Industrials",
+    "sub_industry": "Construction",
+    "source": "finnhub"
+  },
+  "AGYS": {
+    "sector": "Information Technology",
+    "sub_industry": "Technology",
+    "source": "finnhub"
+  },
+  "AIIO": {
+    "sector": "Consumer Discretionary",
+    "sub_industry": "Automobiles",
+    "source": "finnhub"
+  },
+  "AIP": {
+    "sector": "Information Technology",
+    "sub_industry": "Technology",
+    "source": "finnhub"
+  },
+  "AIR": {
+    "sector": "Industrials",
+    "sub_industry": "Aerospace & Defense",
+    "source": "finnhub"
+  },
+  "AIRG": {
+    "sector": "Industrials",
+    "sub_industry": "Electrical Equipment",
+    "source": "finnhub"
+  },
+  "AIT": {
+    "sector": "Industrials",
+    "sub_industry": "Trading Companies & Distributors",
+    "source": "finnhub"
+  },
+  "AKTS": {
+    "sector": "Health Care",
+    "sub_industry": "Biotechnology",
+    "source": "finnhub"
+  },
+  "ALAB": {
+    "sector": "Information Technology",
+    "sub_industry": "Semiconductors",
+    "source": "finnhub"
+  },
+  "ALGM": {
+    "sector": "Information Technology",
+    "sub_industry": "Semiconductors",
+    "source": "finnhub"
+  },
+  "ALIZY": {
+    "sector": "Financials",
+    "sub_industry": "Insurance",
+    "source": "finnhub"
+  },
+  "ALM": {
+    "sector": "Materials",
+    "sub_industry": "Metals & Mining",
+    "source": "finnhub"
+  },
+  "ALMU": {
+    "sector": "Information Technology",
+    "sub_industry": "Semiconductors",
+    "source": "finnhub"
+  },
+  "ALNT": {
+    "sector": "Industrials",
+    "sub_industry": "Electrical Equipment",
+    "source": "finnhub"
+  },
+  "ALTO": {
+    "sector": "Materials",
+    "sub_industry": "Chemicals",
+    "source": "finnhub"
+  },
+  "AMC": {
+    "sector": "Communication Services",
+    "sub_industry": "Media",
+    "source": "finnhub"
+  },
+  "AMKBY": {
+    "sector": "Industrials",
+    "sub_industry": "Marine",
+    "source": "finnhub"
+  },
+  "AMKR": {
+    "sector": "Information Technology",
+    "sub_industry": "Semiconductors",
+    "source": "finnhub"
+  },
+  "AMN": {
+    "sector": "Health Care",
+    "sub_industry": "Health Care",
+    "source": "finnhub"
+  },
+  "AMPL": {
+    "sector": "Information Technology",
+    "sub_industry": "Technology",
+    "source": "finnhub"
+  },
+  "AMPX": {
+    "sector": "Industrials",
+    "sub_industry": "Electrical Equipment",
+    "source": "finnhub"
+  },
+  "ANRO": {
+    "sector": "Health Care",
+    "sub_industry": "Pharmaceuticals",
+    "source": "finnhub"
+  },
+  "AOSL": {
+    "sector": "Information Technology",
+    "sub_industry": "Semiconductors",
+    "source": "finnhub"
+  },
+  "APGE": {
+    "sector": "Health Care",
+    "sub_industry": "Biotechnology",
+    "source": "finnhub"
+  },
+  "APLD": {
+    "sector": "Information Technology",
+    "sub_industry": "Technology",
+    "source": "finnhub"
+  },
+  "APLS": {
+    "sector": "Health Care",
+    "sub_industry": "Biotechnology",
+    "source": "finnhub"
+  },
+  "APPS": {
+    "sector": "Information Technology",
+    "sub_industry": "Technology",
+    "source": "finnhub"
+  },
+  "AR": {
+    "sector": "Energy",
+    "sub_industry": "Energy",
+    "source": "finnhub"
+  },
+  "ARCT": {
+    "sector": "Health Care",
+    "sub_industry": "Biotechnology",
+    "source": "finnhub"
+  },
+  "ARDT": {
+    "sector": "Health Care",
+    "sub_industry": "Health Care",
+    "source": "finnhub"
+  },
+  "ARGX": {
+    "sector": "Health Care",
+    "sub_industry": "Biotechnology",
+    "source": "finnhub"
+  },
+  "ARKO": {
+    "sector": "Consumer Discretionary",
+    "sub_industry": "Retail",
+    "source": "finnhub"
+  },
+  "ARM": {
+    "sector": "Information Technology",
+    "sub_industry": "Semiconductors",
+    "source": "finnhub"
+  },
+  "ARMK": {
+    "sector": "Consumer Discretionary",
+    "sub_industry": "Hotels, Restaurants & Leisure",
+    "source": "finnhub"
+  },
+  "ARQT": {
+    "sector": "Health Care",
+    "sub_industry": "Biotechnology",
+    "source": "finnhub"
+  },
+  "ARTL": {
+    "sector": "Health Care",
+    "sub_industry": "Pharmaceuticals",
+    "source": "finnhub"
+  },
+  "ARTV": {
+    "sector": "Health Care",
+    "sub_industry": "Biotechnology",
+    "source": "finnhub"
+  },
+  "ASB": {
+    "sector": "Financials",
+    "sub_industry": "Banking",
+    "source": "finnhub"
+  },
+  "ASML": {
+    "sector": "Information Technology",
+    "sub_industry": "Semiconductors",
+    "source": "finnhub"
+  },
+  "ASPN": {
+    "sector": "Materials",
+    "sub_industry": "Chemicals",
+    "source": "finnhub"
+  },
+  "ASRT": {
+    "sector": "Health Care",
+    "sub_industry": "Pharmaceuticals",
+    "source": "finnhub"
+  },
+  "ASST": {
+    "sector": "Health Care",
+    "sub_industry": "Health Care",
+    "source": "finnhub"
+  },
+  "ASTC": {
+    "sector": "Industrials",
+    "sub_industry": "Electrical Equipment",
+    "source": "finnhub"
+  },
+  "ASTH": {
+    "sector": "Health Care",
+    "sub_industry": "Health Care",
+    "source": "finnhub"
+  },
+  "ASX": {
+    "sector": "Information Technology",
+    "sub_industry": "Semiconductors",
+    "source": "finnhub"
+  },
+  "ASYS": {
+    "sector": "Information Technology",
+    "sub_industry": "Semiconductors",
+    "source": "finnhub"
+  },
+  "ATAI": {
+    "sector": "Health Care",
+    "sub_industry": "Pharmaceuticals",
+    "source": "finnhub"
+  },
+  "ATEN": {
+    "sector": "Information Technology",
+    "sub_industry": "Technology",
+    "source": "finnhub"
+  },
+  "ATNI": {
+    "sector": "Communication Services",
+    "sub_industry": "Telecommunication",
+    "source": "finnhub"
+  },
+  "ATOM": {
+    "sector": "Information Technology",
+    "sub_industry": "Semiconductors",
+    "source": "finnhub"
+  },
+  "ATRC": {
+    "sector": "Health Care",
+    "sub_industry": "Health Care",
+    "source": "finnhub"
+  },
+  "ATRO": {
+    "sector": "Industrials",
+    "sub_industry": "Aerospace & Defense",
+    "source": "finnhub"
+  },
+  "AUR": {
+    "sector": "Information Technology",
+    "sub_industry": "Technology",
+    "source": "finnhub"
+  },
+  "AWR": {
+    "sector": "Utilities",
+    "sub_industry": "Utilities",
+    "source": "finnhub"
+  },
+  "AXTI": {
+    "sector": "Information Technology",
+    "sub_industry": "Semiconductors",
+    "source": "finnhub"
+  },
+  "AZTA": {
+    "sector": "Health Care",
+    "sub_industry": "Life Sciences Tools & Services",
+    "source": "finnhub"
+  },
+  "BAP": {
+    "sector": "Financials",
+    "sub_industry": "Banking",
+    "source": "finnhub"
+  },
+  "BAYRY": {
+    "sector": "Health Care",
+    "sub_industry": "Pharmaceuticals",
+    "source": "finnhub"
+  },
+  "BB": {
+    "sector": "Information Technology",
+    "sub_industry": "Technology",
+    "source": "finnhub"
+  },
+  "BBCP": {
+    "sector": "Industrials",
+    "sub_industry": "Construction",
+    "source": "finnhub"
+  },
+  "BBGI": {
+    "sector": "Communication Services",
+    "sub_industry": "Media",
+    "source": "finnhub"
+  },
+  "BBNX": {
+    "sector": "Health Care",
+    "sub_industry": "Health Care",
+    "source": "finnhub"
+  },
+  "BCRX": {
+    "sector": "Health Care",
+    "sub_industry": "Biotechnology",
+    "source": "finnhub"
+  },
+  "BCS": {
+    "sector": "Financials",
+    "sub_industry": "Banking",
+    "source": "finnhub"
+  },
+  "BDSX": {
+    "sector": "Health Care",
+    "sub_industry": "Health Care",
+    "source": "finnhub"
+  },
+  "BE": {
+    "sector": "Industrials",
+    "sub_industry": "Electrical Equipment",
+    "source": "finnhub"
+  },
+  "BGDE": {
+    "sector": "Information Technology",
+    "sub_industry": "Technology",
+    "source": "finnhub"
+  },
+  "BHE": {
+    "sector": "Industrials",
+    "sub_industry": "Electrical Equipment",
+    "source": "finnhub"
+  },
+  "BIRD": {
+    "sector": "Consumer Discretionary",
+    "sub_industry": "Textiles, Apparel & Luxury Goods",
+    "source": "finnhub"
+  },
+  "BJRI": {
+    "sector": "Consumer Discretionary",
+    "sub_industry": "Hotels, Restaurants & Leisure",
+    "source": "finnhub"
+  },
+  "BKD": {
+    "sector": "Health Care",
+    "sub_industry": "Health Care",
+    "source": "finnhub"
+  },
+  "BKSY": {
+    "sector": "Industrials",
+    "sub_industry": "Professional Services",
+    "source": "finnhub"
+  },
+  "BLBD": {
+    "sector": "Industrials",
+    "sub_industry": "Machinery",
+    "source": "finnhub"
+  },
+  "BLLN": {
+    "sector": "Health Care",
+    "sub_industry": "Health Care",
+    "source": "finnhub"
+  },
+  "BLMN": {
+    "sector": "Consumer Discretionary",
+    "sub_industry": "Hotels, Restaurants & Leisure",
+    "source": "finnhub"
+  },
+  "BLRX": {
+    "sector": "Health Care",
+    "sub_industry": "Biotechnology",
+    "source": "finnhub"
+  },
+  "BLZE": {
+    "sector": "Information Technology",
+    "sub_industry": "Technology",
+    "source": "finnhub"
+  },
+  "BNED": {
+    "sector": "Consumer Discretionary",
+    "sub_industry": "Retail",
+    "source": "finnhub"
+  },
+  "BOH": {
+    "sector": "Financials",
+    "sub_industry": "Banking",
+    "source": "finnhub"
+  },
+  "BOX": {
+    "sector": "Information Technology",
+    "sub_industry": "Technology",
+    "source": "finnhub"
+  },
+  "BRC": {
+    "sector": "Industrials",
+    "sub_industry": "Commercial Services & Supplies",
+    "source": "finnhub"
+  },
+  "BRKR": {
+    "sector": "Health Care",
+    "sub_industry": "Life Sciences Tools & Services",
+    "source": "finnhub"
+  },
+  "BTDR": {
+    "sector": "Information Technology",
+    "sub_industry": "Technology",
+    "source": "finnhub"
+  },
+  "BTO": {
+    "sector": "N/A",
+    "sub_industry": "N/A",
+    "source": "finnhub"
+  },
+  "BURL": {
+    "sector": "Consumer Discretionary",
+    "sub_industry": "Retail",
+    "source": "finnhub"
+  },
+  "BVS": {
+    "sector": "Health Care",
+    "sub_industry": "Health Care",
+    "source": "finnhub"
+  },
+  "BW": {
+    "sector": "Industrials",
+    "sub_industry": "Electrical Equipment",
+    "source": "finnhub"
+  },
+  "BWA": {
+    "sector": "Consumer Discretionary",
+    "sub_industry": "Auto Components",
+    "source": "finnhub"
+  },
+  "BWEN": {
+    "sector": "Industrials",
+    "sub_industry": "Electrical Equipment",
+    "source": "finnhub"
+  },
+  "BYD": {
+    "sector": "Consumer Discretionary",
+    "sub_industry": "Hotels, Restaurants & Leisure",
+    "source": "finnhub"
+  },
+  "BYND": {
+    "sector": "Consumer Staples",
+    "sub_industry": "Food Products",
+    "source": "finnhub"
+  },
+  "BZAI": {
+    "sector": "Information Technology",
+    "sub_industry": "Semiconductors",
+    "source": "finnhub"
+  },
+  "BZFD": {
+    "sector": "Communication Services",
+    "sub_industry": "Media",
+    "source": "finnhub"
+  },
+  "BZH": {
+    "sector": "Consumer Discretionary",
+    "sub_industry": "Consumer products",
+    "source": "finnhub"
+  },
+  "CACC": {
+    "sector": "Financials",
+    "sub_industry": "Financial Services",
+    "source": "finnhub"
+  },
+  "CADL": {
+    "sector": "Health Care",
+    "sub_industry": "Biotechnology",
+    "source": "finnhub"
+  },
+  "CALY": {
+    "sector": "Consumer Discretionary",
+    "sub_industry": "Leisure Products",
+    "source": "finnhub"
+  },
+  "CANG": {
+    "sector": "Consumer Discretionary",
+    "sub_industry": "Retail",
+    "source": "finnhub"
+  },
+  "CAR": {
+    "sector": "Industrials",
+    "sub_industry": "Road & Rail",
+    "source": "finnhub"
+  },
+  "CBRL": {
+    "sector": "Consumer Discretionary",
+    "sub_industry": "Hotels, Restaurants & Leisure",
+    "source": "finnhub"
+  },
+  "CBUS": {
+    "sector": "Health Care",
+    "sub_industry": "Biotechnology",
+    "source": "finnhub"
+  },
+  "CBZ": {
+    "sector": "Industrials",
+    "sub_industry": "Professional Services",
+    "source": "finnhub"
+  },
+  "CCRN": {
+    "sector": "Health Care",
+    "sub_industry": "Health Care",
+    "source": "finnhub"
+  },
+  "CCS": {
+    "sector": "Consumer Discretionary",
+    "sub_industry": "Consumer products",
+    "source": "finnhub"
+  },
+  "CDNA": {
+    "sector": "Health Care",
+    "sub_industry": "Biotechnology",
+    "source": "finnhub"
+  },
+  "CDXS": {
+    "sector": "Health Care",
+    "sub_industry": "Life Sciences Tools & Services",
+    "source": "finnhub"
+  },
+  "CE": {
+    "sector": "Materials",
+    "sub_industry": "Chemicals",
+    "source": "finnhub"
+  },
+  "CENT": {
+    "sector": "Consumer Discretionary",
+    "sub_industry": "Consumer products",
+    "source": "finnhub"
+  },
+  "CGNX": {
+    "sector": "Industrials",
+    "sub_industry": "Electrical Equipment",
+    "source": "finnhub"
+  },
+  "CGTL": {
+    "sector": "Industrials",
+    "sub_industry": "Electrical Equipment",
+    "source": "finnhub"
+  },
+  "CHE": {
+    "sector": "Health Care",
+    "sub_industry": "Health Care",
+    "source": "finnhub"
+  },
+  "CHGG": {
+    "sector": "Consumer Discretionary",
+    "sub_industry": "Diversified Consumer Services",
+    "source": "finnhub"
+  },
+  "CHH": {
+    "sector": "Consumer Discretionary",
+    "sub_industry": "Hotels, Restaurants & Leisure",
+    "source": "finnhub"
+  },
+  "CHRN": {
+    "sector": "Health Care",
+    "sub_industry": "Health Care",
+    "source": "finnhub"
+  },
+  "CIVB": {
+    "sector": "Financials",
+    "sub_industry": "Banking",
+    "source": "finnhub"
+  },
+  "CLDX": {
+    "sector": "Health Care",
+    "sub_industry": "Biotechnology",
+    "source": "finnhub"
+  },
+  "CLFD": {
+    "sector": "Communication Services",
+    "sub_industry": "Communications",
+    "source": "finnhub"
+  },
+  "CLOV": {
+    "sector": "Health Care",
+    "sub_industry": "Health Care",
+    "source": "finnhub"
+  },
+  "CLPT": {
+    "sector": "Health Care",
+    "sub_industry": "Health Care",
+    "source": "finnhub"
+  },
+  "CLRO": {
+    "sector": "Communication Services",
+    "sub_industry": "Communications",
+    "source": "finnhub"
+  },
+  "CLSK": {
+    "sector": "Information Technology",
+    "sub_industry": "Technology",
+    "source": "finnhub"
+  },
+  "CM": {
+    "sector": "Financials",
+    "sub_industry": "Banking",
+    "source": "finnhub"
+  },
+  "CMPS": {
+    "sector": "Health Care",
+    "sub_industry": "Biotechnology",
+    "source": "finnhub"
+  },
+  "CNET": {
+    "sector": "Communication Services",
+    "sub_industry": "Media",
+    "source": "finnhub"
+  },
+  "CODI": {
+    "sector": "Financials",
+    "sub_industry": "Financial Services",
+    "source": "finnhub"
+  },
+  "COHU": {
+    "sector": "Information Technology",
+    "sub_industry": "Semiconductors",
+    "source": "finnhub"
+  },
+  "COLB": {
+    "sector": "Financials",
+    "sub_industry": "Banking",
+    "source": "finnhub"
+  },
+  "COLD": {
+    "sector": "Financials",
+    "sub_industry": "Real Estate",
+    "source": "finnhub"
+  },
+  "COOK": {
+    "sector": "Consumer Discretionary",
+    "sub_industry": "Consumer products",
+    "source": "finnhub"
+  },
+  "CORT": {
+    "sector": "Health Care",
+    "sub_industry": "Pharmaceuticals",
+    "source": "finnhub"
+  },
+  "CORZ": {
+    "sector": "Information Technology",
+    "sub_industry": "Technology",
+    "source": "finnhub"
+  },
+  "CP": {
+    "sector": "Industrials",
+    "sub_industry": "Road & Rail",
+    "source": "finnhub"
+  },
+  "CPHI": {
+    "sector": "Health Care",
+    "sub_industry": "Pharmaceuticals",
+    "source": "finnhub"
+  },
+  "CPOP": {
+    "sector": "Communication Services",
+    "sub_industry": "Media",
+    "source": "finnhub"
+  },
+  "CPSH": {
+    "sector": "Industrials",
+    "sub_industry": "Electrical Equipment",
+    "source": "finnhub"
+  },
+  "CRBU": {
+    "sector": "Health Care",
+    "sub_industry": "Biotechnology",
+    "source": "finnhub"
+  },
+  "CRDO": {
+    "sector": "Information Technology",
+    "sub_industry": "Semiconductors",
+    "source": "finnhub"
+  },
+  "CRI": {
+    "sector": "Consumer Discretionary",
+    "sub_industry": "Textiles, Apparel & Luxury Goods",
+    "source": "finnhub"
+  },
+  "CRNX": {
+    "sector": "Health Care",
+    "sub_industry": "Pharmaceuticals",
+    "source": "finnhub"
+  },
+  "CRS": {
+    "sector": "Industrials",
+    "sub_industry": "Aerospace & Defense",
+    "source": "finnhub"
+  },
+  "CRUS": {
+    "sector": "Information Technology",
+    "sub_industry": "Semiconductors",
+    "source": "finnhub"
+  },
+  "CSTE": {
+    "sector": "Industrials",
+    "sub_industry": "Building",
+    "source": "finnhub"
+  },
+  "CTMX": {
+    "sector": "Health Care",
+    "sub_industry": "Biotechnology",
+    "source": "finnhub"
+  },
+  "CTRI": {
+    "sector": "Industrials",
+    "sub_industry": "Construction",
+    "source": "finnhub"
+  },
+  "CTRN": {
+    "sector": "Consumer Discretionary",
+    "sub_industry": "Retail",
+    "source": "finnhub"
+  },
+  "CUE": {
+    "sector": "Health Care",
+    "sub_industry": "Biotechnology",
+    "source": "finnhub"
+  },
+  "CURB": {
+    "sector": "Financials",
+    "sub_industry": "Real Estate",
+    "source": "finnhub"
+  },
+  "CURV": {
+    "sector": "Consumer Discretionary",
+    "sub_industry": "Retail",
+    "source": "finnhub"
+  },
+  "CVE": {
+    "sector": "Energy",
+    "sub_industry": "Energy",
+    "source": "finnhub"
+  },
+  "CVGI": {
+    "sector": "Industrials",
+    "sub_industry": "Machinery",
+    "source": "finnhub"
+  },
+  "CVI": {
+    "sector": "Energy",
+    "sub_industry": "Energy",
+    "source": "finnhub"
+  },
+  "CVV": {
+    "sector": "Information Technology",
+    "sub_industry": "Semiconductors",
+    "source": "finnhub"
+  },
+  "CXT": {
+    "sector": "Industrials",
+    "sub_industry": "Electrical Equipment",
+    "source": "finnhub"
+  },
+  "CXW": {
+    "sector": "Industrials",
+    "sub_industry": "Commercial Services & Supplies",
+    "source": "finnhub"
+  },
+  "CYCU": {
+    "sector": "Industrials",
+    "sub_industry": "Professional Services",
+    "source": "finnhub"
+  },
+  "CZR": {
+    "sector": "Consumer Discretionary",
+    "sub_industry": "Hotels, Restaurants & Leisure",
+    "source": "finnhub"
+  },
+  "DAC": {
+    "sector": "Industrials",
+    "sub_industry": "Marine",
+    "source": "finnhub"
+  },
+  "DAIO": {
+    "sector": "Industrials",
+    "sub_industry": "Electrical Equipment",
+    "source": "finnhub"
+  },
+  "DARE": {
+    "sector": "Health Care",
+    "sub_industry": "Pharmaceuticals",
+    "source": "finnhub"
+  },
+  "DAVE": {
+    "sector": "Financials",
+    "sub_industry": "Financial Services",
+    "source": "finnhub"
+  },
+  "DCO": {
+    "sector": "Industrials",
+    "sub_industry": "Aerospace & Defense",
+    "source": "finnhub"
+  },
+  "DDI": {
+    "sector": "Communication Services",
+    "sub_industry": "Media",
+    "source": "finnhub"
+  },
+  "DFNS": {
+    "sector": "Information Technology",
+    "sub_industry": "Technology",
+    "source": "finnhub"
+  },
+  "DGII": {
+    "sector": "Communication Services",
+    "sub_industry": "Communications",
+    "source": "finnhub"
+  },
+  "DGXX": {
+    "sector": "Information Technology",
+    "sub_industry": "Technology",
+    "source": "finnhub"
+  },
+  "DHX": {
+    "sector": "Communication Services",
+    "sub_industry": "Media",
+    "source": "finnhub"
+  },
+  "DINO": {
+    "sector": "Energy",
+    "sub_industry": "Energy",
+    "source": "finnhub"
+  },
+  "DKS": {
+    "sector": "Consumer Discretionary",
+    "sub_industry": "Retail",
+    "source": "finnhub"
+  },
+  "DMLP": {
+    "sector": "Energy",
+    "sub_industry": "Energy",
+    "source": "finnhub"
+  },
+  "DMRA": {
+    "sector": "Health Care",
+    "sub_industry": "Biotechnology",
+    "source": "finnhub"
+  },
+  "DMRC": {
+    "sector": "Information Technology",
+    "sub_industry": "Technology",
+    "source": "finnhub"
+  },
+  "DOCN": {
+    "sector": "Information Technology",
+    "sub_industry": "Technology",
+    "source": "finnhub"
+  },
+  "DSGN": {
+    "sector": "Health Care",
+    "sub_industry": "Biotechnology",
+    "source": "finnhub"
+  },
+  "DSGR": {
+    "sector": "Industrials",
+    "sub_industry": "Trading Companies & Distributors",
+    "source": "finnhub"
+  },
+  "DTI": {
+    "sector": "Energy",
+    "sub_industry": "Energy",
+    "source": "finnhub"
+  },
+  "DXYZ": {
+    "sector": "N/A",
+    "sub_industry": "N/A",
+    "source": "finnhub"
+  },
+  "DY": {
+    "sector": "Industrials",
+    "sub_industry": "Construction",
+    "source": "finnhub"
+  },
+  "DYAI": {
+    "sector": "Health Care",
+    "sub_industry": "Biotechnology",
+    "source": "finnhub"
+  },
+  "DYN": {
+    "sector": "Health Care",
+    "sub_industry": "Biotechnology",
+    "source": "finnhub"
+  },
+  "ECPG": {
+    "sector": "Financials",
+    "sub_industry": "Financial Services",
+    "source": "finnhub"
+  },
+  "EDSA": {
+    "sector": "Health Care",
+    "sub_industry": "Biotechnology",
+    "source": "finnhub"
+  },
+  "EE": {
+    "sector": "Energy",
+    "sub_industry": "Energy",
+    "source": "finnhub"
+  },
+  "EGP": {
+    "sector": "Financials",
+    "sub_industry": "Real Estate",
+    "source": "finnhub"
+  },
+  "ELA": {
+    "sector": "Consumer Discretionary",
+    "sub_industry": "Retail",
+    "source": "finnhub"
+  },
+  "ELMD": {
+    "sector": "Health Care",
+    "sub_industry": "Health Care",
+    "source": "finnhub"
+  },
+  "ELVN": {
+    "sector": "Health Care",
+    "sub_industry": "Pharmaceuticals",
+    "source": "finnhub"
+  },
+  "ENGS": {
+    "sector": "Industrials",
+    "sub_industry": "Construction",
+    "source": "finnhub"
+  },
+  "ENPH": {
+    "sector": "Information Technology",
+    "sub_industry": "Semiconductors",
+    "source": "finnhub"
+  },
+  "ENTX": {
+    "sector": "Health Care",
+    "sub_industry": "Biotechnology",
+    "source": "finnhub"
+  },
+  "EPC": {
+    "sector": "Consumer Discretionary",
+    "sub_industry": "Consumer products",
+    "source": "finnhub"
+  },
+  "EPR": {
+    "sector": "Financials",
+    "sub_industry": "Real Estate",
+    "source": "finnhub"
+  },
+  "EQ": {
+    "sector": "Health Care",
+    "sub_industry": "Biotechnology",
+    "source": "finnhub"
+  },
+  "EQNR": {
+    "sector": "Energy",
+    "sub_industry": "Energy",
+    "source": "finnhub"
+  },
+  "ERAS": {
+    "sector": "Health Care",
+    "sub_industry": "Biotechnology",
+    "source": "finnhub"
+  },
+  "ERIC": {
+    "sector": "Communication Services",
+    "sub_industry": "Communications",
+    "source": "finnhub"
+  },
+  "ESE": {
+    "sector": "Industrials",
+    "sub_industry": "Machinery",
+    "source": "finnhub"
+  },
+  "ESLT": {
+    "sector": "Industrials",
+    "sub_industry": "Aerospace & Defense",
+    "source": "finnhub"
+  },
+  "ESTA": {
+    "sector": "Health Care",
+    "sub_industry": "Health Care",
+    "source": "finnhub"
+  },
+  "ET": {
+    "sector": "Energy",
+    "sub_industry": "Energy",
+    "source": "finnhub"
+  },
+  "ETON": {
+    "sector": "Health Care",
+    "sub_industry": "Pharmaceuticals",
+    "source": "finnhub"
+  },
+  "EVC": {
+    "sector": "Communication Services",
+    "sub_industry": "Media",
+    "source": "finnhub"
+  },
+  "EWBC": {
+    "sector": "Financials",
+    "sub_industry": "Banking",
+    "source": "finnhub"
+  },
+  "EXK": {
+    "sector": "Materials",
+    "sub_industry": "Metals & Mining",
+    "source": "finnhub"
+  },
+  "EZPW": {
+    "sector": "Financials",
+    "sub_industry": "Financial Services",
+    "source": "finnhub"
+  },
+  "FATN": {
+    "sector": "Information Technology",
+    "sub_industry": "Technology",
+    "source": "finnhub"
+  },
+  "FBRX": {
+    "sector": "Health Care",
+    "sub_industry": "Biotechnology",
+    "source": "finnhub"
+  },
+  "FCEL": {
+    "sector": "Industrials",
+    "sub_industry": "Electrical Equipment",
+    "source": "finnhub"
+  },
+  "FCFS": {
+    "sector": "Financials",
+    "sub_industry": "Financial Services",
+    "source": "finnhub"
+  },
+  "FET": {
+    "sector": "Energy",
+    "sub_industry": "Energy",
+    "source": "finnhub"
+  },
+  "FFAI": {
+    "sector": "Consumer Discretionary",
+    "sub_industry": "Automobiles",
+    "source": "finnhub"
+  },
+  "FGI": {
+    "sector": "Industrials",
+    "sub_industry": "Trading Companies & Distributors",
+    "source": "finnhub"
+  },
+  "FIVE": {
+    "sector": "Consumer Discretionary",
+    "sub_industry": "Retail",
+    "source": "finnhub"
+  },
+  "FLNC": {
+    "sector": "Industrials",
+    "sub_industry": "Electrical Equipment",
+    "source": "finnhub"
+  },
+  "FLNT": {
+    "sector": "Communication Services",
+    "sub_industry": "Media",
+    "source": "finnhub"
+  },
+  "FLY": {
+    "sector": "Industrials",
+    "sub_industry": "Aerospace & Defense",
+    "source": "finnhub"
+  },
+  "FLYW": {
+    "sector": "Financials",
+    "sub_industry": "Financial Services",
+    "source": "finnhub"
+  },
+  "FNKO": {
+    "sector": "Consumer Discretionary",
+    "sub_industry": "Leisure Products",
+    "source": "finnhub"
+  },
+  "FORR": {
+    "sector": "Industrials",
+    "sub_industry": "Professional Services",
+    "source": "finnhub"
+  },
+  "FOSL": {
+    "sector": "Consumer Discretionary",
+    "sub_industry": "Textiles, Apparel & Luxury Goods",
+    "source": "finnhub"
+  },
+  "FRD": {
+    "sector": "Materials",
+    "sub_industry": "Metals & Mining",
+    "source": "finnhub"
+  },
+  "FROG": {
+    "sector": "Information Technology",
+    "sub_industry": "Technology",
+    "source": "finnhub"
+  },
+  "FRSH": {
+    "sector": "Information Technology",
+    "sub_industry": "Technology",
+    "source": "finnhub"
+  },
+  "FTI": {
+    "sector": "Energy",
+    "sub_industry": "Energy",
+    "source": "finnhub"
+  },
+  "FVR": {
+    "sector": "Financials",
+    "sub_industry": "Real Estate",
+    "source": "finnhub"
+  },
+  "GALT": {
+    "sector": "Health Care",
+    "sub_industry": "Biotechnology",
+    "source": "finnhub"
+  },
+  "GCO": {
+    "sector": "Consumer Discretionary",
+    "sub_industry": "Retail",
+    "source": "finnhub"
+  },
+  "GCTS": {
+    "sector": "Information Technology",
+    "sub_industry": "Semiconductors",
+    "source": "finnhub"
+  },
+  "GDC": {
+    "sector": "Communication Services",
+    "sub_industry": "Media",
+    "source": "finnhub"
+  },
+  "GDRX": {
+    "sector": "Health Care",
+    "sub_industry": "Health Care",
+    "source": "finnhub"
+  },
+  "GDS": {
+    "sector": "Information Technology",
+    "sub_industry": "Technology",
+    "source": "finnhub"
+  },
+  "GEO": {
+    "sector": "Industrials",
+    "sub_industry": "Commercial Services & Supplies",
+    "source": "finnhub"
+  },
+  "GFS": {
+    "sector": "Information Technology",
+    "sub_industry": "Semiconductors",
+    "source": "finnhub"
+  },
+  "GH": {
+    "sector": "Health Care",
+    "sub_industry": "Health Care",
+    "source": "finnhub"
+  },
+  "GHRS": {
+    "sector": "Health Care",
+    "sub_industry": "Pharmaceuticals",
+    "source": "finnhub"
+  },
+  "GIC": {
+    "sector": "Industrials",
+    "sub_industry": "Trading Companies & Distributors",
+    "source": "finnhub"
+  },
+  "GKOS": {
+    "sector": "Health Care",
+    "sub_industry": "Health Care",
+    "source": "finnhub"
+  },
+  "GLBS": {
+    "sector": "Industrials",
+    "sub_industry": "Marine",
+    "source": "finnhub"
+  },
+  "GNK": {
+    "sector": "Industrials",
+    "sub_industry": "Marine",
+    "source": "finnhub"
+  },
+  "GOLF": {
+    "sector": "Consumer Discretionary",
+    "sub_industry": "Leisure Products",
+    "source": "finnhub"
+  },
+  "GPCR": {
+    "sector": "Health Care",
+    "sub_industry": "Pharmaceuticals",
+    "source": "finnhub"
+  },
+  "GPRK": {
+    "sector": "Energy",
+    "sub_industry": "Energy",
+    "source": "finnhub"
+  },
+  "GPUS": {
+    "sector": "Industrials",
+    "sub_industry": "Industrial Conglomerates",
+    "source": "finnhub"
+  },
+  "GRDN": {
+    "sector": "Health Care",
+    "sub_industry": "Health Care",
+    "source": "finnhub"
+  },
+  "GRDX": {
+    "sector": "Health Care",
+    "sub_industry": "Biotechnology",
+    "source": "finnhub"
+  },
+  "GRNT": {
+    "sector": "Energy",
+    "sub_industry": "Energy",
+    "source": "finnhub"
+  },
+  "GRPN": {
+    "sector": "Consumer Discretionary",
+    "sub_industry": "Retail",
+    "source": "finnhub"
+  },
+  "GRWG": {
+    "sector": "Consumer Discretionary",
+    "sub_industry": "Retail",
+    "source": "finnhub"
+  },
+  "GSAT": {
+    "sector": "Communication Services",
+    "sub_industry": "Telecommunication",
+    "source": "finnhub"
+  },
+  "GSBC": {
+    "sector": "Financials",
+    "sub_industry": "Banking",
+    "source": "finnhub"
+  },
+  "GTE": {
+    "sector": "Energy",
+    "sub_industry": "Energy",
+    "source": "finnhub"
+  },
+  "GTLB": {
+    "sector": "Information Technology",
+    "sub_industry": "Technology",
+    "source": "finnhub"
+  },
+  "GUTS": {
+    "sector": "Health Care",
+    "sub_industry": "Health Care",
+    "source": "finnhub"
+  },
+  "H": {
+    "sector": "Consumer Discretionary",
+    "sub_industry": "Hotels, Restaurants & Leisure",
+    "source": "finnhub"
+  },
+  "HBB": {
+    "sector": "Consumer Discretionary",
+    "sub_industry": "Consumer products",
+    "source": "finnhub"
+  },
+  "HBCP": {
+    "sector": "Financials",
+    "sub_industry": "Banking",
+    "source": "finnhub"
+  },
+  "HCAT": {
+    "sector": "Health Care",
+    "sub_industry": "Health Care",
+    "source": "finnhub"
+  },
+  "HEI": {
+    "sector": "Industrials",
+    "sub_industry": "Aerospace & Defense",
+    "source": "finnhub"
+  },
+  "HFRO": {
+    "sector": "N/A",
+    "sub_industry": "N/A",
+    "source": "finnhub"
+  },
+  "HIMX": {
+    "sector": "Information Technology",
+    "sub_industry": "Semiconductors",
+    "source": "finnhub"
+  },
+  "HIVE": {
+    "sector": "Information Technology",
+    "sub_industry": "Technology",
+    "source": "finnhub"
+  },
+  "HIW": {
+    "sector": "Financials",
+    "sub_industry": "Real Estate",
+    "source": "finnhub"
+  },
+  "HLIO": {
+    "sector": "Industrials",
+    "sub_industry": "Machinery",
+    "source": "finnhub"
+  },
+  "HLIT": {
+    "sector": "Communication Services",
+    "sub_industry": "Communications",
+    "source": "finnhub"
+  },
+  "HMN": {
+    "sector": "Financials",
+    "sub_industry": "Insurance",
+    "source": "finnhub"
+  },
+  "HNI": {
+    "sector": "Industrials",
+    "sub_industry": "Commercial Services & Supplies",
+    "source": "finnhub"
+  },
+  "HNST": {
+    "sector": "Consumer Discretionary",
+    "sub_industry": "Consumer products",
+    "source": "finnhub"
+  },
+  "HOG": {
+    "sector": "Consumer Discretionary",
+    "sub_industry": "Automobiles",
+    "source": "finnhub"
+  },
+  "HOMB": {
+    "sector": "Financials",
+    "sub_industry": "Banking",
+    "source": "finnhub"
+  },
+  "HOV": {
+    "sector": "Consumer Discretionary",
+    "sub_industry": "Consumer products",
+    "source": "finnhub"
+  },
+  "HQI": {
+    "sector": "Industrials",
+    "sub_industry": "Professional Services",
+    "source": "finnhub"
+  },
+  "HRB": {
+    "sector": "Consumer Discretionary",
+    "sub_industry": "Diversified Consumer Services",
+    "source": "finnhub"
+  },
+  "HRI": {
+    "sector": "Industrials",
+    "sub_industry": "Trading Companies & Distributors",
+    "source": "finnhub"
+  },
+  "HRMY": {
+    "sector": "Health Care",
+    "sub_industry": "Pharmaceuticals",
+    "source": "finnhub"
+  },
+  "HROW": {
+    "sector": "Health Care",
+    "sub_industry": "Pharmaceuticals",
+    "source": "finnhub"
+  },
+  "HUT": {
+    "sector": "Information Technology",
+    "sub_industry": "Technology",
+    "source": "finnhub"
+  },
+  "HWC": {
+    "sector": "Financials",
+    "sub_industry": "Banking",
+    "source": "finnhub"
+  },
+  "HXL": {
+    "sector": "Industrials",
+    "sub_industry": "Aerospace & Defense",
+    "source": "finnhub"
+  },
+  "HYLN": {
+    "sector": "Industrials",
+    "sub_industry": "Electrical Equipment",
+    "source": "finnhub"
+  },
+  "IBEX": {
+    "sector": "Industrials",
+    "sub_industry": "Professional Services",
+    "source": "finnhub"
+  },
+  "IBRX": {
+    "sector": "Health Care",
+    "sub_industry": "Biotechnology",
+    "source": "finnhub"
+  },
+  "IBTA": {
+    "sector": "Communication Services",
+    "sub_industry": "Media",
+    "source": "finnhub"
+  },
+  "ICL": {
+    "sector": "Materials",
+    "sub_industry": "Chemicals",
+    "source": "finnhub"
+  },
+  "IDN": {
+    "sector": "Information Technology",
+    "sub_industry": "Technology",
+    "source": "finnhub"
+  },
+  "IDT": {
+    "sector": "Communication Services",
+    "sub_industry": "Telecommunication",
+    "source": "finnhub"
+  },
+  "IDYA": {
+    "sector": "Health Care",
+    "sub_industry": "Biotechnology",
+    "source": "finnhub"
+  },
+  "IFRX": {
+    "sector": "Health Care",
+    "sub_industry": "Biotechnology",
+    "source": "finnhub"
+  },
+  "ILMN": {
+    "sector": "Health Care",
+    "sub_industry": "Life Sciences Tools & Services",
+    "source": "finnhub"
+  },
+  "IMAX": {
+    "sector": "Communication Services",
+    "sub_industry": "Media",
+    "source": "finnhub"
+  },
+  "IMKTA": {
+    "sector": "Consumer Discretionary",
+    "sub_industry": "Retail",
+    "source": "finnhub"
+  },
+  "IMMX": {
+    "sector": "Health Care",
+    "sub_industry": "Biotechnology",
+    "source": "finnhub"
+  },
+  "IMOS": {
+    "sector": "Information Technology",
+    "sub_industry": "Semiconductors",
+    "source": "finnhub"
+  },
+  "IMPP": {
+    "sector": "Energy",
+    "sub_industry": "Energy",
+    "source": "finnhub"
+  },
+  "IMUX": {
+    "sector": "Health Care",
+    "sub_industry": "Biotechnology",
+    "source": "finnhub"
+  },
+  "INBX": {
+    "sector": "Health Care",
+    "sub_industry": "Biotechnology",
+    "source": "finnhub"
+  },
+  "ING": {
+    "sector": "Financials",
+    "sub_industry": "Banking",
+    "source": "finnhub"
+  },
+  "INN": {
+    "sector": "Financials",
+    "sub_industry": "Real Estate",
+    "source": "finnhub"
+  },
+  "INNV": {
+    "sector": "Health Care",
+    "sub_industry": "Health Care",
+    "source": "finnhub"
+  },
+  "INOD": {
+    "sector": "Industrials",
+    "sub_industry": "Professional Services",
+    "source": "finnhub"
+  },
+  "INR": {
+    "sector": "Energy",
+    "sub_industry": "Energy",
+    "source": "finnhub"
+  },
+  "INTA": {
+    "sector": "Information Technology",
+    "sub_industry": "Technology",
+    "source": "finnhub"
+  },
+  "INVE": {
+    "sector": "Industrials",
+    "sub_industry": "Electrical Equipment",
+    "source": "finnhub"
+  },
+  "IONQ": {
+    "sector": "Information Technology",
+    "sub_industry": "Technology",
+    "source": "finnhub"
+  },
+  "IPI": {
+    "sector": "Materials",
+    "sub_industry": "Chemicals",
+    "source": "finnhub"
+  },
+  "IPWR": {
+    "sector": "Information Technology",
+    "sub_industry": "Semiconductors",
+    "source": "finnhub"
+  },
+  "IRDM": {
+    "sector": "Communication Services",
+    "sub_industry": "Telecommunication",
+    "source": "finnhub"
+  },
+  "IRIX": {
+    "sector": "Health Care",
+    "sub_industry": "Health Care",
+    "source": "finnhub"
+  },
+  "ISTR": {
+    "sector": "Financials",
+    "sub_industry": "Banking",
+    "source": "finnhub"
+  },
+  "ITGR": {
+    "sector": "Health Care",
+    "sub_industry": "Health Care",
+    "source": "finnhub"
+  },
+  "JAKK": {
+    "sector": "Consumer Discretionary",
+    "sub_industry": "Leisure Products",
+    "source": "finnhub"
+  },
+  "JAZZ": {
+    "sector": "Health Care",
+    "sub_industry": "Pharmaceuticals",
+    "source": "finnhub"
+  },
+  "JD": {
+    "sector": "Consumer Discretionary",
+    "sub_industry": "Retail",
+    "source": "finnhub"
+  },
+  "JEF": {
+    "sector": "Financials",
+    "sub_industry": "Financial Services",
+    "source": "finnhub"
+  },
+  "JOBY": {
+    "sector": "Industrials",
+    "sub_industry": "Airlines",
+    "source": "finnhub"
+  },
+  "JOYY": {
+    "sector": "Communication Services",
+    "sub_industry": "Media",
+    "source": "finnhub"
+  },
+  "JRSH": {
+    "sector": "Consumer Discretionary",
+    "sub_industry": "Textiles, Apparel & Luxury Goods",
+    "source": "finnhub"
+  },
+  "KEEL": {
+    "sector": "Information Technology",
+    "sub_industry": "Technology",
+    "source": "finnhub"
+  },
+  "KELYA": {
+    "sector": "Industrials",
+    "sub_industry": "Professional Services",
+    "source": "finnhub"
+  },
+  "KFRC": {
+    "sector": "Industrials",
+    "sub_industry": "Professional Services",
+    "source": "finnhub"
+  },
+  "KINS": {
+    "sector": "Financials",
+    "sub_industry": "Insurance",
+    "source": "finnhub"
+  },
+  "KLC": {
+    "sector": "Consumer Discretionary",
+    "sub_industry": "Diversified Consumer Services",
+    "source": "finnhub"
+  },
+  "KLIC": {
+    "sector": "Information Technology",
+    "sub_industry": "Semiconductors",
+    "source": "finnhub"
+  },
+  "KMT": {
+    "sector": "Industrials",
+    "sub_industry": "Machinery",
+    "source": "finnhub"
+  },
+  "KMTS": {
+    "sector": "Health Care",
+    "sub_industry": "Health Care",
+    "source": "finnhub"
+  },
+  "KN": {
+    "sector": "Industrials",
+    "sub_industry": "Electrical Equipment",
+    "source": "finnhub"
+  },
+  "KNX": {
+    "sector": "Industrials",
+    "sub_industry": "Road & Rail",
+    "source": "finnhub"
+  },
+  "KODK": {
+    "sector": "Information Technology",
+    "sub_industry": "Technology",
+    "source": "finnhub"
+  },
+  "KOS": {
+    "sector": "Energy",
+    "sub_industry": "Energy",
+    "source": "finnhub"
+  },
+  "KTB": {
+    "sector": "Consumer Discretionary",
+    "sub_industry": "Textiles, Apparel & Luxury Goods",
+    "source": "finnhub"
+  },
+  "KTCC": {
+    "sector": "Industrials",
+    "sub_industry": "Electrical Equipment",
+    "source": "finnhub"
+  },
+  "KULR": {
+    "sector": "Industrials",
+    "sub_industry": "Electrical Equipment",
+    "source": "finnhub"
+  },
+  "KVHI": {
+    "sector": "Communication Services",
+    "sub_industry": "Communications",
+    "source": "finnhub"
+  },
+  "KWM": {
+    "sector": "Communication Services",
+    "sub_industry": "Media",
+    "source": "finnhub"
+  },
+  "KYOCY": {
+    "sector": "Industrials",
+    "sub_industry": "Electrical Equipment",
+    "source": "finnhub"
+  },
+  "LCUT": {
+    "sector": "Consumer Discretionary",
+    "sub_industry": "Consumer products",
+    "source": "finnhub"
+  },
+  "LESL": {
+    "sector": "Consumer Discretionary",
+    "sub_industry": "Retail",
+    "source": "finnhub"
+  },
+  "LEXX": {
+    "sector": "Health Care",
+    "sub_industry": "Pharmaceuticals",
+    "source": "finnhub"
+  },
+  "LFUS": {
+    "sector": "Industrials",
+    "sub_industry": "Electrical Equipment",
+    "source": "finnhub"
+  },
+  "LFVN": {
+    "sector": "Consumer Discretionary",
+    "sub_industry": "Consumer products",
+    "source": "finnhub"
+  },
+  "LICN": {
+    "sector": "Industrials",
+    "sub_industry": "Professional Services",
+    "source": "finnhub"
+  },
+  "LIFE": {
+    "sector": "Financials",
+    "sub_industry": "Insurance",
+    "source": "finnhub"
+  },
+  "LILAK": {
+    "sector": "Communication Services",
+    "sub_industry": "Telecommunication",
+    "source": "finnhub"
+  },
+  "LINE": {
+    "sector": "Financials",
+    "sub_industry": "Real Estate",
+    "source": "finnhub"
+  },
+  "LION": {
+    "sector": "Communication Services",
+    "sub_industry": "Media",
+    "source": "finnhub"
+  },
+  "LIVN": {
+    "sector": "Health Care",
+    "sub_industry": "Health Care",
+    "source": "finnhub"
+  },
+  "LMB": {
+    "sector": "Industrials",
+    "sub_industry": "Construction",
+    "source": "finnhub"
+  },
+  "LNG": {
+    "sector": "Energy",
+    "sub_industry": "Energy",
+    "source": "finnhub"
+  },
+  "LOBO": {
+    "sector": "Consumer Discretionary",
+    "sub_industry": "Automobiles",
+    "source": "finnhub"
+  },
+  "LOCO": {
+    "sector": "Consumer Discretionary",
+    "sub_industry": "Hotels, Restaurants & Leisure",
+    "source": "finnhub"
+  },
+  "LRN": {
+    "sector": "Consumer Discretionary",
+    "sub_industry": "Diversified Consumer Services",
+    "source": "finnhub"
+  },
+  "LSF": {
+    "sector": "Consumer Staples",
+    "sub_industry": "Food Products",
+    "source": "finnhub"
+  },
+  "LSTR": {
+    "sector": "Industrials",
+    "sub_industry": "Road & Rail",
+    "source": "finnhub"
+  },
+  "LTRN": {
+    "sector": "Health Care",
+    "sub_industry": "Biotechnology",
+    "source": "finnhub"
+  },
+  "LTRX": {
+    "sector": "Communication Services",
+    "sub_industry": "Communications",
+    "source": "finnhub"
+  },
+  "LUNR": {
+    "sector": "Industrials",
+    "sub_industry": "Aerospace & Defense",
+    "source": "finnhub"
+  },
+  "LWLG": {
+    "sector": "Industrials",
+    "sub_industry": "Electrical Equipment",
+    "source": "finnhub"
+  },
+  "LZB": {
+    "sector": "Consumer Discretionary",
+    "sub_industry": "Consumer products",
+    "source": "finnhub"
+  },
+  "M": {
+    "sector": "Consumer Discretionary",
+    "sub_industry": "Retail",
+    "source": "finnhub"
+  },
+  "MAC": {
+    "sector": "Financials",
+    "sub_industry": "Real Estate",
+    "source": "finnhub"
+  },
+  "MAMA": {
+    "sector": "Consumer Staples",
+    "sub_industry": "Food Products",
+    "source": "finnhub"
+  },
+  "MAN": {
+    "sector": "Industrials",
+    "sub_industry": "Professional Services",
+    "source": "finnhub"
+  },
+  "MARA": {
+    "sector": "Information Technology",
+    "sub_industry": "Technology",
+    "source": "finnhub"
+  },
+  "MASS": {
+    "sector": "Industrials",
+    "sub_industry": "Electrical Equipment",
+    "source": "finnhub"
+  },
+  "MAX": {
+    "sector": "Communication Services",
+    "sub_industry": "Media",
+    "source": "finnhub"
+  },
+  "MAZE": {
+    "sector": "Health Care",
+    "sub_industry": "Pharmaceuticals",
+    "source": "finnhub"
+  },
+  "MBX": {
+    "sector": "Health Care",
+    "sub_industry": "Pharmaceuticals",
+    "source": "finnhub"
+  },
+  "MCRI": {
+    "sector": "Consumer Discretionary",
+    "sub_industry": "Hotels, Restaurants & Leisure",
+    "source": "finnhub"
+  },
+  "MDAI": {
+    "sector": "Health Care",
+    "sub_industry": "Health Care",
+    "source": "finnhub"
+  },
+  "MDGL": {
+    "sector": "Health Care",
+    "sub_industry": "Biotechnology",
+    "source": "finnhub"
+  },
+  "MEC": {
+    "sector": "Industrials",
+    "sub_industry": "Machinery",
+    "source": "finnhub"
+  },
+  "MEDP": {
+    "sector": "Health Care",
+    "sub_industry": "Life Sciences Tools & Services",
+    "source": "finnhub"
+  },
+  "MEI": {
+    "sector": "Industrials",
+    "sub_industry": "Electrical Equipment",
+    "source": "finnhub"
+  },
+  "MF": {
+    "sector": "Information Technology",
+    "sub_industry": "Technology",
+    "source": "finnhub"
+  },
+  "MFC": {
+    "sector": "Financials",
+    "sub_industry": "Insurance",
+    "source": "finnhub"
+  },
+  "MFG": {
+    "sector": "Financials",
+    "sub_industry": "Banking",
+    "source": "finnhub"
+  },
+  "MGNI": {
+    "sector": "Communication Services",
+    "sub_industry": "Media",
+    "source": "finnhub"
+  },
+  "MIAX": {
+    "sector": "Financials",
+    "sub_industry": "Financial Services",
+    "source": "finnhub"
+  },
+  "MIRM": {
+    "sector": "Health Care",
+    "sub_industry": "Biotechnology",
+    "source": "finnhub"
+  },
+  "MIST": {
+    "sector": "Health Care",
+    "sub_industry": "Pharmaceuticals",
+    "source": "finnhub"
+  },
+  "MKDW": {
+    "sector": "Consumer Discretionary",
+    "sub_industry": "Auto Components",
+    "source": "finnhub"
+  },
+  "MKSI": {
+    "sector": "Information Technology",
+    "sub_industry": "Semiconductors",
+    "source": "finnhub"
+  },
+  "MLI": {
+    "sector": "Industrials",
+    "sub_industry": "Machinery",
+    "source": "finnhub"
+  },
+  "MLKN": {
+    "sector": "Industrials",
+    "sub_industry": "Commercial Services & Supplies",
+    "source": "finnhub"
+  },
+  "MLSS": {
+    "sector": "Health Care",
+    "sub_industry": "Health Care",
+    "source": "finnhub"
+  },
+  "MNKD": {
+    "sector": "Health Care",
+    "sub_industry": "Biotechnology",
+    "source": "finnhub"
+  },
+  "MNTS": {
+    "sector": "Industrials",
+    "sub_industry": "Aerospace & Defense",
+    "source": "finnhub"
+  },
+  "MOH": {
+    "sector": "Health Care",
+    "sub_industry": "Health Care",
+    "source": "finnhub"
+  },
+  "MOV": {
+    "sector": "Consumer Discretionary",
+    "sub_industry": "Textiles, Apparel & Luxury Goods",
+    "source": "finnhub"
+  },
+  "MQ": {
+    "sector": "Financials",
+    "sub_industry": "Financial Services",
+    "source": "finnhub"
+  },
+  "MRAM": {
+    "sector": "Information Technology",
+    "sub_industry": "Semiconductors",
+    "source": "finnhub"
+  },
+  "MRLN": {
+    "sector": "Industrials",
+    "sub_industry": "Aerospace & Defense",
+    "source": "finnhub"
+  },
+  "MRVI": {
+    "sector": "Health Care",
+    "sub_industry": "Life Sciences Tools & Services",
+    "source": "finnhub"
+  },
+  "MRX": {
+    "sector": "Financials",
+    "sub_industry": "Financial Services",
+    "source": "finnhub"
+  },
+  "MSGE": {
+    "sector": "Communication Services",
+    "sub_industry": "Media",
+    "source": "finnhub"
+  },
+  "MSGM": {
+    "sector": "Communication Services",
+    "sub_industry": "Media",
+    "source": "finnhub"
+  },
+  "MSGS": {
+    "sector": "Communication Services",
+    "sub_industry": "Media",
+    "source": "finnhub"
+  },
+  "MSS": {
+    "sector": "Consumer Discretionary",
+    "sub_industry": "Retail",
+    "source": "finnhub"
+  },
+  "MTLS": {
+    "sector": "Information Technology",
+    "sub_industry": "Technology",
+    "source": "finnhub"
+  },
+  "MTZ": {
+    "sector": "Industrials",
+    "sub_industry": "Construction",
+    "source": "finnhub"
+  },
+  "MUR": {
+    "sector": "Energy",
+    "sub_industry": "Energy",
+    "source": "finnhub"
+  },
+  "MVIS": {
+    "sector": "Industrials",
+    "sub_industry": "Electrical Equipment",
+    "source": "finnhub"
+  },
+  "MX": {
+    "sector": "Information Technology",
+    "sub_industry": "Semiconductors",
+    "source": "finnhub"
+  },
+  "MXL": {
+    "sector": "Information Technology",
+    "sub_industry": "Semiconductors",
+    "source": "finnhub"
+  },
+  "MYO": {
+    "sector": "Health Care",
+    "sub_industry": "Health Care",
+    "source": "finnhub"
+  },
+  "MYPS": {
+    "sector": "Communication Services",
+    "sub_industry": "Media",
+    "source": "finnhub"
+  },
+  "NBIS": {
+    "sector": "Information Technology",
+    "sub_industry": "Technology",
+    "source": "finnhub"
+  },
+  "NBIX": {
+    "sector": "Health Care",
+    "sub_industry": "Biotechnology",
+    "source": "finnhub"
+  },
+  "NDLS": {
+    "sector": "Consumer Discretionary",
+    "sub_industry": "Hotels, Restaurants & Leisure",
+    "source": "finnhub"
+  },
+  "NET": {
+    "sector": "Information Technology",
+    "sub_industry": "Technology",
+    "source": "finnhub"
+  },
+  "NIPG": {
+    "sector": "Communication Services",
+    "sub_industry": "Media",
+    "source": "finnhub"
+  },
+  "NIXX": {
+    "sector": "Industrials",
+    "sub_industry": "Professional Services",
+    "source": "finnhub"
+  },
+  "NL": {
+    "sector": "Industrials",
+    "sub_industry": "Commercial Services & Supplies",
+    "source": "finnhub"
+  },
+  "NNBR": {
+    "sector": "Industrials",
+    "sub_industry": "Machinery",
+    "source": "finnhub"
+  },
+  "NOK": {
+    "sector": "Communication Services",
+    "sub_industry": "Communications",
+    "source": "finnhub"
+  },
+  "NRGV": {
+    "sector": "Industrials",
+    "sub_industry": "Electrical Equipment",
+    "source": "finnhub"
+  },
+  "NRIX": {
+    "sector": "Health Care",
+    "sub_industry": "Biotechnology",
+    "source": "finnhub"
+  },
+  "NSA": {
+    "sector": "Financials",
+    "sub_industry": "Real Estate",
+    "source": "finnhub"
+  },
+  "NTCL": {
+    "sector": "Consumer Discretionary",
+    "sub_industry": "Diversified Consumer Services",
+    "source": "finnhub"
+  },
+  "NTNX": {
+    "sector": "Information Technology",
+    "sub_industry": "Technology",
+    "source": "finnhub"
+  },
+  "NTR": {
+    "sector": "Materials",
+    "sub_industry": "Chemicals",
+    "source": "finnhub"
+  },
+  "NTRA": {
+    "sector": "Health Care",
+    "sub_industry": "Biotechnology",
+    "source": "finnhub"
+  },
+  "NTWK": {
+    "sector": "Information Technology",
+    "sub_industry": "Technology",
+    "source": "finnhub"
+  },
+  "NUAI": {
+    "sector": "Energy",
+    "sub_industry": "Energy",
+    "source": "finnhub"
+  },
+  "NUTX": {
+    "sector": "Health Care",
+    "sub_industry": "Health Care",
+    "source": "finnhub"
+  },
+  "NUVL": {
+    "sector": "Health Care",
+    "sub_industry": "Biotechnology",
+    "source": "finnhub"
+  },
+  "NVAX": {
+    "sector": "Health Care",
+    "sub_industry": "Biotechnology",
+    "source": "finnhub"
+  },
+  "NVCR": {
+    "sector": "Health Care",
+    "sub_industry": "Health Care",
+    "source": "finnhub"
+  },
+  "NVCT": {
+    "sector": "Health Care",
+    "sub_industry": "Biotechnology",
+    "source": "finnhub"
+  },
+  "NVGS": {
+    "sector": "Energy",
+    "sub_industry": "Energy",
+    "source": "finnhub"
+  },
+  "NVTS": {
+    "sector": "Information Technology",
+    "sub_industry": "Semiconductors",
+    "source": "finnhub"
+  },
+  "NVVE": {
+    "sector": "Industrials",
+    "sub_industry": "Electrical Equipment",
+    "source": "finnhub"
+  },
+  "NWPX": {
+    "sector": "Industrials",
+    "sub_industry": "Construction",
+    "source": "finnhub"
+  },
+  "NXDR": {
+    "sector": "Communication Services",
+    "sub_industry": "Media",
+    "source": "finnhub"
+  },
+  "NXT": {
+    "sector": "Industrials",
+    "sub_industry": "Electrical Equipment",
+    "source": "finnhub"
+  },
+  "NYT": {
+    "sector": "Communication Services",
+    "sub_industry": "Media",
+    "source": "finnhub"
+  },
+  "OC": {
+    "sector": "Industrials",
+    "sub_industry": "Building",
+    "source": "finnhub"
+  },
+  "OCGN": {
+    "sector": "Health Care",
+    "sub_industry": "Biotechnology",
+    "source": "finnhub"
+  },
+  "OEC": {
+    "sector": "Materials",
+    "sub_industry": "Chemicals",
+    "source": "finnhub"
+  },
+  "OKLO": {
+    "sector": "Utilities",
+    "sub_industry": "Utilities",
+    "source": "finnhub"
+  },
+  "OMER": {
+    "sector": "Health Care",
+    "sub_industry": "Pharmaceuticals",
+    "source": "finnhub"
+  },
+  "ONDS": {
+    "sector": "Communication Services",
+    "sub_industry": "Communications",
+    "source": "finnhub"
+  },
+  "OPTX": {
+    "sector": "Industrials",
+    "sub_industry": "Electrical Equipment",
+    "source": "finnhub"
+  },
+  "ORA": {
+    "sector": "Utilities",
+    "sub_industry": "Utilities",
+    "source": "finnhub"
+  },
+  "ORIC": {
+    "sector": "Health Care",
+    "sub_industry": "Biotechnology",
+    "source": "finnhub"
+  },
+  "ORMP": {
+    "sector": "Health Care",
+    "sub_industry": "Pharmaceuticals",
+    "source": "finnhub"
+  },
+  "ORN": {
+    "sector": "Industrials",
+    "sub_industry": "Construction",
+    "source": "finnhub"
+  },
+  "OSS": {
+    "sector": "Information Technology",
+    "sub_industry": "Technology",
+    "source": "finnhub"
+  },
+  "OSTX": {
+    "sector": "Health Care",
+    "sub_industry": "Biotechnology",
+    "source": "finnhub"
+  },
+  "OTLK": {
+    "sector": "Health Care",
+    "sub_industry": "Biotechnology",
+    "source": "finnhub"
+  },
+  "OUST": {
+    "sector": "Industrials",
+    "sub_industry": "Electrical Equipment",
+    "source": "finnhub"
+  },
+  "OVV": {
+    "sector": "Energy",
+    "sub_industry": "Energy",
+    "source": "finnhub"
+  },
+  "PAA": {
+    "sector": "Energy",
+    "sub_industry": "Energy",
+    "source": "finnhub"
+  },
+  "PACK": {
+    "sector": "Materials",
+    "sub_industry": "Packaging",
+    "source": "finnhub"
+  },
+  "PACS": {
+    "sector": "Health Care",
+    "sub_industry": "Health Care",
+    "source": "finnhub"
+  },
+  "PANL": {
+    "sector": "Industrials",
+    "sub_industry": "Marine",
+    "source": "finnhub"
+  },
+  "PARR": {
+    "sector": "Energy",
+    "sub_industry": "Energy",
+    "source": "finnhub"
+  },
+  "PAYO": {
+    "sector": "Financials",
+    "sub_industry": "Financial Services",
+    "source": "finnhub"
+  },
+  "PAYS": {
+    "sector": "Financials",
+    "sub_industry": "Financial Services",
+    "source": "finnhub"
+  },
+  "PBI": {
+    "sector": "Industrials",
+    "sub_industry": "Commercial Services & Supplies",
+    "source": "finnhub"
+  },
+  "PCT": {
+    "sector": "Materials",
+    "sub_industry": "Chemicals",
+    "source": "finnhub"
+  },
+  "PDC": {
+    "sector": "Industrials",
+    "sub_industry": "Professional Services",
+    "source": "finnhub"
+  },
+  "PEBO": {
+    "sector": "Financials",
+    "sub_industry": "Banking",
+    "source": "finnhub"
+  },
+  "PENG": {
+    "sector": "Information Technology",
+    "sub_industry": "Semiconductors",
+    "source": "finnhub"
+  },
+  "PESI": {
+    "sector": "Industrials",
+    "sub_industry": "Commercial Services & Supplies",
+    "source": "finnhub"
+  },
+  "PFGC": {
+    "sector": "Consumer Discretionary",
+    "sub_industry": "Retail",
+    "source": "finnhub"
+  },
+  "PGEN": {
+    "sector": "Health Care",
+    "sub_industry": "Biotechnology",
+    "source": "finnhub"
+  },
+  "PGNY": {
+    "sector": "Health Care",
+    "sub_industry": "Health Care",
+    "source": "finnhub"
+  },
+  "PII": {
+    "sector": "Consumer Discretionary",
+    "sub_industry": "Leisure Products",
+    "source": "finnhub"
+  },
+  "PIII": {
+    "sector": "Health Care",
+    "sub_industry": "Health Care",
+    "source": "finnhub"
+  },
+  "PKOH": {
+    "sector": "Industrials",
+    "sub_industry": "Machinery",
+    "source": "finnhub"
+  },
+  "PL": {
+    "sector": "Industrials",
+    "sub_industry": "Professional Services",
+    "source": "finnhub"
+  },
+  "PLAG": {
+    "sector": "Consumer Staples",
+    "sub_industry": "Food Products",
+    "source": "finnhub"
+  },
+  "PLOW": {
+    "sector": "Industrials",
+    "sub_industry": "Machinery",
+    "source": "finnhub"
+  },
+  "PLUG": {
+    "sector": "Industrials",
+    "sub_industry": "Electrical Equipment",
+    "source": "finnhub"
+  },
+  "PNTG": {
+    "sector": "Health Care",
+    "sub_industry": "Health Care",
+    "source": "finnhub"
+  },
+  "PR": {
+    "sector": "Energy",
+    "sub_industry": "Energy",
+    "source": "finnhub"
+  },
+  "PRCH": {
+    "sector": "Information Technology",
+    "sub_industry": "Technology",
+    "source": "finnhub"
+  },
+  "PRI": {
+    "sector": "Financials",
+    "sub_industry": "Insurance",
+    "source": "finnhub"
+  },
+  "PRM": {
+    "sector": "Materials",
+    "sub_industry": "Chemicals",
+    "source": "finnhub"
+  },
+  "PROF": {
+    "sector": "Health Care",
+    "sub_industry": "Health Care",
+    "source": "finnhub"
+  },
+  "PRPO": {
+    "sector": "Health Care",
+    "sub_industry": "Health Care",
+    "source": "finnhub"
+  },
+  "PRSU": {
+    "sector": "Consumer Discretionary",
+    "sub_industry": "Hotels, Restaurants & Leisure",
+    "source": "finnhub"
+  },
+  "PTGX": {
+    "sector": "Health Care",
+    "sub_industry": "Biotechnology",
+    "source": "finnhub"
+  },
+  "PXS": {
+    "sector": "Industrials",
+    "sub_industry": "Marine",
+    "source": "finnhub"
+  },
+  "QBTS": {
+    "sector": "Information Technology",
+    "sub_industry": "Technology",
+    "source": "finnhub"
+  },
+  "QLYS": {
+    "sector": "Information Technology",
+    "sub_industry": "Technology",
+    "source": "finnhub"
+  },
+  "QTEX": {
+    "sector": "Health Care",
+    "sub_industry": "Health Care",
+    "source": "finnhub"
+  },
+  "QTTB": {
+    "sector": "Health Care",
+    "sub_industry": "Biotechnology",
+    "source": "finnhub"
+  },
+  "QUBT": {
+    "sector": "Information Technology",
+    "sub_industry": "Technology",
+    "source": "finnhub"
+  },
+  "QUCY": {
+    "sector": "Health Care",
+    "sub_industry": "Biotechnology",
+    "source": "finnhub"
+  },
+  "QUIK": {
+    "sector": "Information Technology",
+    "sub_industry": "Semiconductors",
+    "source": "finnhub"
+  },
+  "RACE": {
+    "sector": "Consumer Discretionary",
+    "sub_industry": "Automobiles",
+    "source": "finnhub"
+  },
+  "RAMP": {
+    "sector": "Information Technology",
+    "sub_industry": "Technology",
+    "source": "finnhub"
+  },
+  "RARE": {
+    "sector": "Health Care",
+    "sub_industry": "Biotechnology",
+    "source": "finnhub"
+  },
+  "RBRK": {
+    "sector": "Information Technology",
+    "sub_industry": "Technology",
+    "source": "finnhub"
+  },
+  "RDCM": {
+    "sector": "Information Technology",
+    "sub_industry": "Technology",
+    "source": "finnhub"
+  },
+  "RDN": {
+    "sector": "Financials",
+    "sub_industry": "Financial Services",
+    "source": "finnhub"
+  },
+  "RDNW": {
+    "sector": "Consumer Discretionary",
+    "sub_industry": "Retail",
+    "source": "finnhub"
+  },
+  "RDVT": {
+    "sector": "Information Technology",
+    "sub_industry": "Technology",
+    "source": "finnhub"
+  },
+  "RDW": {
+    "sector": "Industrials",
+    "sub_industry": "Aerospace & Defense",
+    "source": "finnhub"
+  },
+  "REI": {
+    "sector": "Energy",
+    "sub_industry": "Energy",
+    "source": "finnhub"
+  },
+  "RELL": {
+    "sector": "Industrials",
+    "sub_industry": "Electrical Equipment",
+    "source": "finnhub"
+  },
+  "REYN": {
+    "sector": "Consumer Discretionary",
+    "sub_industry": "Consumer products",
+    "source": "finnhub"
+  },
+  "RFIL": {
+    "sector": "Industrials",
+    "sub_industry": "Electrical Equipment",
+    "source": "finnhub"
+  },
+  "RFL": {
+    "sector": "Health Care",
+    "sub_industry": "Pharmaceuticals",
+    "source": "finnhub"
+  },
+  "RIGL": {
+    "sector": "Health Care",
+    "sub_industry": "Biotechnology",
+    "source": "finnhub"
+  },
+  "RIOT": {
+    "sector": "Information Technology",
+    "sub_industry": "Technology",
+    "source": "finnhub"
+  },
+  "RKLB": {
+    "sector": "Industrials",
+    "sub_industry": "Aerospace & Defense",
+    "source": "finnhub"
+  },
+  "RMBS": {
+    "sector": "Information Technology",
+    "sub_industry": "Semiconductors",
+    "source": "finnhub"
+  },
+  "RMR": {
+    "sector": "Financials",
+    "sub_industry": "Real Estate",
+    "source": "finnhub"
+  },
+  "RMTI": {
+    "sector": "Health Care",
+    "sub_industry": "Health Care",
+    "source": "finnhub"
+  },
+  "ROG": {
+    "sector": "Industrials",
+    "sub_industry": "Electrical Equipment",
+    "source": "finnhub"
+  },
+  "ROHCY": {
+    "sector": "Information Technology",
+    "sub_industry": "Semiconductors",
+    "source": "finnhub"
+  },
+  "ROIV": {
+    "sector": "Health Care",
+    "sub_industry": "Biotechnology",
+    "source": "finnhub"
+  },
+  "ROKU": {
+    "sector": "Communication Services",
+    "sub_industry": "Media",
+    "source": "finnhub"
+  },
+  "ROMA": {
+    "sector": "Industrials",
+    "sub_industry": "Commercial Services & Supplies",
+    "source": "finnhub"
+  },
+  "RPRX": {
+    "sector": "Health Care",
+    "sub_industry": "Pharmaceuticals",
+    "source": "finnhub"
+  },
+  "RR": {
+    "sector": "Industrials",
+    "sub_industry": "Machinery",
+    "source": "finnhub"
+  },
+  "RRC": {
+    "sector": "Energy",
+    "sub_industry": "Energy",
+    "source": "finnhub"
+  },
+  "RRGB": {
+    "sector": "Consumer Discretionary",
+    "sub_industry": "Hotels, Restaurants & Leisure",
+    "source": "finnhub"
+  },
+  "RRX": {
+    "sector": "Industrials",
+    "sub_industry": "Electrical Equipment",
+    "source": "finnhub"
+  },
+  "RSI": {
+    "sector": "Consumer Discretionary",
+    "sub_industry": "Hotels, Restaurants & Leisure",
+    "source": "finnhub"
+  },
+  "RUM": {
+    "sector": "Communication Services",
+    "sub_industry": "Media",
+    "source": "finnhub"
+  },
+  "RVI": {
+    "sector": "N/A",
+    "sub_industry": "N/A",
+    "source": "finnhub"
+  },
+  "RVMD": {
+    "sector": "Health Care",
+    "sub_industry": "Biotechnology",
+    "source": "finnhub"
+  },
+  "RXT": {
+    "sector": "Information Technology",
+    "sub_industry": "Technology",
+    "source": "finnhub"
+  },
+  "RYDE": {
+    "sector": "Industrials",
+    "sub_industry": "Road & Rail",
+    "source": "finnhub"
+  },
+  "S": {
+    "sector": "Information Technology",
+    "sub_industry": "Technology",
+    "source": "finnhub"
+  },
+  "SAFT": {
+    "sector": "Financials",
+    "sub_industry": "Insurance",
+    "source": "finnhub"
+  },
+  "SAN": {
+    "sector": "Financials",
+    "sub_industry": "Banking",
+    "source": "finnhub"
+  },
+  "SANA": {
+    "sector": "Health Care",
+    "sub_industry": "Biotechnology",
+    "source": "finnhub"
+  },
+  "SATL": {
+    "sector": "Industrials",
+    "sub_industry": "Aerospace & Defense",
+    "source": "finnhub"
+  },
+  "SCHL": {
+    "sector": "Communication Services",
+    "sub_industry": "Media",
+    "source": "finnhub"
+  },
+  "SCLX": {
+    "sector": "Health Care",
+    "sub_industry": "Pharmaceuticals",
+    "source": "finnhub"
+  },
+  "SCYX": {
+    "sector": "Health Care",
+    "sub_industry": "Pharmaceuticals",
+    "source": "finnhub"
+  },
+  "SEDG": {
+    "sector": "Information Technology",
+    "sub_industry": "Semiconductors",
+    "source": "finnhub"
+  },
+  "SEG": {
+    "sector": "Financials",
+    "sub_industry": "Real Estate",
+    "source": "finnhub"
+  },
+  "SEGG": {
+    "sector": "Consumer Discretionary",
+    "sub_industry": "Hotels, Restaurants & Leisure",
+    "source": "finnhub"
+  },
+  "SEZL": {
+    "sector": "Financials",
+    "sub_industry": "Financial Services",
+    "source": "finnhub"
+  },
+  "SFD": {
+    "sector": "Consumer Staples",
+    "sub_industry": "Food Products",
+    "source": "finnhub"
+  },
+  "SFTBY": {
+    "sector": "Communication Services",
+    "sub_industry": "Telecommunication",
+    "source": "finnhub"
+  },
+  "SGHC": {
+    "sector": "Consumer Discretionary",
+    "sub_industry": "Hotels, Restaurants & Leisure",
+    "source": "finnhub"
+  },
+  "SGU": {
+    "sector": "Utilities",
+    "sub_industry": "Utilities",
+    "source": "finnhub"
+  },
+  "SHIP": {
+    "sector": "Industrials",
+    "sub_industry": "Marine",
+    "source": "finnhub"
+  },
+  "SHOO": {
+    "sector": "Consumer Discretionary",
+    "sub_industry": "Textiles, Apparel & Luxury Goods",
+    "source": "finnhub"
+  },
+  "SIF": {
+    "sector": "Industrials",
+    "sub_industry": "Aerospace & Defense",
+    "source": "finnhub"
+  },
+  "SII": {
+    "sector": "Financials",
+    "sub_industry": "Financial Services",
+    "source": "finnhub"
+  },
+  "SILO": {
+    "sector": "Health Care",
+    "sub_industry": "Biotechnology",
+    "source": "finnhub"
+  },
+  "SIRI": {
+    "sector": "Communication Services",
+    "sub_industry": "Media",
+    "source": "finnhub"
+  },
+  "SITM": {
+    "sector": "Information Technology",
+    "sub_industry": "Semiconductors",
+    "source": "finnhub"
+  },
+  "SKM": {
+    "sector": "Communication Services",
+    "sub_industry": "Telecommunication",
+    "source": "finnhub"
+  },
+  "SKWD": {
+    "sector": "Financials",
+    "sub_industry": "Insurance",
+    "source": "finnhub"
+  },
+  "SKYQ": {
+    "sector": "Energy",
+    "sub_industry": "Energy",
+    "source": "finnhub"
+  },
+  "SLAI": {
+    "sector": "Information Technology",
+    "sub_industry": "Technology",
+    "source": "finnhub"
+  },
+  "SLDB": {
+    "sector": "Health Care",
+    "sub_industry": "Biotechnology",
+    "source": "finnhub"
+  },
+  "SLF": {
+    "sector": "Financials",
+    "sub_industry": "Insurance",
+    "source": "finnhub"
+  },
+  "SLN": {
+    "sector": "Health Care",
+    "sub_industry": "Biotechnology",
+    "source": "finnhub"
+  },
+  "SLNH": {
+    "sector": "Information Technology",
+    "sub_industry": "Technology",
+    "source": "finnhub"
+  },
+  "SLS": {
+    "sector": "Health Care",
+    "sub_industry": "Biotechnology",
+    "source": "finnhub"
+  },
+  "SMTC": {
+    "sector": "Information Technology",
+    "sub_industry": "Semiconductors",
+    "source": "finnhub"
+  },
+  "SNAL": {
+    "sector": "Communication Services",
+    "sub_industry": "Media",
+    "source": "finnhub"
+  },
+  "SPCE": {
+    "sector": "Industrials",
+    "sub_industry": "Aerospace & Defense",
+    "source": "finnhub"
+  },
+  "SPCX": {
+    "sector": "Communication Services",
+    "sub_industry": "Telecommunication",
+    "source": "finnhub"
+  },
+  "SPIR": {
+    "sector": "Industrials",
+    "sub_industry": "Professional Services",
+    "source": "finnhub"
+  },
+  "SRPT": {
+    "sector": "Health Care",
+    "sub_industry": "Biotechnology",
+    "source": "finnhub"
+  },
+  "SRTA": {
+    "sector": "Health Care",
+    "sub_industry": "Health Care",
+    "source": "finnhub"
+  },
+  "SSL": {
+    "sector": "Materials",
+    "sub_industry": "Chemicals",
+    "source": "finnhub"
+  },
+  "STAA": {
+    "sector": "Health Care",
+    "sub_industry": "Health Care",
+    "source": "finnhub"
+  },
+  "STI": {
+    "sector": "Industrials",
+    "sub_industry": "Electrical Equipment",
+    "source": "finnhub"
+  },
+  "STM": {
+    "sector": "Information Technology",
+    "sub_industry": "Semiconductors",
+    "source": "finnhub"
+  },
+  "STNG": {
+    "sector": "Energy",
+    "sub_industry": "Energy",
+    "source": "finnhub"
+  },
+  "STRL": {
+    "sector": "Industrials",
+    "sub_industry": "Construction",
+    "source": "finnhub"
+  },
+  "SUHJY": {
+    "sector": "Financials",
+    "sub_industry": "Real Estate",
+    "source": "finnhub"
+  },
+  "SUN": {
+    "sector": "Energy",
+    "sub_industry": "Energy",
+    "source": "finnhub"
+  },
+  "SUNE": {
+    "sector": "Industrials",
+    "sub_industry": "Electrical Equipment",
+    "source": "finnhub"
+  },
+  "SVC": {
+    "sector": "Financials",
+    "sub_industry": "Real Estate",
+    "source": "finnhub"
+  },
+  "SVCO": {
+    "sector": "Information Technology",
+    "sub_industry": "Technology",
+    "source": "finnhub"
+  },
+  "SWBI": {
+    "sector": "Consumer Discretionary",
+    "sub_industry": "Leisure Products",
+    "source": "finnhub"
+  },
+  "TACT": {
+    "sector": "Information Technology",
+    "sub_industry": "Technology",
+    "source": "finnhub"
+  },
+  "TALO": {
+    "sector": "Energy",
+    "sub_industry": "Energy",
+    "source": "finnhub"
+  },
+  "TATT": {
+    "sector": "Industrials",
+    "sub_industry": "Aerospace & Defense",
+    "source": "finnhub"
+  },
+  "TBBB": {
+    "sector": "Consumer Discretionary",
+    "sub_industry": "Retail",
+    "source": "finnhub"
+  },
+  "TBI": {
+    "sector": "Industrials",
+    "sub_industry": "Professional Services",
+    "source": "finnhub"
+  },
+  "TBLA": {
+    "sector": "Communication Services",
+    "sub_industry": "Media",
+    "source": "finnhub"
+  },
+  "TD": {
+    "sector": "Financials",
+    "sub_industry": "Banking",
+    "source": "finnhub"
+  },
+  "TDOC": {
+    "sector": "Health Care",
+    "sub_industry": "Health Care",
+    "source": "finnhub"
+  },
+  "TDUP": {
+    "sector": "Consumer Discretionary",
+    "sub_industry": "Retail",
+    "source": "finnhub"
+  },
+  "TE": {
+    "sector": "Industrials",
+    "sub_industry": "Electrical Equipment",
+    "source": "finnhub"
+  },
+  "TECK": {
+    "sector": "Materials",
+    "sub_industry": "Metals & Mining",
+    "source": "finnhub"
+  },
+  "TEN": {
+    "sector": "Energy",
+    "sub_industry": "Energy",
+    "source": "finnhub"
+  },
+  "TENB": {
+    "sector": "Information Technology",
+    "sub_industry": "Technology",
+    "source": "finnhub"
+  },
+  "TERN": {
+    "sector": "Health Care",
+    "sub_industry": "Pharmaceuticals",
+    "source": "finnhub"
+  },
+  "TFIN": {
+    "sector": "Financials",
+    "sub_industry": "Banking",
+    "source": "finnhub"
+  },
+  "TGTX": {
+    "sector": "Health Care",
+    "sub_industry": "Biotechnology",
+    "source": "finnhub"
+  },
+  "TH": {
+    "sector": "Consumer Discretionary",
+    "sub_industry": "Hotels, Restaurants & Leisure",
+    "source": "finnhub"
+  },
+  "THM": {
+    "sector": "Materials",
+    "sub_industry": "Metals & Mining",
+    "source": "finnhub"
+  },
+  "TIGO": {
+    "sector": "Communication Services",
+    "sub_industry": "Telecommunication",
+    "source": "finnhub"
+  },
+  "TILE": {
+    "sector": "Industrials",
+    "sub_industry": "Commercial Services & Supplies",
+    "source": "finnhub"
+  },
+  "TK": {
+    "sector": "Energy",
+    "sub_industry": "Energy",
+    "source": "finnhub"
+  },
+  "TKNO": {
+    "sector": "Health Care",
+    "sub_industry": "Life Sciences Tools & Services",
+    "source": "finnhub"
+  },
+  "TKR": {
+    "sector": "Industrials",
+    "sub_industry": "Machinery",
+    "source": "finnhub"
+  },
+  "TLPH": {
+    "sector": "Health Care",
+    "sub_industry": "Pharmaceuticals",
+    "source": "finnhub"
+  },
+  "TLYS": {
+    "sector": "Consumer Discretionary",
+    "sub_industry": "Retail",
+    "source": "finnhub"
+  },
+  "TOI": {
+    "sector": "Health Care",
+    "sub_industry": "Health Care",
+    "source": "finnhub"
+  },
+  "TOMZ": {
+    "sector": "Industrials",
+    "sub_industry": "Commercial Services & Supplies",
+    "source": "finnhub"
+  },
+  "TOON": {
+    "sector": "Communication Services",
+    "sub_industry": "Media",
+    "source": "finnhub"
+  },
+  "TOVX": {
+    "sector": "Health Care",
+    "sub_industry": "Biotechnology",
+    "source": "finnhub"
+  },
+  "TPC": {
+    "sector": "Industrials",
+    "sub_industry": "Construction",
+    "source": "finnhub"
+  },
+  "TRIB": {
+    "sector": "Health Care",
+    "sub_industry": "Health Care",
+    "source": "finnhub"
+  },
+  "TRIN": {
+    "sector": "Financials",
+    "sub_industry": "Financial Services",
+    "source": "finnhub"
+  },
+  "TRN": {
+    "sector": "Industrials",
+    "sub_industry": "Machinery",
+    "source": "finnhub"
+  },
+  "TROX": {
+    "sector": "Materials",
+    "sub_industry": "Chemicals",
+    "source": "finnhub"
+  },
+  "TRVI": {
+    "sector": "Health Care",
+    "sub_industry": "Pharmaceuticals",
+    "source": "finnhub"
+  },
+  "TSEM": {
+    "sector": "Information Technology",
+    "sub_industry": "Semiconductors",
+    "source": "finnhub"
+  },
+  "TSHA": {
+    "sector": "Health Care",
+    "sub_industry": "Biotechnology",
+    "source": "finnhub"
+  },
+  "TSM": {
+    "sector": "Information Technology",
+    "sub_industry": "Semiconductors",
+    "source": "finnhub"
+  },
+  "TTMI": {
+    "sector": "Industrials",
+    "sub_industry": "Electrical Equipment",
+    "source": "finnhub"
+  },
+  "TWIN": {
+    "sector": "Industrials",
+    "sub_industry": "Machinery",
+    "source": "finnhub"
+  },
+  "TWLO": {
+    "sector": "Information Technology",
+    "sub_industry": "Technology",
+    "source": "finnhub"
+  },
+  "TXG": {
+    "sector": "Health Care",
+    "sub_industry": "Life Sciences Tools & Services",
+    "source": "finnhub"
+  },
+  "TXRH": {
+    "sector": "Consumer Discretionary",
+    "sub_industry": "Hotels, Restaurants & Leisure",
+    "source": "finnhub"
+  },
+  "TZOO": {
+    "sector": "Communication Services",
+    "sub_industry": "Media",
+    "source": "finnhub"
+  },
+  "UA": {
+    "sector": "Consumer Discretionary",
+    "sub_industry": "Textiles, Apparel & Luxury Goods",
+    "source": "finnhub"
+  },
+  "UAA": {
+    "sector": "Consumer Discretionary",
+    "sub_industry": "Textiles, Apparel & Luxury Goods",
+    "source": "finnhub"
+  },
+  "UCTT": {
+    "sector": "Information Technology",
+    "sub_industry": "Semiconductors",
+    "source": "finnhub"
+  },
+  "UI": {
+    "sector": "Communication Services",
+    "sub_industry": "Communications",
+    "source": "finnhub"
+  },
+  "ULCC": {
+    "sector": "Industrials",
+    "sub_industry": "Airlines",
+    "source": "finnhub"
+  },
+  "ULY": {
+    "sector": "Information Technology",
+    "sub_industry": "Technology",
+    "source": "finnhub"
+  },
+  "UMAC": {
+    "sector": "Industrials",
+    "sub_industry": "Electrical Equipment",
+    "source": "finnhub"
+  },
+  "UMC": {
+    "sector": "Information Technology",
+    "sub_industry": "Semiconductors",
+    "source": "finnhub"
+  },
+  "UNF": {
+    "sector": "Industrials",
+    "sub_industry": "Commercial Services & Supplies",
+    "source": "finnhub"
+  },
+  "UNIT": {
+    "sector": "Communication Services",
+    "sub_industry": "Telecommunication",
+    "source": "finnhub"
+  },
+  "URG": {
+    "sector": "Energy",
+    "sub_industry": "Energy",
+    "source": "finnhub"
+  },
+  "URGN": {
+    "sector": "Health Care",
+    "sub_industry": "Biotechnology",
+    "source": "finnhub"
+  },
+  "USBC": {
+    "sector": "Health Care",
+    "sub_industry": "Health Care",
+    "source": "finnhub"
+  },
+  "USEA": {
+    "sector": "Industrials",
+    "sub_industry": "Marine",
+    "source": "finnhub"
+  },
+  "UTHR": {
+    "sector": "Health Care",
+    "sub_industry": "Biotechnology",
+    "source": "finnhub"
+  },
+  "UTI": {
+    "sector": "Consumer Discretionary",
+    "sub_industry": "Diversified Consumer Services",
+    "source": "finnhub"
+  },
+  "VCTR": {
+    "sector": "Financials",
+    "sub_industry": "Financial Services",
+    "source": "finnhub"
+  },
+  "VCYT": {
+    "sector": "Health Care",
+    "sub_industry": "Biotechnology",
+    "source": "finnhub"
+  },
+  "VECO": {
+    "sector": "Information Technology",
+    "sub_industry": "Semiconductors",
+    "source": "finnhub"
+  },
+  "VIAV": {
+    "sector": "Communication Services",
+    "sub_industry": "Communications",
+    "source": "finnhub"
+  },
+  "VICR": {
+    "sector": "Industrials",
+    "sub_industry": "Electrical Equipment",
+    "source": "finnhub"
+  },
+  "VIK": {
+    "sector": "Consumer Discretionary",
+    "sub_industry": "Hotels, Restaurants & Leisure",
+    "source": "finnhub"
+  },
+  "VIRT": {
+    "sector": "Financials",
+    "sub_industry": "Financial Services",
+    "source": "finnhub"
+  },
+  "VMD": {
+    "sector": "Health Care",
+    "sub_industry": "Health Care",
+    "source": "finnhub"
+  },
+  "VMI": {
+    "sector": "Industrials",
+    "sub_industry": "Construction",
+    "source": "finnhub"
+  },
+  "VNCE": {
+    "sector": "Consumer Discretionary",
+    "sub_industry": "Textiles, Apparel & Luxury Goods",
+    "source": "finnhub"
+  },
+  "VRNS": {
+    "sector": "Information Technology",
+    "sub_industry": "Technology",
+    "source": "finnhub"
+  },
+  "VSAT": {
+    "sector": "Communication Services",
+    "sub_industry": "Communications",
+    "source": "finnhub"
+  },
+  "VSEC": {
+    "sector": "Industrials",
+    "sub_industry": "Aerospace & Defense",
+    "source": "finnhub"
+  },
+  "VSH": {
+    "sector": "Industrials",
+    "sub_industry": "Electrical Equipment",
+    "source": "finnhub"
+  },
+  "WATT": {
+    "sector": "Industrials",
+    "sub_industry": "Electrical Equipment",
+    "source": "finnhub"
+  },
+  "WDFC": {
+    "sector": "Consumer Discretionary",
+    "sub_industry": "Consumer products",
+    "source": "finnhub"
+  },
+  "WES": {
+    "sector": "Energy",
+    "sub_industry": "Energy",
+    "source": "finnhub"
+  },
+  "WHD": {
+    "sector": "Energy",
+    "sub_industry": "Energy",
+    "source": "finnhub"
+  },
+  "WKC": {
+    "sector": "Energy",
+    "sub_industry": "Energy",
+    "source": "finnhub"
+  },
+  "WLDN": {
+    "sector": "Industrials",
+    "sub_industry": "Professional Services",
+    "source": "finnhub"
+  },
+  "WMK": {
+    "sector": "Consumer Discretionary",
+    "sub_industry": "Retail",
+    "source": "finnhub"
+  },
+  "WOLF": {
+    "sector": "Information Technology",
+    "sub_industry": "Semiconductors",
+    "source": "finnhub"
+  },
+  "WOR": {
+    "sector": "Industrials",
+    "sub_industry": "Machinery",
+    "source": "finnhub"
+  },
+  "WRAP": {
+    "sector": "Industrials",
+    "sub_industry": "Electrical Equipment",
+    "source": "finnhub"
+  },
+  "WSC": {
+    "sector": "Industrials",
+    "sub_industry": "Construction",
+    "source": "finnhub"
+  },
+  "WT": {
+    "sector": "Financials",
+    "sub_industry": "Financial Services",
+    "source": "finnhub"
+  },
+  "WTS": {
+    "sector": "Industrials",
+    "sub_industry": "Machinery",
+    "source": "finnhub"
+  },
+  "WW": {
+    "sector": "Consumer Discretionary",
+    "sub_industry": "Diversified Consumer Services",
+    "source": "finnhub"
+  },
+  "XFOR": {
+    "sector": "Health Care",
+    "sub_industry": "Biotechnology",
+    "source": "finnhub"
+  },
+  "XNCR": {
+    "sector": "Health Care",
+    "sub_industry": "Biotechnology",
+    "source": "finnhub"
+  },
+  "XPER": {
+    "sector": "Information Technology",
+    "sub_industry": "Technology",
+    "source": "finnhub"
+  },
+  "XPON": {
+    "sector": "Industrials",
+    "sub_industry": "Electrical Equipment",
+    "source": "finnhub"
+  },
+  "YOU": {
+    "sector": "Information Technology",
+    "sub_industry": "Technology",
+    "source": "finnhub"
+  },
+  "ZD": {
+    "sector": "Communication Services",
+    "sub_industry": "Media",
+    "source": "finnhub"
+  },
+  "ZDGE": {
+    "sector": "Communication Services",
+    "sub_industry": "Media",
+    "source": "finnhub"
+  },
+  "ZION": {
+    "sector": "Financials",
+    "sub_industry": "Banking",
+    "source": "finnhub"
+  },
+  "ZM": {
+    "sector": "Information Technology",
+    "sub_industry": "Technology",
+    "source": "finnhub"
+  },
+  "ZNTL": {
+    "sector": "Health Care",
+    "sub_industry": "Biotechnology",
+    "source": "finnhub"
+  },
+  "ZONE": {
+    "sector": "Industrials",
+    "sub_industry": "Machinery",
+    "source": "finnhub"
+  },
+  "ZTEK": {
+    "sector": "Health Care",
+    "sub_industry": "Health Care",
+    "source": "finnhub"
+  },
+  "ZVRA": {
+    "sector": "Health Care",
+    "sub_industry": "Pharmaceuticals",
+    "source": "finnhub"
+  },
+  "ALIT": {
+    "sector": "Industrials",
+    "sub_industry": "Professional Services",
+    "source": "finnhub"
+  },
+  "MTCH": {
+    "sector": "Communication Services",
+    "sub_industry": "Media",
+    "source": "finnhub"
+  },
+  "NVEC": {
+    "sector": "Information Technology",
+    "sub_industry": "Semiconductors",
+    "source": "finnhub"
+  },
+  "OKTA": {
+    "sector": "Information Technology",
+    "sub_industry": "Technology",
+    "source": "finnhub"
+  },
+  "OSCR": {
+    "sector": "Financials",
+    "sub_industry": "Insurance",
+    "source": "finnhub"
+  },
+  "PD": {
+    "sector": "Information Technology",
+    "sub_industry": "Technology",
+    "source": "finnhub"
+  },
+  "PEPG": {
+    "sector": "Health Care",
+    "sub_industry": "Biotechnology",
+    "source": "finnhub"
+  },
+  "PYXS": {
+    "sector": "Health Care",
+    "sub_industry": "Biotechnology",
+    "source": "finnhub"
+  },
+  "QH": {
+    "sector": "Industrials",
+    "sub_industry": "Commercial Services & Supplies",
+    "source": "finnhub"
+  },
+  "RDZN": {
+    "sector": "Information Technology",
+    "sub_industry": "Technology",
+    "source": "finnhub"
+  },
+  "SANM": {
+    "sector": "Industrials",
+    "sub_industry": "Electrical Equipment",
+    "source": "finnhub"
+  },
+  "SGLY": {
+    "sector": "Industrials",
+    "sub_industry": "Transportation Infrastructure",
+    "source": "finnhub"
+  },
+  "SILA": {
+    "sector": "Financials",
+    "sub_industry": "Real Estate",
+    "source": "finnhub"
+  },
+  "SLDE": {
+    "sector": "Financials",
+    "sub_industry": "Insurance",
+    "source": "finnhub"
+  },
+  "SN": {
+    "sector": "Consumer Discretionary",
+    "sub_industry": "Consumer products",
+    "source": "finnhub"
+  },
+  "SNEX": {
+    "sector": "Financials",
+    "sub_industry": "Financial Services",
+    "source": "finnhub"
+  },
+  "ST": {
+    "sector": "Industrials",
+    "sub_industry": "Electrical Equipment",
+    "source": "finnhub"
+  },
+  "SYNA": {
+    "sector": "Information Technology",
+    "sub_industry": "Semiconductors",
+    "source": "finnhub"
+  },
+  "TGEN": {
+    "sector": "Industrials",
+    "sub_industry": "Building",
+    "source": "finnhub"
+  },
+  "UAMY": {
+    "sector": "Materials",
+    "sub_industry": "Metals & Mining",
+    "source": "finnhub"
+  },
+  "VLN": {
+    "sector": "Information Technology",
+    "sub_industry": "Semiconductors",
+    "source": "finnhub"
+  },
+  "CCC": {
+    "sector": "Information Technology",
+    "sub_industry": "Technology",
+    "source": "finnhub"
+  },
+  "RGA": {
+    "sector": "Financials",
+    "sub_industry": "Insurance",
+    "source": "finnhub"
+  },
+  "CLWT": {
+    "sector": "Industrials",
+    "sub_industry": "Trading Companies & Distributors",
+    "source": "finnhub"
+  },
+  "MANH": {
+    "sector": "Information Technology",
+    "sub_industry": "Technology",
+    "source": "finnhub"
+  },
+  "HURN": {
+    "sector": "Industrials",
+    "sub_industry": "Professional Services",
+    "source": "finnhub"
+  },
+  "SAP": {
+    "sector": "Information Technology",
+    "sub_industry": "Technology",
+    "source": "finnhub"
+  },
+  "THC": {
+    "sector": "Health Care",
+    "sub_industry": "Health Care",
+    "source": "finnhub"
+  },
+  "HLP": {
+    "sector": "Materials",
+    "sub_industry": "Metals & Mining",
+    "source": "finnhub"
+  },
+  "RELX": {
+    "sector": "Industrials",
+    "sub_industry": "Professional Services",
+    "source": "finnhub"
+  },
+  "BH": {
+    "sector": "Consumer Discretionary",
+    "sub_industry": "Hotels, Restaurants & Leisure",
+    "source": "finnhub"
+  },
+  "DSP": {
+    "sector": "Information Technology",
+    "sub_industry": "Technology",
+    "source": "finnhub"
+  },
+  "PCRX": {
+    "sector": "Health Care",
+    "sub_industry": "Pharmaceuticals",
+    "source": "finnhub"
+  },
+  "ARW": {
+    "sector": "Industrials",
+    "sub_industry": "Electrical Equipment",
+    "source": "finnhub"
+  },
+  "HVT": {
+    "sector": "Consumer Discretionary",
+    "sub_industry": "Retail",
+    "source": "finnhub"
+  },
+  "ANF": {
+    "sector": "Consumer Discretionary",
+    "sub_industry": "Retail",
+    "source": "finnhub"
+  },
+  "GO": {
+    "sector": "Consumer Discretionary",
+    "sub_industry": "Retail",
+    "source": "finnhub"
+  },
+  "PLUS": {
+    "sector": "Industrials",
+    "sub_industry": "Electrical Equipment",
+    "source": "finnhub"
+  },
+  "AI": {
+    "sector": "Information Technology",
+    "sub_industry": "Technology",
+    "source": "finnhub"
+  },
+  "EFXT": {
+    "sector": "Energy",
+    "sub_industry": "Energy",
+    "source": "finnhub"
+  },
+  "XLV": {
+    "sector": "Health Care",
+    "sub_industry": "Health Care Select Sector SPDR ETF",
+    "source": "manual"
+  },
+  "IYT": {
+    "sector": "Industrials",
+    "sub_industry": "iShares Transportation Average ETF",
+    "source": "manual"
+  },
+  "DBC": {
+    "sector": "Materials",
+    "sub_industry": "Invesco DB Commodity Index Tracking Fund",
+    "source": "manual"
+  },
+  "ENOR": {
+    "sector": "Energy",
+    "sub_industry": "iShares MSCI Norway ETF",
+    "source": "manual"
+  },
+  "ALAI": {
+    "sector": "Information Technology",
+    "sub_industry": "Listed Funds Trust Trust AlgoPLUS Income ETF",
+    "source": "manual"
+  },
+  "IEO": {
+    "sector": "Energy",
+    "sub_industry": "iShares U.S. Oil & Gas Exploration & Production ETF",
+    "source": "manual"
+  }
+}

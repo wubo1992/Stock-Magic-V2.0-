@@ -13,6 +13,12 @@ import re
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
+from data.rs_parse import resolve_rs_percentile
+from data.rs_rating import RS_RATING_LABEL
+from data.rs_relative import RS_RELATIVE_LABEL
+from data.sector_cache import get_sector
+from universe.us_market import display_name
+
 # ── 路径 ───────────────────────────────────────────────────
 OUTPUT_DIR = Path(__file__).parent.parent / "output"
 
@@ -25,6 +31,8 @@ def generate_daily_report(
     today_records: list[dict],
     strategy_id: str = "v1_wizard",
     strategy_name: str = "魔法师策略V1",
+    rs_ratings: dict[str, int] | None = None,
+    rs_relative: dict[str, float] | None = None,
 ) -> Path:
     """
     生成今日报告，保存到 output/{strategy_id}/YYYY-MM-DD/报告_{strategy_name}_YYYY-MM-DD.md。
@@ -33,6 +41,8 @@ def generate_daily_report(
         today_records: 今天新产生的信号（来自 process_signals 的返回值）
         strategy_id:   策略文件夹 ID（如 "v1_wizard"）
         strategy_name: 策略显示名称（如 "魔法师策略V1"），用于报告标题
+        rs_ratings:    {ticker: 1-99} 的 O'Neil RS Rating，由 data/rs_rating.py 计算
+        rs_relative:  {ticker: 0-100} 的策略内部口径 RS%，由 data/rs_relative.py 计算
 
     返回：
         报告文件的 Path
@@ -49,7 +59,7 @@ def generate_daily_report(
     history = _read_recent_signals(strategy_id=strategy_id, days=7)
 
     # 生成报告内容
-    content = _build_report(today_str, today_records, history, strategy_name)
+    content = _build_report(today_str, today_records, history, strategy_name, rs_ratings, rs_relative)
 
     with open(report_path, "w", encoding="utf-8") as f:
         f.write(content)
@@ -62,7 +72,7 @@ def generate_daily_report(
 # 报告构建
 # ══════════════════════════════════════════════════════════
 
-def _build_report(today_str: str, today_records: list[dict], history: list[dict], strategy_name: str = "魔法师策略V1") -> str:
+def _build_report(today_str: str, today_records: list[dict], history: list[dict], strategy_name: str = "魔法师策略V1", rs_ratings: dict[str, int] | None = None, rs_relative: dict[str, float] | None = None) -> str:
     lines = []
 
     # ── 标题 ──────────────────────────────────────────────
@@ -73,6 +83,15 @@ def _build_report(today_str: str, today_records: list[dict], history: list[dict]
         f"> 报告范围：过去 7 天（{_days_ago(7)} 至 {today_str}）  ",
         f"> 策略：{strategy_name}  ",
         "> 提示：信号日期为策略检测到条件的当天，**建议次日开盘执行**",
+        f"> RS 两列口径（务必分清，两个数不是一回事）：  ",
+        f"> 1. **{RS_RELATIVE_LABEL}** —— 策略内部口径。  "
+        "0.4×(个股 252 日涨幅÷基准 252 日涨幅−1) + 0.3×(126 日) + 0.3×(60 日)，"
+        "在 UNIVERSE.md 固定股票池内换算成 0-100 的百分位；本表的数值直接取自触发原因里策略自算的结果。"
+        "基准 ETF：美股 SPY、港股 ASHR、台股 EWT。**回答「它比大盘强多少」**。",
+        f"> 2. **{RS_RATING_LABEL}** —— O'Neil CAN SLIM 口径。  "
+        "过去 12 个月按 63 个交易日切成 4 个季度，近 3 个月 ×0.4、4-6 月 ×0.2、7-9 月 ×0.2、"
+        "10-12 月 ×0.2，加权得 RS Score，在美股全市场普通股（约 6300 只）内换算成 1-99 的百分位。"
+        "**不参照基准指数，只看绝对涨幅**；99 = 全市场最强，≥80 视为强势股。",
         "",
         "---",
         "",
@@ -97,7 +116,7 @@ def _build_report(today_str: str, today_records: list[dict], history: list[dict]
                 "",
             ]
             for r in sorted(today_buys, key=lambda x: -int(x.get("强度(1-5)", 0))):
-                lines += _format_signal_detail(r, is_today=True)
+                lines += _format_signal_detail(r, is_today=True, rs_ratings=rs_ratings, rs_relative=rs_relative)
                 lines.append("")
 
         if today_sells:
@@ -128,14 +147,18 @@ def _build_report(today_str: str, today_records: list[dict], history: list[dict]
             lines += [
                 "### 买入信号",
                 "",
-                "| 日期 | 股票 | 强度 | 参考止损 | 触发摘要 |",
-                "|------|------|------|----------|----------|",
+                f"| 日期 | 股票 | 行业 | {RS_RATING_LABEL} | {RS_RELATIVE_LABEL} | 强度 | 参考止损 | 触发摘要 |",
+                "|------|------|------|-----|--------|------|----------|----------|",
             ]
             for r in sorted(buys_7d, key=lambda x: x.get("日期", ""), reverse=True):
                 stars = "★" * int(r.get("强度(1-5)", 0))
                 summary = _short_summary(r.get("触发原因", ""))
+                sector = get_sector(r["股票"])
+                rs_pct = resolve_rs_percentile(r.get("触发原因", ""), r["股票"], rs_relative)
+                rs_rating = (rs_ratings or {}).get(r["股票"])
                 lines.append(
-                    f"| {r['日期']} | **{r['股票']}** | {stars} "
+                    f"| {r['日期']} | **{display_name(r['股票'])}** | {sector} | {rs_rating if rs_rating is not None else '—'} "
+                    f"| {rs_pct if rs_pct is not None else '—'} | {stars} "
                     f"| {r.get('参考止损', '—')} | {summary} |"
                 )
             lines.append("")
@@ -148,9 +171,10 @@ def _build_report(today_str: str, today_records: list[dict], history: list[dict]
                 "|------|------|----------|----------|",
             ]
             for r in sorted(sells_7d, key=lambda x: x.get("日期", ""), reverse=True):
-                reason_short = r.get("触发原因", "")[:45]
+                # 触发原因里的分段符是「|」，直接放进表格会多出一列，换成「·」
+                reason_short = r.get("触发原因", "").replace("|", "·")[:45]
                 shares = r.get("持仓股数", "—")
-                lines.append(f"| {r['日期']} | **{r['股票']}** | {shares:>8} | {reason_short} |")
+                lines.append(f"| {r['日期']} | **{display_name(r['股票'])}** | {shares:>8} | {reason_short} |")
             lines.append("")
 
     lines += ["---", ""]
@@ -166,7 +190,7 @@ def _build_report(today_str: str, today_records: list[dict], history: list[dict]
             "",
         ]
         for r in sorted(past_buys, key=lambda x: x.get("日期", ""), reverse=True):
-            lines += _format_signal_detail(r, is_today=False)
+            lines += _format_signal_detail(r, is_today=False, rs_ratings=rs_ratings, rs_relative=rs_relative)
             lines.append("")
 
     # ── 操作提醒 ────────────────────────────────────────────
@@ -192,7 +216,7 @@ def _build_report(today_str: str, today_records: list[dict], history: list[dict]
 # 单个信号详细格式化
 # ══════════════════════════════════════════════════════════
 
-def _format_signal_detail(r: dict, is_today: bool) -> list[str]:
+def _format_signal_detail(r: dict, is_today: bool, rs_ratings: dict[str, int] | None = None, rs_relative: dict[str, float] | None = None) -> list[str]:
     """生成单个买入信号的详细 Markdown 块。"""
     symbol   = r.get("股票", "?")
     date_str = r.get("日期", "?")
@@ -203,9 +227,11 @@ def _format_signal_detail(r: dict, is_today: bool) -> list[str]:
 
     tag = "🆕 **今日新增**" if is_today else f"📅 {date_str}"
     sections = _parse_reason(reason)
+    rs_pct = resolve_rs_percentile(reason, symbol, rs_relative)
+    rs_rating = (rs_ratings or {}).get(symbol)
 
     lines = [
-        f"### {tag} — 买入 {symbol}　{stars}",
+        f"### {tag} — 买入 {display_name(symbol)}　{stars}",
         "",
         "**信号概览**",
         "",
@@ -213,6 +239,9 @@ def _format_signal_detail(r: dict, is_today: bool) -> list[str]:
         "|------|------|",
         f"| 信号日期 | {date_str} |",
         f"| 信号方向 | 买入 |",
+        f"| 所属行业 | {get_sector(symbol)} |",
+        f"| {RS_RELATIVE_LABEL} | {rs_pct if rs_pct is not None else '—'} |",
+        f"| {RS_RATING_LABEL} | {rs_rating if rs_rating is not None else '—'} |",
         f"| 信号强度 | {stars}（{strength}/5） |",
         f"| 参考止损 | {stop} |",
         f"| 建议操作 | {'明日开盘买入' if is_today else date_str + ' 次日已可执行'} |",
@@ -294,7 +323,7 @@ def _format_exit_signal(r: dict) -> list[str]:
     shares = r.get("持仓股数", "—")
 
     lines = [
-        f"### 出场 — {symbol}",
+        f"### 出场 — {display_name(symbol)}",
         "",
         f"**出场原因：** {reason}",
         f"**持仓股数：** {shares}",
@@ -462,7 +491,9 @@ def _short_summary(reason: str) -> str:
         mult_match = re.search(r"([\d.]+)倍", vol)
         if mult_match:
             parts.append(f"量{mult_match.group(1)}x")
-    return " | ".join(parts) if parts else reason[:40]
+    # 用「·」分隔，**不能用「|」**——Markdown 表格里出现竖线会多出一列，
+    # 让整张表的列数和表头对不上（历史上踩过）
+    return " · ".join(parts) if parts else reason.replace("|", "·")[:40]
 
 
 def _days_ago(n: int) -> str:

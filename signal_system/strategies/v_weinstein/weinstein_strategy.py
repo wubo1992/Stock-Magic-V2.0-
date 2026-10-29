@@ -30,6 +30,8 @@ import pandas as pd
 
 from events import EventQueue, SignalEvent
 from strategies.base import StrategyBase
+from data.rs_10w import compute_rs_10w
+from data.rs_10d import compute_rs_10d
 
 
 @dataclass
@@ -142,21 +144,21 @@ class WeinsteinStrategy(StrategyBase):
         current = float(close_series.iloc[-1])
         n = len(close_series)
 
-        # ── 1. Stage 2 确认：SMA30 本身在上升 ─────────────────
-        sma30 = close_series.rolling(self.sma_stage2).mean()
-        if len(sma30) < self.stage2_lookback:
+        # ── 1. Stage 2 确认：SMA150 本身在上升 ─────────────────
+        sma_long = close_series.rolling(self.sma_long).mean()
+        if len(sma_long) < self.stage2_lookback:
             return None
-        sma30_now = float(sma30.iloc[-1])
-        sma30_past = float(sma30.iloc[-self.stage2_lookback])
-        if sma30_now <= sma30_past:
-            return None
-
-        # ── 2. 股价在 SMA30 上方 ──────────────────────────────
-        if current <= sma30_now:
+        sma_long_now = float(sma_long.iloc[-1])
+        sma_long_past = float(sma_long.iloc[-self.stage2_lookback])
+        if sma_long_now <= sma_long_past:
             return None
 
-        # ── 3. 乖离率检查：价格不能离 SMA30 太远（避免追高）────
-        deviation = (current - sma30_now) / sma30_now
+        # ── 2. 股价在 SMA150 上方 ──────────────────────────────
+        if current <= sma_long_now:
+            return None
+
+        # ── 3. 乖离率检查：价格不能离 SMA150 太远（避免追高）────
+        deviation = (current - sma_long_now) / sma_long_now
         if deviation > self.max_deviation_pct:
             return None  # 乖离太大，不追
 
@@ -206,12 +208,19 @@ class WeinsteinStrategy(StrategyBase):
             strength = 4
 
         stop_loss = round(current * (1 - self.stop_loss_pct), 2)
+        rs_10w = compute_rs_10w(symbol, self.market_data, date)
+        rs_10w_str = f"{rs_10w:.2f}x" if rs_10w is not None else "—"
+        rs_10d = compute_rs_10d(symbol, self.market_data, date)
+        rs_10d_str = f"{rs_10d:.2f}x" if rs_10d is not None else "—"
         reason = (
-            f"[Stage2] SMA{self.sma_stage2}上升≥{self.stage2_lookback}天 | "
+            f"[Stage2] SMA{self.sma_long}上升≥{self.stage2_lookback}天 | "
             f"[乖离] 偏离均线{deviation*100:.0f}%（≤{self.max_deviation_pct*100:.0f}%）| "
             f"[整理] {self.consolidation_days}天紧凑区间（{cons_range*100:.0f}%）| "
-            f"[突破] +{breakout_pct*100:.1f}%放量{vol_ratio:.1f}x | "
-            f"[RS] Top {100-rs_value:.0f}% | "
+            f"[突破] +{breakout_pct*100:.1f}% | "
+            f"[量比] {vol_ratio:.1f}倍均量 | "
+            f"[RS] RS={rs_value:.0f} | "
+            f"[RS10D] {rs_10d_str} | "
+            f"[RS10W] {rs_10w_str} | "
             f"[止损] ${stop_loss:.2f}"
         )
         signal = SignalEvent.create(
@@ -298,13 +307,13 @@ class WeinsteinStrategy(StrategyBase):
             if current_price > pos.highest_price:
                 pos.highest_price = current_price
 
-            # ── 趋势破坏：跌破 SMA30（Weinstein 核心出场）─────────
-            sma30 = df_to_date["close"].rolling(self.sma_stage2).mean()
-            if len(sma30) >= self.sma_stage2:
-                sma30_val = float(sma30.iloc[-1])
-                if current_price <= sma30_val:
+            # ── 趋势破坏：跌破 SMA150（Weinstein 核心出场）─────────
+            sma_long = df_to_date["close"].rolling(self.sma_long).mean()
+            if len(sma_long) >= self.sma_long:
+                sma_long_val = float(sma_long.iloc[-1])
+                if current_price <= sma_long_val:
                     exit_reason = (
-                        f"趋势破坏（SMA30）：${current_price:.2f}≤SMA{self.sma_stage2}(${sma30_val:.2f})"
+                        f"趋势破坏（SMA150）：${current_price:.2f}≤SMA{self.sma_long}(${sma_long_val:.2f})"
                     )
                     sig = SignalEvent.create(
                         symbol=symbol, timestamp=date, direction="sell",

@@ -9,7 +9,127 @@
 
 ---
 
-## 当前手动池总数：517 只（美股517）
+## 当前手动池总数：597 只（美股597）
+
+---
+
+## 板块 T1：AI投资主题·能源层（Energy）
+
+| 代码 | 公司 | 简介 |
+|------|------|------|
+| CVX | Chevron | 伊朗冲突对冲，能源危机受益者 |
+| LNG | Cheniere Energy | LNG出口，地缘紧张下最明显标的 |
+| XLU | 公用事业ETF | AI电力需求超级周期 |
+| VST | Vistra | 核能/清洁能源，数据中心供电 |
+| CEG | Constellation Energy | 核能/清洁能源，数据中心供电 |
+
+---
+
+## 板块 T2：AI投资主题·芯片层（Chips）
+
+| 代码 | 公司 | 简介 |
+|------|------|------|
+| AXTI | AXT Inc | InP磷化铟衬底，最高信念标的之一，目标价$150 |
+| MU | Micron Technology | 存储超级周期，"下一个英伟达" |
+| SNDK | SanDisk | 存储轮动 |
+| TSM | Taiwan Semiconductor | 代工 |
+| SOI | Soitec | SOI硅光衬底垄断，CPO孪生体 |
+| TSEM | Tower Semiconductor | 硅光子代工 |
+
+---
+
+## 板块 T3：AI投资主题·基础设施层（Infrastructure）
+
+| 代码 | 公司 | 简介 |
+|------|------|------|
+| AAOI | Applied Optoelectronics | 光收发器全链条 |
+| LITE | Lumentum | 光模块/CW激光器 |
+| COHR | Coherent | 光模块/CW激光器 |
+| NBIS | Nebius | 头号持仓，"下一个亚马逊级别的超大规模云"，目标价$225 |
+| GLW | Corning | 玻璃基板，2027年量产超级周期 |
+
+---
+
+## 板块 T4：AI投资主题·模型层（Models）
+
+| 代码 | 公司 | 简介 |
+|------|------|------|
+| ARM | Arm Holdings | AI CPU带来5倍收入增长，"最快复利"标的之一 |
+
+---
+
+## 板块 T5：AI投资主题·应用层（Applications）
+
+| 代码 | 公司 | 简介 |
+|------|------|------|
+| AIRO | AIRO Group | 无人机/国防，市值$3亿，远期PS仅2.5倍 |
+| HIMS | Hims & Hers | 早期WSB持仓，医疗AI |
+| TTD | The Trade Desk | 2026年1月"强烈买入"名单 |
+
+---
+
+## 板块 T-其他：AI投资主题·其他宏观标的
+
+| 代码 | 公司 | 简介 |
+|------|------|------|
+| NEXT | NextDecade | LNG生产，2027上半年启动，稳固3-5年多头 |
+| MP | MP Materials | 稀土，对国家安全至关重要 |
+| CRWV | CoreWeave | 已从做多转为回避/看空 |
+
+---
+
+## 板块 Mining 1：大型纯挖矿 + AI/HPC 转型（第一梯队）
+
+| 代码 | 公司 | 简介 |
+|------|------|------|
+| IREN | Iris Energy | 自挖矿+AI/HPC双轨，已签约Microsoft |
+| MARA | MARA Holdings | 全球最大上市BTC自挖矿，业绩+BTC储备35303枚 |
+| RIOT | Riot Platforms | Texas大规模自挖矿+Corsa AI数据中心 |
+| CLSK | CleanSpark | 美国纯自挖矿龙头，50 EH/s算力 |
+| BTDR | Bitdeer Technologies | 前Bitmain系，BTC自挖矿+HPC |
+
+---
+
+## 板块 Mining 2：HPC/AI 转型领跑（第二梯队）
+
+| 代码 | 公司 | 简介 |
+|------|------|------|
+| HUT | Hut 8 Corp. | 美国+加拿大双上市，AI/HPC大客户已签 |
+| CIFR | Cipher Mining | Texas低成本电力+AWS合作 |
+| WULF | TeraWulf | Nautilus核电站+自有GPU集群 |
+| CORZ | Core Scientific | 已走出破产，与AI/HPC客户深度绑定 |
+| APLD | Applied Digital | 纯HPC数据中心运营商 |
+
+---
+
+## 板块 Mining 3：纯自挖矿（第三梯队）
+
+| 代码 | 公司 | 简介 |
+|------|------|------|
+| BITF | Bitfarms | 加拿大+美国/宾州，已收购Stronghold（SDIG） |
+| HIVE | HIVE Digital Technologies | 加拿大/巴拉圭绿能，自挖矿+HPC转型中 |
+| CANG | Cango | 原汽车金融，2023起全面转向BTC自挖矿（31.7 EH/s） |
+| BTBT | Bit Digital | 2025已退出BTC挖矿，转型ETH国库+AI |
+| ABTC | American Bitcoin Corp | 2025年从Hut 8分拆上市，纯BTC挖矿 |
+| CAN | Canaan Inc. | 阿瓦隆矿机制造商+自挖矿 |
+| PHX | Phoenix Group | 阿联酋ADX上市，埃塞俄比亚矿场 |
+| BTCM | BIT Mining | 原500.com，2025转向Solana国库 |
+| BMNR | BitMine Immersion Tech | 自挖矿+巨量ETH国库（3.97M ETH） |
+| KEEL | Keel Infrastructure | 加拿大上市，北美数据中心基础设施 |
+
+---
+
+## 板块 Mining 4：小盘 / 边缘 / 高风险标的
+
+| 代码 | 公司 | 简介 |
+|------|------|------|
+| SLNH | Soluna Holdings | 小型可再生能源+BTC挖矿，亏损中 |
+| DMGI | DMG Blockchain Solutions | 加拿大TSXV上市，规模较小 |
+| GREE | Greenidge Generation | NY天然气发电+BTC挖矿，已大幅缩水 |
+| ARBK | Argo Blockchain | 曾上市，已退市私有化（历史代码） |
+| ANY | Sphere 3D | 关联Gryphon Digital Mining (GRYP) |
+| GRYP | Gryphon Digital Mining | 小型纯BTC挖矿 |
+| BTCS | BTCS Inc. | 小型区块链基础设施+国库 |
 
 ---
 
@@ -520,6 +640,59 @@
 | ZBH | ZBH | S&P 500 成分股 |
 | ZBRA | ZBRA | S&P 500 成分股 |
 | ZTS | ZTS | S&P 500 成分股 |
+
+## 板块 M：手动补充
+
+| 代码 | 公司 | 简介 |
+|------|------|------|
+| AAOI | Applied Optoelectronics | 手动补充 |
+| AEHR | Aehr Test Systems | 手动补充 |
+| AIRO | AIRO Group | 手动补充 |
+| AMKR | Amkor Technology | 手动补充 |
+| ASX | ASE Technology | 手动补充 |
+| AXTI | AXT Inc | 手动补充 |
+| CAMT | Camtek | 手动补充 |
+| CIEN | Ciena | 手动补充 |
+| CLS | Celestica | 手动补充 |
+| COHR | Coherent | 手动补充 |
+| CRWV | CoreWeave | 手动补充 |
+| FN | First Nationwide | 手动补充 |
+| FORM | FormFactor | 手动补充 |
+| GFS | GlobalFoundries | 手动补充 |
+| GLW | Corning | 手动补充 |
+| HIMX | Himax Technologies | 手动补充 |
+| HIMS | Hims & Hers | 手动补充 |
+| IREN | Iris Energy | 手动补充 |
+| JBL | Jabil | 手动补充 |
+| KEYS | Keysight Technologies | 手动补充 |
+| LITE | Lumentum | 手动补充 |
+| LWLG | Lightwave Logic | 手动补充 |
+| MP | MP Materials | 手动补充 |
+| MRVL | Marvell Technology | 手动补充 |
+| MTSI | MACOM Technology | 手动补充 |
+| MXL | MaxLinear | 手动补充 |
+| NBIS | Nebius | 手动补充 |
+| NEXT | NextDecade | 手动补充 |
+| NOK | Nokia | 手动补充 |
+| ONTO | Onto Innovation | 手动补充 |
+| POET | POET Technologies | 手动补充 |
+| SMTC | Semtech | 手动补充 |
+| SOI | Soitec | 手动补充 |
+| SPCX | SPCX | 手动补充 |
+| TSEM | Tower Semiconductor | 手动补充 |
+| UMC | United Microelectronics | 手动补充 |
+| VIAV | Viavi Solutions | 手动补充 |
+| VICR | Vicor | 手动补充 |
+| WIN | Wi-SUN Alliance | 手动补充 |
+| ASTS | AST SpaceMobile | 手动补充 |
+| CIFR | Cipher Crowd | 手动补充 |
+| CPSH | CPSH | 手动补充 |
+| HUT | Hut 8 Mining | 手动补充 |
+| WULF | TeraWulf | 手动补充 |
+| WYFI | Wyvern | 手动补充 |
+| LUNR | LUNR | 手动补充 |
+| RDW | Redwire | 手动补充 |
+| RKLB | Rocket Lab | 手动补充 |
 
 ## 操作说明
 

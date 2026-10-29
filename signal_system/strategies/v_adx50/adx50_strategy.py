@@ -14,6 +14,8 @@ import pandas as pd
 
 from events import EventQueue, SignalEvent
 from strategies.base import StrategyBase
+from data.rs_10w import compute_rs_10w
+from data.rs_10d import compute_rs_10d
 
 
 @dataclass
@@ -159,11 +161,17 @@ class ADX50Strategy(StrategyBase):
 
         stop_loss = round(current_close * (1 - self.stop_loss_pct), 2)
         strength = 3
+        rs_10w = compute_rs_10w(symbol, self.market_data, date)
+        rs_10w_str = f"{rs_10w:.2f}x" if rs_10w is not None else "—"
+        rs_10d = compute_rs_10d(symbol, self.market_data, date)
+        rs_10d_str = f"{rs_10d:.2f}x" if rs_10d is not None else "—"
         reason = (
             f"[ADX50] 收盘价${current_close:.2f}突破{self.high_lookback}日高点${high_50:.2f}，"
             f"幅度+{breakout_pct*100:.1f}% | "
             f"[ADX{self.adx_period}]={adx_value:.1f}>{self.adx_threshold} | "
-            f"[RS] 排名{rs_value:.0f}%"
+            f"[RS] 排名{rs_value:.0f}% | "
+            f"[RS10D] {rs_10d_str} | "
+            f"[RS10W] {rs_10w_str}"
         )
         signal = SignalEvent.create(
             symbol=symbol,

@@ -15,8 +15,6 @@ from strategies.v1_wizard.sepa_minervini import SEPAStrategy
 from strategies.v1_plus.sepa_plus import SEPAPlusStrategy
 from strategies.v_zanger.zanger_strategy import ZangerStrategy
 from strategies.v_weinstein.weinstein_strategy import WeinsteinStrategy
-from strategies.v_weinstein_adx.weinstein_adx_strategy import WeinsteinADXStrategy
-from strategies.v_weinstein_adx.weinstein_adx_bullbear import WeinsteinADXBullBearStrategy
 from strategies.v_eps.eps_strategy import EPSStrategy
 from strategies.v_eps_v2.eps_v2_strategy import EPSV2Strategy
 from strategies.v_eps_v1_plus.eps_v1_plus_strategy import EPSV1PlusStrategy
@@ -30,8 +28,6 @@ STRATEGY_REGISTRY: dict[str, type] = {
     "v1_plus": SEPAPlusStrategy,
     "v_zanger": ZangerStrategy,
     "v_weinstein": WeinsteinStrategy,
-    "v_weinstein_adx": WeinsteinADXStrategy,
-    "v_weinstein_bullbear": WeinsteinADXBullBearStrategy,
     "v_eps": EPSStrategy,
     "v_eps_v2": EPSV2Strategy,
     "v_eps_v1_plus": EPSV1PlusStrategy,
@@ -46,8 +42,6 @@ STRATEGY_CATEGORIES: dict[str, str] = {
     "v1_plus": "大师趋势",
     "v_zanger": "大师趋势",
     "v_weinstein": "大师趋势",
-    "v_weinstein_adx": "大师趋势",
-    "v_weinstein_bullbear": "大师趋势",
     # 结合EPS
     "v_eps": "结合EPS",
     "v_eps_v2": "结合EPS",

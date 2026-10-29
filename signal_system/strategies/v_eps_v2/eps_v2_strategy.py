@@ -16,6 +16,8 @@ strategies/v_eps_v2/eps_v2_strategy.py — Weinstein Stage 2 + EPS 基本面过�
 from events import SignalEvent
 from strategies.v_weinstein.weinstein_strategy import WeinsteinStrategy
 from data.fundamentals import check_eps_filter
+from data.rs_10w import compute_rs_10w
+from data.rs_10d import compute_rs_10d
 
 
 class EPSV2Strategy(WeinsteinStrategy):
@@ -54,10 +56,27 @@ class EPSV2Strategy(WeinsteinStrategy):
         stop_loss = round(close * (1 - self.stop_loss_pct), 2)
         Weinstein_reason = signal.data.get("reason", "")
 
+        # 父类 reason 中已有标准化的 [量比] X.X倍均量 块，用正则提取
+        # 修复前：原代码用 split('[')[-1].split(']')[0] 错切最后一个标签，常输出"止损/RS"等错误值
+        import re
+        vol_match = re.search(r"\[量比\]\s*([\d.]+)倍均量", Weinstein_reason)
+        if vol_match:
+            vol_ratio_str = f"{vol_match.group(1)}倍均量"
+        else:
+            # 兜底：父类 reason 不含 [量比] 时的回退表达
+            vol_ratio_str = "达标"
+
+        rs_10w = compute_rs_10w(symbol, self.market_data, date)
+        rs_10w_str = f"{rs_10w:.2f}x" if rs_10w is not None else "—"
+        rs_10d = compute_rs_10d(symbol, self.market_data, date)
+        rs_10d_str = f"{rs_10d:.2f}x" if rs_10d is not None else "—"
+
         reason = (
             f"[EPS] {eps_reason} | "
             f"[Stage2] SMA{self.sma_long}上升{self.trend_lookback}天 | "
-            f"[量能] {Weinstein_reason.split('[')[-1].split(']')[0] if '[' in Weinstein_reason else '达标'}"
+            f"[量比] {vol_ratio_str} | "
+            f"[RS10D] {rs_10d_str} | "
+            f"[RS10W] {rs_10w_str}"
         )
 
         return SignalEvent.create(

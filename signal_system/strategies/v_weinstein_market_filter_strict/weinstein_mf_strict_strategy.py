@@ -9,6 +9,8 @@ strategies/v_weinstein_market_filter_strict/weinstein_mf_strict_strategy.py — 
 
 from events import SignalEvent
 from strategies.v_weinstein.weinstein_strategy import WeinsteinStrategy
+from data.rs_10w import compute_rs_10w
+from data.rs_10d import compute_rs_10d
 
 
 class PositionMFStrict:
@@ -123,11 +125,17 @@ class WeinsteinMFStrictStrategy(WeinsteinStrategy):
 
         breakout_pct = (current - pivot) / pivot
         stop_loss = round(current * (1 - self.stop_loss_pct), 2)
+        rs_10w = compute_rs_10w(symbol, self.market_data, date)
+        rs_10w_str = f"{rs_10w:.2f}x" if rs_10w is not None else "—"
+        rs_10d = compute_rs_10d(symbol, self.market_data, date)
+        rs_10d_str = f"{rs_10d:.2f}x" if rs_10d is not None else "—"
         reason = (
             f"[市场过滤+严格放量] SMA{self.sma_long}上升{self.trend_lookback}天 | "
             f"[突破] 超{self.pivot_lookback}日整理区高点${pivot:.2f}，"
             f"幅度+{breakout_pct*100:.1f}% | "
-            f"[放量] {vol_ratio:.1f}x均量（严格3x）"
+            f"[量比] {vol_ratio:.1f}倍均量（严格3x） | "
+            f"[RS10D] {rs_10d_str} | "
+            f"[RS10W] {rs_10w_str}"
         )
         signal = SignalEvent.create(
             symbol=symbol, timestamp=date, direction="buy",

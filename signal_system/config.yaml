@@ -30,6 +30,12 @@ data:
 # ── 默认策略（--strategy 未指定时使用）─────────────────────
 active_strategy: v_eps_v2
 
+# ── 持仓管理开关 ──────────────────────────────────────────────
+# track_positions: 是否启用持仓追踪功能
+#   true  = 启用：跨天追踪已买入股票的出场条件（止损/止盈/时间止损）
+#   false = 禁用：仅当作买入选股器使用，positions.json 保持空
+track_positions: false
+
 # ── 策略参数（每个策略独立命名空间）──────────────────────────
 strategies:
   v1:
@@ -127,54 +133,6 @@ strategies:
 
     stop_loss_pct: 0.08         # 止损 8%
     trailing_stop_pct: 0.20     # 追踪止盈 20%
-
-  v_weinstein_adx:
-    name: Weinstein Stage 2 + ADX 增强（优化版）
-    description: "ADX>25 + 追踪止盈15% + 放量2.0x，年化+6.9%，夏普0.61（vs 基线0.52）"
-
-    sma_long: 150
-    trend_lookback: 30
-    pivot_lookback: 30
-    min_breakout_pct: 0.005
-    volume_mult: 2.0          # ← 1.5 → 2.0（量能门槛提高，信号更干净）
-    rsi_max: 85
-    adx_threshold: 25          # ← 35 → 25（降低趋势门槛，允许弱趋势进入）
-    market_filter: false
-    spy_bear_stop_loss: 0.05
-
-    stop_loss_pct: 0.07
-    trailing_stop_pct: 0.15    # ← 0.18 → 0.15（紧止盈降低波动，提升夏普）
-    time_stop_days: 30
-    time_stop_min_gain: 0.05
-
-  # ── Weinstein Stage 2 + ADX 牛熊自适应 ──────────────────────────
-  # 方向1（放宽RSI）+ 方向3（市场环境检测）优化版
-  # 牛市模式：SPY > SMA150 且 ADX > 20 → 放宽 RSI<90, ADX>25, 确认20天, 量1.2x
-  # 熊市模式：SPY <= SMA150 → 收紧 RSI<85, ADX>35, 确认30天, 量1.5x
-  v_weinstein_bullbear:
-    name: Weinstein Stage 2 + ADX 牛熊自适应
-    description: "SPY检测牛熊自动切换参数：牛市放宽RSI/ADX/确认期，熊市收紧"
-
-    sma_long: 150
-    trend_lookback: 30
-    pivot_lookback: 30
-    min_breakout_pct: 0.005
-    volume_mult: 1.5
-    rsi_max: 85
-    adx_threshold: 35
-    market_filter: false
-    spy_bear_stop_loss: 0.05
-
-    stop_loss_pct: 0.07
-    trailing_stop_pct: 0.18
-    time_stop_days: 30
-    time_stop_min_gain: 0.05
-
-    # 熊市参数（牛市用放宽后的默认值，代码里写死）
-    trend_lookback_bear: 30
-    rsi_max_bear: 85
-    adx_threshold_bear: 35
-    volume_mult_bear: 1.5
 
   # ── EPS 基本面因子策略 ────────────────────────────────
   # SEPA 技术分析 + EPS 增长筛选（Alpha Vantage 数据源）

@@ -12,6 +12,8 @@ strategies/v_zanger/zanger_strategy.py — Zanger 纯技术动量策略
 
 from events import SignalEvent
 from strategies.v1_wizard.sepa_minervini import Position, SEPAStrategy
+from data.rs_10w import compute_rs_10w
+from data.rs_10d import compute_rs_10d
 
 
 class ZangerStrategy(SEPAStrategy):
@@ -60,11 +62,17 @@ class ZangerStrategy(SEPAStrategy):
             strength += 1
 
         stop_loss = round(current * (1 - self.stop_loss_pct), 2)
+        rs_10w = compute_rs_10w(symbol, self.market_data, date)
+        rs_10w_str = f"{rs_10w:.2f}x" if rs_10w is not None else "—"
+        rs_10d = compute_rs_10d(symbol, self.market_data, date)
+        rs_10d_str = f"{rs_10d:.2f}x" if rs_10d is not None else "—"
         reason = (
             f"[趋势] SMA{self.sma_long}({sma_now:.0f})上升中 | "
             f"[突破] 超过{self.pivot_lookback}日高点${pivot:.2f}，"
             f"幅度+{breakout_pct*100:.1f}% | "
-            f"[量能] 成交量{vol_ratio:.1f}倍均量"
+            f"[量比] {vol_ratio:.1f}倍均量 | "
+            f"[RS10D] {rs_10d_str} | "
+            f"[RS10W] {rs_10w_str}"
         )
         signal = SignalEvent.create(
             symbol=symbol, timestamp=date, direction="buy",

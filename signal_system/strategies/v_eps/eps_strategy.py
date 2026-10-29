@@ -24,6 +24,8 @@ EPS 条件：
 from events import SignalEvent
 from strategies.v1_wizard.sepa_minervini import Position, SEPAStrategy
 from data.fundamentals import check_eps_filter
+from data.rs_10w import compute_rs_10w
+from data.rs_10d import compute_rs_10d
 
 
 class EPSStrategy(SEPAStrategy):
@@ -71,13 +73,19 @@ class EPSStrategy(SEPAStrategy):
         close = float(df["close"].iloc[-1])
         stop_loss = round(close * (1 - self.stop_loss_pct), 2)
 
+        rs_10w = compute_rs_10w(symbol, self.market_data, date)
+        rs_10w_str = f"{rs_10w:.2f}x" if rs_10w is not None else "—"
+        rs_10d = compute_rs_10d(symbol, self.market_data, date)
+        rs_10d_str = f"{rs_10d:.2f}x" if rs_10d is not None else "—"
         reason = (
             f"[EPS] {eps_reason} | "
             f"[趋势] {template_msg} | "
             f"[RS] 相对强度排名{rs_value:.0f}% | "
+            f"[RS10D] {rs_10d_str} | "
+            f"[RS10W] {rs_10w_str} | "
             f"[VCP] {vcp_msg} | "
             f"[突破] 超过{self.pivot_lookback}日高点${pivot_price:.2f}，幅度+{breakout_pct*100:.1f}% | "
-            f"[量能] 成交量{vol_ratio:.1f}倍均量"
+            f"[量比] {vol_ratio:.1f}倍均量"
         )
 
         signal = SignalEvent.create(

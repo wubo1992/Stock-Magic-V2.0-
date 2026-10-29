@@ -7,7 +7,7 @@
 # 如需切换策略，修改下方 STRATEGY 变量
 # ============================================================
 
-STRATEGY="v1"   # 使用的策略 ID（对应 config.yaml 中 strategies: 下的键）
+STRATEGY="all"  # live 模式默认跑全部策略，此变量仅用于通知标题
 
 # 周末不运行（1=周一 … 7=周日）
 DAY_OF_WEEK=$(date +%u)
@@ -27,8 +27,8 @@ echo "============================================" >> "$LOG_FILE"
 echo "扫描时间：$(date '+%Y-%m-%d %H:%M:%S')" >> "$LOG_FILE"
 echo "============================================" >> "$LOG_FILE"
 
-# 运行实盘模式，把输出同时写到日志和控制台
-PYTHONUNBUFFERED=1 uv run python -u main.py --mode live --strategy "$STRATEGY" 2>&1 | tee -a "$LOG_FILE"
+# 运行实盘模式（默认跑全部策略），把输出同时写到日志和控制台
+PYTHONUNBUFFERED=1 uv run python -u main.py --mode live 2>&1 | tee -a "$LOG_FILE"
 
 # ── 解析结果，发送 macOS 通知 ──────────────────────────────
 

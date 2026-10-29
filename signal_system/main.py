@@ -35,6 +35,8 @@ from dotenv import load_dotenv
 
 from backtest.engine import BacktestEngine
 from data.fetcher import fetch
+from data.rs_rating import compute_rs_ratings
+from data.rs_relative import compute_relative_strength_percentiles
 from events import EventQueue
 from signals.generator import process_signals
 from signals.log_generator import update_signals_log
@@ -42,7 +44,14 @@ from signals.positions import load_positions, save_positions
 from signals.report import generate_daily_report
 from strategies.registry import get_strategy
 from universe.manager import get_universe, _read_universe_md
+from universe.us_market import get_us_common_stocks
 from universe.updater import run_scan
+from watchlist import (
+    add_stocks_from_records,
+    analyze_watchlist,
+    print_watchlist_report,
+    generate_watchlist_daily_report,
+)
 
 # 加载 .env 文件（Alpaca API Key 等）
 _env_path = Path(__file__).parent / ".env"
@@ -102,11 +111,20 @@ def run_live(config: dict, strategy_arg: str | None) -> None:
     t2 = time.time()
     print("\n[步骤 2/3] 下载历史数据...")
     history_days = config.get("data", {}).get("history_days", 504)
-    market_data = fetch(symbols, history_days=history_days, live_mode=True)
+    # 下载范围 = 交易股票池 ∪ 美股全市场。策略只用前者（保持扫描速度），
+    # RS 评级用后者（分母稳定，不会因为新闻池每天漂移而变）。
+    # 一次下载、两处消费，不额外增加一轮网络请求。
+    rs_symbols = set(get_us_common_stocks())
+    market_data = fetch(sorted(set(symbols) | rs_symbols), history_days=history_days, live_mode=True)
 
     if not market_data:
         print("[错误] 未能获取任何股票数据，退出")
         sys.exit(1)
+
+    # 拆成两份：策略视图（交易池）和 RS 视图（全市场）
+    symbol_set = set(symbols)
+    rs_market_data = market_data
+    market_data = {s: d for s, d in market_data.items() if s in symbol_set}
 
     # 确保基准 ETF 在 market_data 中（用于分市场 RS 计算）
     for benchmark, syms in [("SPY", ["SPY"]), ("ASHR", ["ASHR"]), ("EWT", ["EWT"])]:
@@ -114,12 +132,13 @@ def run_live(config: dict, strategy_arg: str | None) -> None:
             data = fetch(syms, history_days=history_days, live_mode=True)
             if data and benchmark in data:
                 market_data[benchmark] = data[benchmark]
+                rs_market_data.setdefault(benchmark, data[benchmark])
 
     # Step 3: 运行策略
     t3 = time.time()
     print(f"\n[步骤 3/3] 运行 {strategy_name}...")
     # v_trend_collection 需要所有趋势策略实例
-    if strategy_key == "v_trend_collection":
+    if strategy_id == "v_trend_collection":
         from strategies.registry import STRATEGY_REGISTRY
         all_strategies = []
         for sid, cls in STRATEGY_REGISTRY.items():
@@ -130,12 +149,15 @@ def run_live(config: dict, strategy_arg: str | None) -> None:
         strategy = strategy_cls(strategy_config, market_data, live_mode=True)
 
     # 载入上次持仓（跨天追踪出场条件）
-    saved_positions = load_positions(strategy_id)
-    if saved_positions:
-        strategy.positions = saved_positions
-        print(f"[持仓] 已加载 {len(saved_positions)} 个持仓：{', '.join(saved_positions.keys())}")
+    if config.get("track_positions", True):
+        saved_positions = load_positions(strategy_id)
+        if saved_positions:
+            strategy.positions = saved_positions
+            print(f"[持仓] 已加载 {len(saved_positions)} 个持仓：{', '.join(saved_positions.keys())}")
+        else:
+            print("[持仓] 暂无持仓记录")
     else:
-        print("[持仓] 暂无持仓记录")
+        print("[持仓] 持仓管理已禁用（config.yaml: track_positions=false），仅作为买入选股器使用")
 
     # 快照持仓引用：出场信号发出后策略会自动删除持仓，需在运行后恢复
     # （Position 对象是原地修改的，快照保存引用即可，days_held/highest_price 更新会同步体现）
@@ -154,9 +176,10 @@ def run_live(config: dict, strategy_arg: str | None) -> None:
             strategy.positions[symbol] = pos
 
     # 保存更新后的持仓（新买入已加入；已出场的保留，等待用户确认平仓）
-    save_positions(strategy.positions, strategy_id)
-    if strategy.positions:
-        print(f"[持仓] 已保存 {len(strategy.positions)} 个持仓：{', '.join(strategy.positions.keys())}")
+    if config.get("track_positions", True):
+        save_positions(strategy.positions, strategy_id)
+        if strategy.positions:
+            print(f"[持仓] 已保存 {len(strategy.positions)} 个持仓：{', '.join(strategy.positions.keys())}")
 
     # 输出信号
     records = process_signals(queue, config, strategy_id=strategy_id)
@@ -164,18 +187,49 @@ def run_live(config: dict, strategy_arg: str | None) -> None:
         print("\n今日无有效信号。")
         print("（SEPA 条件严格，无信号是正常的。有信号时才需要关注。）")
 
+    # ── 观察清单更新（量比 >2x 的买入信号自动加入）────────────────
+    added = add_stocks_from_records(records, strategy_id=strategy_id)
+    if added:
+        print(f"\n[观察清单] 新增 {len(added)} 只（量比 ≥2x）：{', '.join(added)}")
+
+    # ── RS 评级：分母是美股全市场，不是交易股票池 ────────────────
+    rs_ratings = compute_rs_ratings(rs_market_data)
+    print(f"[RS] O'Neil RS 评级覆盖 {len(rs_ratings)} 只（美股全市场口径）")
+
+    # ── 策略内部 RS%：分母是 UNIVERSE.md 固定池，对标基准 ETF ──────
+    rs_relative = compute_relative_strength_percentiles(
+        market_data, pool_symbols=set(_read_universe_md())
+    )
+    print(f"[RS] 策略内部 RS% 覆盖 {len(rs_relative)} 只（对标基准 ETF，固定池口径）")
+
+    # ── 观察清单分析（EMA10 crossback + Reversal extension）────────
+    print("\n[观察清单] 分析 watchlist 中的股票...")
+    watchlist_analysis = analyze_watchlist(market_data, rs_relative=rs_relative)
+    print_watchlist_report(watchlist_analysis, rs_ratings=rs_ratings)
+
+    # ── 第二层：观察清单分析落盘（用户优先级 ≥ 第一层）──────────────
+    try:
+        wl_report_path = generate_watchlist_daily_report(
+            watchlist_analysis, rs_ratings=rs_ratings, rs_relative=rs_relative
+        )
+        print(f"\n[观察清单报告（第二层）] 已生成：{wl_report_path}")
+    except Exception as e:
+        print(f"\n[观察清单报告（第二层）] 生成失败：{e}")
+
     # 生成每日 Markdown 报告（无论有无信号都生成）
     report_path = generate_daily_report(
         records,
         strategy_id=strategy_id,
         strategy_name=strategy_name,
+        rs_ratings=rs_ratings,
+        rs_relative=rs_relative,
     )
     print(f"\n[报告] 今日报告：{report_path}")
 
     # 更新全策略信号汇总日志
     t5 = time.time()
     print("\n[信号日志] 更新全策略信号汇总...")
-    update_signals_log()
+    update_signals_log(rs_ratings=rs_ratings, rs_relative=rs_relative)
     t6 = time.time()
 
     print(f"\n{'='*40}")
@@ -396,7 +450,7 @@ def main() -> None:
         "--all-strategies",
         action="store_true",
         dest="all_strategies",
-        help="live/backtest 模式：对所有已注册策略分别运行（数据只下载一次，策略依次计算）",
+        help="live 模式：对所有已注册策略分别运行（默认行为；指定 --strategy 时不生效）",
     )
     parser.add_argument(
         "--config",
@@ -407,8 +461,12 @@ def main() -> None:
     args = parser.parse_args()
     config = load_config(args.config)
 
-    # 支持 --all-strategies 一次性跑完全部策略
-    if args.mode == "live" and args.all_strategies:
+    # ── live 模式约定：永远跑全部策略，--strategy 参数忽略 ──
+    # 用户约定："跑Livetest = 所有策略"
+    # --strategy 仅对 backtest 模式有意义（回测单策略）
+    if args.mode == "live":
+        if args.strategy and not args.all_strategies:
+            print(f"[提示] live 模式默认跑全部策略，--strategy={args.strategy} 已忽略")
         from strategies.registry import STRATEGY_REGISTRY, STRATEGY_CATEGORIES
         strategy_keys = [k for k in STRATEGY_REGISTRY.keys() if k != "v_trend_collection"]
 
@@ -432,19 +490,35 @@ def main() -> None:
 
         print("\n[共享步骤 2/2] 下载历史数据...")
         history_days = config.get("data", {}).get("history_days", 504)
-        market_data = fetch(symbols, history_days=history_days, live_mode=True)
+        # 同 run_single_strategy：一次下载，策略用交易池，RS 用全市场
+        rs_symbols = set(get_us_common_stocks())
+        market_data = fetch(sorted(set(symbols) | rs_symbols), history_days=history_days, live_mode=True)
         if not market_data:
             print("[错误] 未能获取任何股票数据，退出")
             sys.exit(1)
+        symbol_set = set(symbols)
+        rs_market_data = market_data
+        market_data = {s: d for s, d in market_data.items() if s in symbol_set}
         # 确保基准 ETF 在 market_data 中（用于分市场 RS 计算）
         for benchmark, syms in [("SPY", ["SPY"]), ("ASHR", ["ASHR"]), ("EWT", ["EWT"])]:
             if benchmark not in market_data:
                 data = fetch(syms, history_days=history_days, live_mode=True)
                 if data and benchmark in data:
                     market_data[benchmark] = data[benchmark]
+                    rs_market_data.setdefault(benchmark, data[benchmark])
         print(f"[数据] 成功获取 {len(market_data)}/{len(symbols)} 只股票的数据（含基准 ETF）")
         t_data = time.time()
         print(f"[耗时] 共享数据获取: {t_data - t0:.1f}秒\n")
+
+        # RS 评级分母 = 美股全市场（不是交易股票池），整个循环共用一份
+        rs_ratings = compute_rs_ratings(rs_market_data)
+        print(f"[RS] O'Neil RS 评级覆盖 {len(rs_ratings)} 只（美股全市场口径）")
+
+        # 策略内部 RS%：分母 = UNIVERSE.md 固定池，对标基准 ETF
+        rs_relative = compute_relative_strength_percentiles(
+            market_data, pool_symbols=set(_read_universe_md())
+        )
+        print(f"[RS] 策略内部 RS% 覆盖 {len(rs_relative)} 只（对标基准 ETF，固定池口径）\n")
 
         # ── 每个策略依次运行（复用已下载的数据）──────────────────
         for sk in strategy_keys:
@@ -470,12 +544,15 @@ def main() -> None:
             else:
                 strategy = strategy_cls(strategy_config, market_data, live_mode=True)
 
-            saved_positions = load_positions(strategy_id)
-            if saved_positions:
-                strategy.positions = saved_positions
-                print(f"[持仓] 已加载 {len(saved_positions)} 个持仓：{', '.join(saved_positions.keys())}")
+            if config.get("track_positions", True):
+                saved_positions = load_positions(strategy_id)
+                if saved_positions:
+                    strategy.positions = saved_positions
+                    print(f"[持仓] 已加载 {len(saved_positions)} 个持仓：{', '.join(saved_positions.keys())}")
+                else:
+                    print("[持仓] 暂无持仓记录")
             else:
-                print("[持仓] 暂无持仓记录")
+                print("[持仓] 持仓管理已禁用（仅作为买入选股器使用）")
 
             pre_run_snapshot = dict(strategy.positions)
             queue = EventQueue()
@@ -488,9 +565,10 @@ def main() -> None:
                 if symbol not in strategy.positions:
                     strategy.positions[symbol] = pos
 
-            save_positions(strategy.positions, strategy_id)
-            if strategy.positions:
-                print(f"[持仓] 已保存 {len(strategy.positions)} 个持仓：{', '.join(strategy.positions.keys())}")
+            if config.get("track_positions", True):
+                save_positions(strategy.positions, strategy_id)
+                if strategy.positions:
+                    print(f"[持仓] 已保存 {len(strategy.positions)} 个持仓：{', '.join(strategy.positions.keys())}")
 
             records = process_signals(queue, config, strategy_id=strategy_id)
             if not records:
@@ -498,10 +576,35 @@ def main() -> None:
             else:
                 print(f"\n共 {len(records)} 个信号")
 
-            report_path = generate_daily_report(records, strategy_id=strategy_id, strategy_name=strategy_name)
+            # ── 观察清单更新（量比 >3x 的买入信号自动加入）──────────
+            added = add_stocks_from_records(records, strategy_id=strategy_id)
+            if added:
+                print(f"[观察清单] 新增 {len(added)} 只（量比 ≥3x）：{', '.join(added)}")
+
+            report_path = generate_daily_report(
+                records,
+                strategy_id=strategy_id,
+                strategy_name=strategy_name,
+                rs_ratings=rs_ratings,
+                rs_relative=rs_relative,
+            )
             print(f"[报告] 今日报告：{report_path}")
             t3 = time.time()
             print(f"[耗时] 信号+报告: {t3-t2:.1f}秒")
+
+        # ── 全策略跑完后：分析 watchlist 状态 ────────────────────
+        print("\n[观察清单] 分析 watchlist 中的股票...")
+        watchlist_analysis = analyze_watchlist(market_data, rs_relative=rs_relative)
+        print_watchlist_report(watchlist_analysis, rs_ratings=rs_ratings)
+
+        # ── 第二层：观察清单分析落盘（用户优先级 ≥ 第一层）─────────
+        try:
+            wl_report_path = generate_watchlist_daily_report(
+                watchlist_analysis, rs_ratings=rs_ratings, rs_relative=rs_relative
+            )
+            print(f"\n[观察清单报告（第二层）] 已生成：{wl_report_path}")
+        except Exception as e:
+            print(f"\n[观察清单报告（第二层）] 生成失败：{e}")
 
         print("\n" + "=" * 60)
         print("全部策略实盘扫描完成")
@@ -510,7 +613,7 @@ def main() -> None:
 
         # 更新全策略信号汇总日志（一次性）
         print("\n[信号日志] 更新全策略信号汇总...")
-        update_signals_log()
+        update_signals_log(rs_ratings=rs_ratings, rs_relative=rs_relative)
         return
 
     if args.mode == "live":

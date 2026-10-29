@@ -18,6 +18,7 @@ data/fetcher.py — 数据获取模块
 """
 
 import os
+import socket
 import time
 from pathlib import Path
 from dotenv import load_dotenv
@@ -43,6 +44,11 @@ import requests
 # ─── 路径 ──────────────────────────────────────────────────────────
 CACHE_DIR = Path(__file__).parent / "cache"
 CACHE_DIR.mkdir(exist_ok=True)
+
+# Alpaca 单次请求的 socket 超时（秒）。
+# 一批 200 只股票的历史数据正常只要 30-60 秒，180 秒足够宽裕；
+# 定这个值是为了让「连接被挂住」变成可观测的失败，而不是无限期静默等待。
+ALPACA_TIMEOUT_SECONDS = 180
 
 # ─── Yahoo Finance 备用接口 ────────────────────────────────────────
 _YF_API = "https://query1.finance.yahoo.com/v8/finance/chart/{symbol}"
@@ -112,8 +118,8 @@ def fetch(
             last = local.index[-1]
             if last.tzinfo is None:
                 last = last.tz_localize("UTC")
-            max_age = 0 if live_mode else 3
-            if (end_date - last).days <= max_age:
+            max_age = 1 if live_mode else 3
+            if (end_date.date() - last.date()).days <= max_age:
                 # Tier 1：本地数据足够新，直接使用
                 result[symbol] = local
             else:
@@ -175,8 +181,7 @@ def fetch(
                     existing = result.get(symbol)
                     if existing is not None and not existing.empty:
                         merged = pd.concat([df, existing])
-                        merged = merged[~merged.index.duplicated(keep="last")]
-                        merged = merged.sort_index()
+                        merged = _dedupe_by_date(merged.sort_index())
                         result[symbol] = merged
                     else:
                         result[symbol] = df
@@ -210,8 +215,30 @@ def fetch(
             new_data.update(yahoo_delta)
 
         if us_update:
-            us_update_tuples = [(s, df) for s, df in need_update if _is_us_stock(s)]
-            new_data_alpaca = _fetch_via_alpaca(us_update, delta_start, end_date)
+            # 按「每只股票实际需要的起点」分组，各组用自己的起始日期。
+            #
+            # 为什么不能用一个全局起点：一只缓存停在 2017 年的冷门股（BNB 等）
+            # 会把全部 6000+ 只的起点一起拖回 2017 年，
+            # 「增量下载」实质变成 9 年全量下载——响应体大到把连接挂死
+            # （2026-10-29 实测在第 3 批卡了 80 分钟，收包字节数一直是 0）。
+            # 实际上绝大多数股票只差 1-2 天，分组后主请求的数据量降到约 1/1000。
+            groups: dict[datetime, list[str]] = {}
+            for symbol, df in need_update:
+                if not _is_us_stock(symbol):
+                    continue
+                last = df.index[-1]
+                if last.tzinfo is None:
+                    last = last.tz_localize("UTC")
+                g_start = datetime.combine(
+                    (last + timedelta(days=1)).date(), datetime.min.time(), tzinfo=timezone.utc
+                )
+                groups.setdefault(g_start, []).append(symbol)
+
+            new_data_alpaca: dict = {}
+            for g_start in sorted(groups):
+                g_syms = groups[g_start]
+                print(f"[数据] Alpaca 增量组：{len(g_syms)} 只，从 {g_start:%Y-%m-%d} 起")
+                new_data_alpaca.update(_fetch_via_alpaca(g_syms, g_start, end_date))
 
             # Alpaca 不支持的股票走 Yahoo Finance 增量补充
             alpaca_missed = [s for s in us_update if s not in new_data_alpaca]
@@ -226,8 +253,7 @@ def fetch(
             new_rows = new_data.get(symbol)
             if new_rows is not None and not new_rows.empty:
                 merged = pd.concat([existing_df, new_rows])
-                merged = merged[~merged.index.duplicated(keep="last")]
-                merged = merged.sort_index()
+                merged = _dedupe_by_date(merged.sort_index())
                 result[symbol] = merged
                 _save_local(symbol, merged)
             else:
@@ -256,6 +282,26 @@ def clear_cache(symbol: str | None = None) -> None:
 # 本地持久化读写（永久存储，不做时效性判断）
 # ══════════════════════════════════════════════════════════════════
 
+def _dedupe_by_date(df: pd.DataFrame) -> pd.DataFrame:
+    """
+    把同一个日历日的多条 bar 压成一条。
+
+    为什么需要：Alpaca 的日线时间戳是 04:00/05:00 UTC，Yahoo 的是 13:30/14:30 UTC，
+    两者代表同一个交易日。原来的 index.duplicated() 按精确 Timestamp 去重，
+    抓不到这种情况，导致同一天在序列里出现两条 bar（831/4030 只股票中招）。
+    后果：均线/VCP 被拉长，RS 的 252 日窗口实际只覆盖约 190 个交易日，
+    甚至把两个数据源的价差误判成拆股跳空。
+
+    保留哪条：同一天里时间戳较早的那条。Alpaca 的时间戳永远早于 Yahoo，
+    等效于“Alpaca 优先”，与 CLAUDE.md 的数据源优先级一致。
+    """
+    if df.empty:
+        return df
+    df = df.sort_index()
+    # index.normalize() 把时间戳压成当天 00:00，同日的两条就变成重复项
+    return df[~df.index.normalize().duplicated(keep="first")]
+
+
 def _load_local(symbol: str) -> pd.DataFrame | None:
     """
     读取本地持久化数据。只要本地文件存在且可读就直接返回，
@@ -274,7 +320,8 @@ def _load_local(symbol: str) -> pd.DataFrame | None:
     if df is None or df.empty:
         return None
 
-    return df
+    # 历史遗留的同日双条在读取时就地修好（读时自愈）
+    return _dedupe_by_date(df)
 
 
 def _save_local(symbol: str, df: pd.DataFrame) -> None:
@@ -317,16 +364,58 @@ def _fetch_via_alpaca(
     result: dict[str, pd.DataFrame] = {}
     client = StockHistoricalDataClient(api_key, secret_key)
 
-    for i in range(0, len(symbols), BATCH):
-        batch = symbols[i: i + BATCH]
-        batch_result = _alpaca_fetch_batch(
-            client, batch, start_date, end_date, set()
-        )
-        result.update(batch_result)
+    # alpaca-py 的 HTTP 请求没有超时。一旦某一批的连接被对端挂住，
+    # 程序会无限期停在那里（日志一行不动，看起来像卡死）——
+    # 2026-10-29 实测在第 3 批卡了 80 分钟，收包字节数一直是 0。
+    # 用 socket 级默认超时兜底：超时抛 socket.timeout，
+    # 上层捕获后把该批拆小重试，不会再出现「静默卡死」。
+    prev_timeout = socket.getdefaulttimeout()
+    socket.setdefaulttimeout(ALPACA_TIMEOUT_SECONDS)
+    try:
+        for i in range(0, len(symbols), BATCH):
+            batch = symbols[i: i + BATCH]
+            t0 = time.time()
+            batch_result = _alpaca_fetch_with_split(client, batch, start_date, end_date)
+            result.update(batch_result)
+            print(
+                f"[数据] Alpaca 进度 {min(i + BATCH, len(symbols))}/{len(symbols)}，"
+                f"本批 {len(batch_result)} 只，耗时 {time.time() - t0:.1f}s"
+            )
+    finally:
+        socket.setdefaulttimeout(prev_timeout)
 
     if result:
         print(f"[数据] Alpaca 成功下载 {len(result)}/{len(symbols)} 只")
     return result
+
+
+def _alpaca_fetch_with_split(
+    client,
+    symbols: list[str],
+    start_date: datetime,
+    end_date: datetime,
+) -> dict[str, pd.DataFrame]:
+    """
+    正常跑一个批次；如果是「连接被挂住」导致的超时，就把批次拆成 50 只的小批重试。
+
+    为什么不直接放弃这一批：200 只股票的历史数据丢了，等于从股票池里抹掉 200 只。
+    拆小后即使再超时，损失也被隔离在 50 只以内。
+    """
+    try:
+        return _alpaca_fetch_batch(client, symbols, start_date, end_date, set())
+    except (socket.timeout, TimeoutError):
+        print(f"[数据] Alpaca 批次超时（{len(symbols)} 只），拆成 50 只小批重试...")
+        merged: dict[str, pd.DataFrame] = {}
+        for i in range(0, len(symbols), 50):
+            try:
+                merged.update(
+                    _alpaca_fetch_batch(client, symbols[i: i + 50], start_date, end_date, set())
+                )
+            except (socket.timeout, TimeoutError):
+                print(f"[数据] Alpaca 小批超时（{symbols[i]}...），跳过这 50 只")
+            except Exception as e:
+                print(f"[数据] Alpaca 小批失败：{e}")
+        return merged
 
 
 def _alpaca_fetch_batch(
@@ -388,6 +477,10 @@ def _alpaca_fetch_batch(
         return result
 
     except Exception as e:
+        # 超时要往上抛，让调用方拆小批次重试；
+        # 走下面的通用分支会把这一批 200 只直接丢掉。
+        if isinstance(e, (socket.timeout, TimeoutError)):
+            raise
         err_str = str(e)
         # 尝试从错误信息中提取无效 symbol，例如 {"message":"invalid symbol: BRK-B"}
         m = re.search(r"invalid symbol[:\s]+([A-Z0-9./\-]+)", err_str, re.IGNORECASE)

@@ -17,6 +17,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 from events import EventQueue, EventType, SignalEvent
+from universe.us_market import display_name
 
 # 输出目录（父目录）
 OUTPUT_DIR = Path(__file__).parent.parent / "output"
@@ -130,20 +131,20 @@ def _print_table(records: list[dict]) -> None:
 
     if buy_records:
         print(f"\n【买入信号】共 {len(buy_records)} 个")
-        print(f"{'日期':<12} {'股票':<8} {'强度':<8} {'参考止损':<10} 触发原因")
+        print(f"{'日期':<12} {'股票':<12} {'强度':<8} {'参考止损':<10} 触发原因")
         print("-" * 75)
         for r in sorted(buy_records, key=lambda x: -x["强度(1-5)"]):
             print(
-                f"{r['日期']:<12} {r['股票']:<8} {r['强度星级']:<8} "
+                f"{r['日期']:<12} {display_name(r['股票']):<12} {r['强度星级']:<8} "
                 f"{r['参考止损']:<10} {r['触发原因']}"
             )
 
     if sell_records:
         print(f"\n【出场信号】共 {len(sell_records)} 个")
-        print(f"{'日期':<12} {'股票':<8} {'持仓股数':<14} 原因")
+        print(f"{'日期':<12} {'股票':<12} {'持仓股数':<14} 原因")
         print("-" * 75)
         for r in sell_records:
-            print(f"{r['日期']:<12} {r['股票']:<8} {r['持仓股数']:<14} {r['触发原因']}")
+            print(f"{r['日期']:<12} {display_name(r['股票']):<12} {r['持仓股数']:<14} {r['触发原因']}")
 
     if not buy_records and not sell_records:
         print("\n今日无有效信号")
